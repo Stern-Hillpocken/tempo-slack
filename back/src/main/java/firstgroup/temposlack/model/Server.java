@@ -1,11 +1,9 @@
 package firstgroup.temposlack.model;
 
-import jakarta.persistence.Entity;
-import jakarta.persistence.GeneratedValue;
-import jakarta.persistence.GenerationType;
-import jakarta.persistence.Id;
+import jakarta.persistence.*;
 
 import java.util.ArrayList;
+import java.util.List;
 
 @Entity
 public class Server {
@@ -16,8 +14,14 @@ public class Server {
 
     private String name;
 
+    @OneToMany
+    @JoinColumn(name="room_id")
     private List<Room> roomList;
+    @OneToMany
+    @JoinColumn(name="user_id")
     private List<User> userList;
+    @ManyToMany
+    @JoinTable()
     private List<Role> roleList;
 
     public Server() {
@@ -55,9 +59,11 @@ public class Server {
         return userList;
     }
 
+
     public void setUserList(List<User> userList) {
         this.userList = userList;
     }
+
 
     public List<Role> getRoleList() {
         return roleList;
