@@ -1,5 +1,6 @@
 package firstgroup.temposlack.model;
 
+import firstgroup.temposlack.model.Room;
 import jakarta.persistence.*;
 
 import java.util.ArrayList;
@@ -19,16 +20,18 @@ public class Server {
     private List<Room> roomList;
     @OneToMany
     @JoinColumn(name="user_id")
-    private List<User> userList;
-    @ManyToMany
-    @JoinTable()
-    private List<Role> roleList;
+    private List<User> userList = new ArrayList<>();
+//    @ManyToMany
+//    @JoinTable()
+//    private List<Role> roleList;
 
     public Server() {
     }
 
-    public Server(String name) {
+    public Server(String name, User user) {
         this.name = name;
+        this.userList.add(user);
+        this.roomList.add(new Room("Général"));
     }
 
     public Long getId() {
@@ -65,13 +68,13 @@ public class Server {
     }
 
 
-    public List<Role> getRoleList() {
-        return roleList;
-    }
-
-    public void setRoleList(List<Role> roleList) {
-        this.roleList = roleList;
-    }
+//    public List<Role> getRoleList() {
+//        return roleList;
+//    }
+//
+//    public void setRoleList(List<Role> roleList) {
+//        this.roleList = roleList;
+//    }
 
     @Override
     public String toString() {
@@ -80,7 +83,7 @@ public class Server {
                 ", name='" + name + '\'' +
                 ", roomList=" + roomList +
                 ", userList=" + userList +
-                ", roleList=" + roleList +
+               // ", roleList=" + roleList +
                 '}';
     }
 }

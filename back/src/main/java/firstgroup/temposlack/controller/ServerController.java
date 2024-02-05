@@ -11,16 +11,17 @@ import java.util.List;
 import java.util.Optional;
 
 @RestController
+@RequestMapping("servers")
 public class ServerController {
     @Autowired
     ServerService serverService;
 
-    @GetMapping("servers")
+    @GetMapping
     public List<Server> findAll(){
         return serverService.findAll();
     }
 
-    @GetMapping("servers/{id}")
+    @GetMapping("{id}")
     public ResponseEntity<?> findById(@PathVariable("id") Long id){
         Optional<Server> s = serverService.findById(id);
         if(s.isEmpty()) {
@@ -29,13 +30,13 @@ public class ServerController {
             return ResponseEntity.ok(s.get());
         }
     }
-    @PostMapping("servers")
+    @PostMapping
     public ResponseEntity<?> add (@RequestBody  Server server){
         serverService.add(server);
         return ResponseEntity.status(HttpStatus.CREATED).build();
 
     }
-    @PutMapping("servers/{id}")
+    @PutMapping("{id}")
     public ResponseEntity<?> update(@PathVariable("id") Long id, @RequestBody Server server) {
         Optional<Server> s = serverService.findById(id);
         if (s.isEmpty()) {
@@ -50,7 +51,7 @@ public class ServerController {
         }
     }
 
-    @DeleteMapping("servers/{id}")
+    @DeleteMapping("{id}")
     public ResponseEntity<?> delete(@PathVariable("id") Long id) {
         Optional<Server> c = serverService.findById(id);
         if (c.isEmpty()) {
