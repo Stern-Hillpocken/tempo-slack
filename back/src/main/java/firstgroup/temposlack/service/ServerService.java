@@ -1,6 +1,7 @@
 package firstgroup.temposlack.service;
 
 import firstgroup.temposlack.dao.ServerRepository;
+import firstgroup.temposlack.model.Room;
 import firstgroup.temposlack.model.Server;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;

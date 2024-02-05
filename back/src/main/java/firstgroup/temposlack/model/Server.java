@@ -12,14 +12,11 @@ public class Server {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
-
     private String name;
-
-    @OneToMany
+    @OneToMany (cascade = CascadeType.ALL)
     @JoinColumn(name="room_id")
-    private List<Room> roomList;
-    @OneToMany
-    @JoinColumn(name="user_id")
+    private List<Room> roomList = new ArrayList<>();
+    @ManyToMany
     private List<User> userList = new ArrayList<>();
 //    @ManyToMany
 //    @JoinTable()
@@ -31,7 +28,6 @@ public class Server {
     public Server(String name, User user) {
         this.name = name;
         this.userList.add(user);
-        this.roomList.add(new Room("Général"));
     }
 
     public Long getId() {
@@ -65,6 +61,10 @@ public class Server {
 
     public void setUserList(List<User> userList) {
         this.userList = userList;
+    }
+
+    public void addRoom(Room room){
+        roomList.add(room);
     }
 
 

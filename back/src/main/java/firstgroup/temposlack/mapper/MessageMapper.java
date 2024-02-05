@@ -1,5 +1,6 @@
 package firstgroup.temposlack.mapper;
 
+import firstgroup.temposlack.dao.UserRepository;
 import firstgroup.temposlack.dto.MessageDTO;
 import firstgroup.temposlack.model.Message;
 import firstgroup.temposlack.service.UserService;
@@ -9,8 +10,6 @@ import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 
 public class MessageMapper {
-    @Autowired
-    static UserService userService;
     static DateTimeFormatter formatter = DateTimeFormatter.ofPattern("HH:mm:ss dd/MM/yyyy");
 
     public static MessageDTO convertEntityToDTO(Message message){
@@ -24,9 +23,12 @@ public class MessageMapper {
 
     public static Message convertDTOtoEntity(MessageDTO messageDTO){
         Message message = new Message();
-        message.setUser(userService.getByPseudo(messageDTO.getUser()));
         message.setContent(messageDTO.getContent());
-        message.setDate(LocalDateTime.parse(messageDTO.getDate(),formatter));
+        if (messageDTO.getDate().isBlank()){
+            message.setDate(LocalDateTime.now());
+        } else {
+            message.setDate(LocalDateTime.parse(messageDTO.getDate(),formatter));
+        }
         return message;
     }
 }

@@ -1,6 +1,7 @@
 package firstgroup.temposlack.mapper;
 
 import firstgroup.temposlack.dto.ServerDTO;
+import firstgroup.temposlack.model.Room;
 import firstgroup.temposlack.model.Server;
 
 public class ServerMapper {
@@ -15,7 +16,9 @@ public class ServerMapper {
     public static Server convertToEntity(ServerDTO serverDTO){
         Server  entity = new Server();
         entity.setName(serverDTO.getName());
-        entity.setRoomList(serverDTO.getRoomList());
+        if (serverDTO.getRoomList() != null){
+            entity.setRoomList(serverDTO.getRoomList());
+        }
         return entity;
     }
 }

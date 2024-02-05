@@ -9,6 +9,7 @@ import firstgroup.temposlack.model.Room;
 import firstgroup.temposlack.service.RoomService;
 
 import java.util.List;
+import java.util.Optional;
 
 @RestController
 @RequestMapping("/rooms")
@@ -25,12 +26,15 @@ public class RoomController {
 
     @GetMapping("/{id}")
     public ResponseEntity<RoomDTO> getRoomById(@PathVariable Long id) {
-        Room room = roomService.getRoomById(id);
-        if (room == null) {
+        Optional<Room> optionalRoom = roomService.getRoomById(id);
+        if (optionalRoom.isEmpty()) {
             return ResponseEntity.notFound().build();
+        } else {
+            Room room = optionalRoom.get();
+            RoomDTO roomDTO = RoomMapper.convertToDTO(room);
+            return ResponseEntity.ok(roomDTO);
         }
-        RoomDTO roomDTO = RoomMapper.convertToDTO(room);
-        return ResponseEntity.ok(roomDTO);
+
     }
 
     @PostMapping

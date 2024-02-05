@@ -2,14 +2,18 @@ package firstgroup.temposlack.model;
 
 import jakarta.persistence.*;
 
+import java.util.List;
+
+@Entity
 public class Room {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
     private String title;
-    private list <Role> permissions;
-    private list <Message> MessageList;
+    //private List<Role> permissions;
+    @OneToMany
+    private List<Message> messageList;
 
     public Room() {
     }
@@ -34,16 +38,33 @@ public class Room {
         this.title = title;
     }
 
-    public list <Role> getPermissions() {
-        return permissions;
+//    public list <Role> getPermissions() {
+//        return permissions;
+//    }
+
+//    public void setPermissions(List<Role> permissions) {
+//        this.permissions = permissions;
+//    }
+
+
+    public List<Message> getMessageList() {
+        return messageList;
     }
 
-    public void setPermissions(list <Role> permissions) {
-        this.permissions = permissions;
+    public void setMessageList(List<Message> messageList) {
+        this.messageList = messageList;
+    }
 
-        public list <Message> getMessageList(lidt <Message> MessageList) {
-            this.MessageList = MessageList;
-        }
+    public void addMessage(Message message){
+        this.messageList.add(message);
+    }
 
+    @Override
+    public String toString() {
+        return "Room{" +
+                "id=" + id +
+                ", title='" + title + '\'' +
+                ", messageList=" + messageList +
+                '}';
     }
 }
