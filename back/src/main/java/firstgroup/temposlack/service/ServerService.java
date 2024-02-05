@@ -19,6 +19,7 @@ public class ServerService {
     public List<Server> findAll(){
         return serverRepository.findAll();
     }
+
     public Optional<Server> findById(Long id){
         return serverRepository.findById(id);
     }
