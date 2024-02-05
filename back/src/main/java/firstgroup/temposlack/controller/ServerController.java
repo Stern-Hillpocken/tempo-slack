@@ -20,7 +20,7 @@ public class ServerController {
     public List<Server> findAll(){
         return serverService.findAll();
     }
-
+//
     @GetMapping("{id}")
     public ResponseEntity<?> findById(@PathVariable("id") Long id){
         Optional<Server> s = serverService.findById(id);
