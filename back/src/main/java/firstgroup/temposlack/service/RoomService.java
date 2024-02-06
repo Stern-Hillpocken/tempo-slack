@@ -32,6 +32,7 @@ public class RoomService {
         room.addMessage(message);
         roomRepository.save(room);
     }
+
     public void updateRoom(Room updatedRoom) {
         roomRepository.save(updatedRoom);
     }
@@ -39,5 +40,4 @@ public class RoomService {
     public void deleteRoom(Long id) {
         roomRepository.deleteById(id);
     }
-
 }
