@@ -59,6 +59,15 @@ public class Room {
         this.messageList.add(message);
     }
 
+    public void deleteMessage (Long id) {
+        for (Message message : messageList){
+            if (message.getId().equals(id)){
+                messageList.remove(message);
+                break;
+            }
+        }
+    }
+
     @Override
     public String toString() {
         return "Room{" +
