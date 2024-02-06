@@ -1,11 +1,12 @@
 package firstgroup.temposlack.model;
 
-import jakarta.persistence.Entity;
-import jakarta.persistence.GeneratedValue;
-import jakarta.persistence.GenerationType;
-import jakarta.persistence.Id;
+
+import firstgroup.temposlack.model.Room;
+import jakarta.persistence.*;
 
 import java.util.ArrayList;
+import java.util.List;
+
 
 @Entity
 public class Server {
@@ -15,16 +16,22 @@ public class Server {
     private Long id;
 
     private String name;
-
-    private List<Room> roomList;
-    private List<User> userList;
-    private List<Role> roleList;
+    @OneToMany (cascade = CascadeType.ALL)
+    @JoinColumn(name="room_id")
+    private List<Room> roomList = new ArrayList<>();
+    @ManyToMany
+    private List<User> userList = new ArrayList<>();
+//    @ManyToMany
+//    @JoinTable()
+//    private List<Role> roleList;
 
     public Server() {
     }
 
-    public Server(String name) {
+    public Server(String name, User user) {
         this.name = name;
+        this.userList.add(user);
+
     }
 
     public Long getId() {
@@ -59,13 +66,18 @@ public class Server {
         this.userList = userList;
     }
 
-    public List<Role> getRoleList() {
-        return roleList;
+    public void addRoom(Room room){
+        roomList.add(room);
     }
 
-    public void setRoleList(List<Role> roleList) {
-        this.roleList = roleList;
-    }
+//    public List<Role> getRoleList() {
+//        return roleList;
+//    }
+//
+//    public void setRoleList(List<Role> roleList) {
+//        this.roleList = roleList;
+//    }
+
 
     @Override
     public String toString() {
@@ -74,7 +86,9 @@ public class Server {
                 ", name='" + name + '\'' +
                 ", roomList=" + roomList +
                 ", userList=" + userList +
-                ", roleList=" + roleList +
+
+               // ", roleList=" + roleList +
+
                 '}';
     }
 }
