@@ -72,18 +72,21 @@ public class ServerController {
         return ResponseEntity.status(HttpStatus.CREATED).build();
 
     }
+
     //ajoute room à un serveur selon son id
     @PostMapping("{idServer}")
-    public ResponseEntity<?> addRoom(@PathVariable("idServer") Long idServer,@RequestBody RoomDTO roomDTO) {
-       Room room = RoomMapper.convertToEntity(roomDTO);
-        roomService.createRoom(room);
+    public ResponseEntity<?> addRoom(@PathVariable("idServer") Long idServer, @RequestBody RoomDTO roomDTO) {
         Optional<Server> optionalServer = serverService.findById(idServer);
-        if (optionalServer.isEmpty())
+        if (optionalServer.isEmpty() || roomDTO.getTitle().isBlank()){
             return ResponseEntity.notFound().build();
-        Server server = optionalServer.get();
-        server.addRoom(room);
-        serverService.add(server);
-        return ResponseEntity.status(HttpStatus.CREATED).build();
+        } else {
+            Room room = RoomMapper.convertToEntity(roomDTO);
+            roomService.createRoom(room);
+            Server server = optionalServer.get();
+            server.addRoom(room);
+            serverService.add(server);
+            return ResponseEntity.status(HttpStatus.CREATED).build();
+        }
     }
 
     @PutMapping("{idServer}")
