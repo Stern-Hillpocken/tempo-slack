@@ -14,20 +14,24 @@ public class ServerService {
     @Autowired
     ServerRepository serverRepository;
 
-    public void add (Server server){
+    public void add(Server server) {
         serverRepository.save(server);
     }
-    public List<Server> findAll(){
+
+    public List<Server> findAll() {
         return serverRepository.findAll();
     }
 
-    public Optional<Server> findById(Long id){
+    public Optional<Server> findById(Long id) {
         return serverRepository.findById(id);
     }
-    public void update (Server server){
+
+    public void update(Server server) {
         serverRepository.save(server);
     }
-    public void delete (Long id){
+
+    public void delete(Long id) {
         serverRepository.deleteById(id);
     }
+
 }
