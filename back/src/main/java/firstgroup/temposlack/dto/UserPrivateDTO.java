@@ -15,4 +15,12 @@ public class UserPrivateDTO {
     public String getPseudo() {
         return pseudo;
     }
+
+    public String getEmail() {
+        return email;
+    }
+
+    public String getAvatar() {
+        return avatar;
+    }
 }

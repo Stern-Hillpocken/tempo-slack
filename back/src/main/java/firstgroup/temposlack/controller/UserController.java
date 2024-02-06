@@ -1,6 +1,7 @@
 package firstgroup.temposlack.controller;
 
 import firstgroup.temposlack.dto.UserPrivateDTO;
+import firstgroup.temposlack.dto.UserPseudoPasswordDTO;
 import firstgroup.temposlack.dto.UserPublicDTO;
 import firstgroup.temposlack.dto.UserSignInDTO;
 import firstgroup.temposlack.mapper.UserPrivateMapper;
@@ -42,15 +43,17 @@ public class UserController {
         return ResponseEntity.ok(userPublicDTO);
     }
     @GetMapping("/me")
-    public ResponseEntity<UserPrivateDTO> getPrivateById(@RequestBody String userPseudo) {
-        if (userPseudo == null || userPseudo.isEmpty()) return ResponseEntity.noContent().build();
-        Optional<User> optionalUser = service.getByPseudo(userPseudo);
+    public ResponseEntity<UserPrivateDTO> getPrivateById(@RequestBody UserPseudoPasswordDTO userPseudoPasswordDTO) {
+        if (userPseudoPasswordDTO == null || userPseudoPasswordDTO.getPseudo() == null || userPseudoPasswordDTO.getPseudo().isEmpty() || userPseudoPasswordDTO.getPassword() == null || userPseudoPasswordDTO.getPassword().isEmpty()) return ResponseEntity.noContent().build();
+
+        Optional<User> optionalUser = service.getByPseudo(userPseudoPasswordDTO.getPseudo());
         if (optionalUser.isEmpty()) {
             return ResponseEntity.notFound().build();
         }
+
         User user = optionalUser.get();
         UserPrivateDTO userPrivateDTO = UserPrivateMapper.userToDTO(user);
-        if (userPrivateDTO.getPseudo().equals(userPseudo)) return ResponseEntity.ok(userPrivateDTO);
+        if (user.getPseudo().equals(userPseudoPasswordDTO.getPseudo()) && user.getPassword().equals(userPseudoPasswordDTO.getPassword())) return ResponseEntity.ok(userPrivateDTO);
         return ResponseEntity.notFound().build();
     }
 }
