@@ -1,9 +1,8 @@
 package firstgroup.temposlack.controller;
 
-import firstgroup.temposlack.dto.MessageDTO;
-import firstgroup.temposlack.dto.RoomDTO;
-import firstgroup.temposlack.dto.ServerDTO;
+import firstgroup.temposlack.dto.*;
 import firstgroup.temposlack.mapper.MessageMapper;
+import firstgroup.temposlack.mapper.MessagePostedMapper;
 import firstgroup.temposlack.mapper.RoomMapper;
 import firstgroup.temposlack.mapper.ServerMapper;
 import firstgroup.temposlack.model.Message;
@@ -78,7 +77,7 @@ public class ServerController {
     @PostMapping("{idServer}")
     public ResponseEntity<?> addRoom(@PathVariable("idServer") Long idServer, @RequestBody RoomDTO roomDTO) {
         Optional<Server> optionalServer = serverService.findById(idServer);
-        if (optionalServer.isEmpty() || roomDTO.getTitle().isBlank()){
+        if (optionalServer.isEmpty() || roomDTO.getTitle().isBlank()) {
             return ResponseEntity.notFound().build();
         } else {
             Room room = RoomMapper.convertToEntity(roomDTO);
@@ -118,22 +117,28 @@ public class ServerController {
 
     //ajout message dans une room
     @PostMapping("{idServer}/{idRoom}")
-    public ResponseEntity<?> addMessage(@PathVariable("idServer") Long idServer, @PathVariable("idRoom") Long idRoom, @RequestBody MessageDTO messageDTO) {
+    public ResponseEntity<?> addMessage(@PathVariable("idServer") Long idServer, @PathVariable("idRoom") Long idRoom, @RequestBody MessagePostedDTO messagePostedDTO) {
         Optional<Server> optionalServer = serverService.findById(idServer);
         Optional<Room> optionalRoom = roomService.getRoomById(idRoom);
-        if (optionalServer.isEmpty() || optionalRoom.isEmpty() || messageDTO.getContent().isBlank()) {
+        if (optionalServer.isEmpty() || optionalRoom.isEmpty() || messagePostedDTO == null || !serverService.isMessagePostedDTOValid(messagePostedDTO)) {
             return ResponseEntity.notFound().build();
         } else {
             Server server = optionalServer.get();
+            if (!server.isUserInServer(messagePostedDTO.getUser().getPseudo())) {
+                return ResponseEntity.notFound().build();
+            }
             List<Room> roomList = server.getRoomList();
             for (Room r : roomList) {
                 if (r.getId().equals(idRoom)) {
-                    Message message = MessageMapper.convertDTOtoEntity(messageDTO);
-                    Optional<User> optionalUser = userService.getByPseudo(messageDTO.getUser());
+                    Message message = MessagePostedMapper.convertDTOtoEntity(messagePostedDTO);
+                    Optional<User> optionalUser = userService.getByPseudo(messagePostedDTO.getUser().getPseudo());
                     if (optionalUser.isEmpty()) return ResponseEntity.notFound().build();
                     User user = optionalUser.get();
+                    if (!user.getPassword().equals(messagePostedDTO.getUser().getPassword())) {
+                        return ResponseEntity.notFound().build();
+                    }
                     message.setUser(user);
-                    roomService.addMessage(idRoom,message);
+                    roomService.addMessage(idRoom, message);
                     return ResponseEntity.status(HttpStatus.CREATED).build();
                 }
             }
@@ -141,44 +146,51 @@ public class ServerController {
         }
     }
 
-@PutMapping("{idServer}/{idRoom}")
+    @PutMapping("{idServer}/{idRoom}")
     public ResponseEntity<?> updateRoom(@PathVariable("idServer") Long idServer, @PathVariable("idRoom") Long idRoom, @RequestBody RoomDTO roomDTO) {
         Optional<Server> optionalServer = serverService.findById(idServer);
         if (optionalServer.isEmpty()) {
-          return ResponseEntity.notFound().build();
+            return ResponseEntity.notFound().build();
         } else {
             Server server = optionalServer.get();
             List<Room> roomList = server.getRoomList();
-            for (Room r : roomList){
-                if (r.getId() == idRoom){
+            for (Room r : roomList) {
+                if (r.getId() == idRoom) {
                     Room room = RoomMapper.convertToEntity(roomDTO);
                     room.setId(idRoom);
                     roomService.updateRoom(room);
                 }
             }
-          return ResponseEntity.ok().build();
+            return ResponseEntity.ok().build();
         }
     }
 
-  
+
     @PutMapping("{idServer}/{idRoom}/{idMessage}")
     public ResponseEntity<?> editMessage(@PathVariable("idServer") Long idServer, @PathVariable("idRoom") Long idRoom,
-                                         @PathVariable("idMessage") Long idMessage, @RequestBody MessageDTO messageDTO) {
+                                         @PathVariable("idMessage") Long idMessage, @RequestBody MessagePostedDTO messagePostedDTO) {
         Optional<Server> optionalServer = serverService.findById(idServer);
         Optional<Room> optionalRoom = roomService.getRoomById(idRoom);
         Optional<Message> optionalMessage = messageService.findById(idMessage);
-        if (optionalServer.isEmpty() || optionalRoom.isEmpty() || optionalMessage.isEmpty() || messageDTO.getContent().isBlank()) {
-          return ResponseEntity.notFound().build();
+        if (optionalServer.isEmpty() || optionalRoom.isEmpty() || optionalMessage.isEmpty() ||
+                messagePostedDTO == null || !serverService.isMessagePostedDTOValid(messagePostedDTO)) {
+            return ResponseEntity.notFound().build();
         } else {
             Server server = optionalServer.get();
+            if (!server.isUserInServer(messagePostedDTO.getUser().getPseudo())) {
+                return ResponseEntity.notFound().build();
+            }
             List<Room> roomList = server.getRoomList();
             for (Room r : roomList) {
                 if (r.getId().equals(idRoom)) {
-                    Message messageEdit = MessageMapper.convertDTOtoEntity(messageDTO);
+                    Message messageEdit = MessagePostedMapper.convertDTOtoEntity(messagePostedDTO);
                     Message messageToUpdate = optionalMessage.get();
-                    Optional<User> optionalUser = userService.getByPseudo(messageDTO.getUser());
+                    Optional<User> optionalUser = userService.getByPseudo(messagePostedDTO.getUser().getPseudo());
                     if (optionalUser.isEmpty()) return ResponseEntity.notFound().build();
                     User user = optionalUser.get();
+                    if (!user.getPassword().equals(messagePostedDTO.getUser().getPassword())) {
+                        return ResponseEntity.notFound().build();
+                    }
                     messageToUpdate.setUser(user);
                     messageService.update(messageEdit, messageToUpdate);
                     return ResponseEntity.ok().build();
@@ -205,15 +217,24 @@ public class ServerController {
             return ResponseEntity.notFound().build();
         }
     }
+
     @DeleteMapping("{idServer}/{idRoom}/{idMessage}")
     public ResponseEntity<?> deleteMessage(@PathVariable("idServer") Long idServer, @PathVariable("idRoom") Long idRoom,
-                                           @PathVariable("idMessage") Long idMessage) {
+                                           @PathVariable("idMessage") Long idMessage, @RequestBody UserPseudoPasswordDTO userPseudoPasswordDTO) {
         Optional<Server> optionalServer = serverService.findById(idServer);
         Optional<Room> optionalRoom = roomService.getRoomById(idRoom);
         Optional<Message> optionalMessage = messageService.findById(idMessage);
-        if (optionalServer.isEmpty() || optionalRoom.isEmpty() || optionalMessage.isEmpty()) {
+        if (optionalServer.isEmpty() || optionalRoom.isEmpty() || optionalMessage.isEmpty() || userPseudoPasswordDTO == null ||
+                !userService.isUserPseudoPasswordValid(userPseudoPasswordDTO)) {
             return ResponseEntity.notFound().build();
         } else {
+            Optional<User> optionalUser = userService.getByPseudo(userPseudoPasswordDTO.getPseudo());
+            if (optionalUser.isEmpty()) return ResponseEntity.notFound().build();
+            User user = optionalUser.get();
+            Message message = optionalMessage.get();
+            if (!user.getPassword().equals(userPseudoPasswordDTO.getPassword()))
+                return ResponseEntity.notFound().build();
+            if (!user.equals(message.getUser())) return ResponseEntity.notFound().build();
             Room room = optionalRoom.get();
             messageService.delete(idMessage, room);
             return ResponseEntity.ok().build();

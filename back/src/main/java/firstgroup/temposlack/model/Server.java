@@ -16,8 +16,8 @@ public class Server {
     private Long id;
 
     private String name;
-    @OneToMany (cascade = CascadeType.ALL)
-    @JoinColumn(name="room_id")
+    @OneToMany(cascade = CascadeType.ALL)
+    @JoinColumn(name = "room_id")
     private List<Room> roomList = new ArrayList<>();
     @ManyToMany
     private List<User> userList = new ArrayList<>();
@@ -66,8 +66,17 @@ public class Server {
         this.userList = userList;
     }
 
-    public void addRoom(Room room){
+    public void addRoom(Room room) {
         roomList.add(room);
+    }
+
+    public boolean isUserInServer(String pseudo) {
+        for (User user : userList) {
+            if (user.getPseudo().equals(pseudo)) {
+                return true;
+            }
+        }
+        return false;
     }
 
 //    public List<Role> getRoleList() {
@@ -87,7 +96,7 @@ public class Server {
                 ", roomList=" + roomList +
                 ", userList=" + userList +
 
-               // ", roleList=" + roleList +
+                // ", roleList=" + roleList +
 
                 '}';
     }

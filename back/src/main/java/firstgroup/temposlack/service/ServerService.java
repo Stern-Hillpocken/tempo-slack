@@ -1,6 +1,7 @@
 package firstgroup.temposlack.service;
 
 import firstgroup.temposlack.dao.ServerRepository;
+import firstgroup.temposlack.dto.MessagePostedDTO;
 import firstgroup.temposlack.model.Room;
 import firstgroup.temposlack.model.Server;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -32,6 +33,15 @@ public class ServerService {
 
     public void delete(Long id) {
         serverRepository.deleteById(id);
+    }
+
+    public boolean isMessagePostedDTOValid(MessagePostedDTO messagePostedDTO) {
+        if (messagePostedDTO.getContent() == null || messagePostedDTO.getContent().isBlank() ||
+                messagePostedDTO.getUser().getPseudo() == null || messagePostedDTO.getUser().getPseudo().isBlank() ||
+                messagePostedDTO.getUser().getPassword() == null || messagePostedDTO.getUser().getPassword().isBlank()) {
+            return false;
+        }
+        return true;
     }
 
 }
