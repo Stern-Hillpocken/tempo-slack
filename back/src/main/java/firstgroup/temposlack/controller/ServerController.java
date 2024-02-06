@@ -9,6 +9,7 @@ import firstgroup.temposlack.mapper.ServerMapper;
 import firstgroup.temposlack.model.Message;
 import firstgroup.temposlack.model.Room;
 import firstgroup.temposlack.model.Server;
+import firstgroup.temposlack.model.User;
 import firstgroup.temposlack.service.MessageService;
 import firstgroup.temposlack.service.RoomService;
 import firstgroup.temposlack.service.ServerService;
@@ -125,8 +126,11 @@ public class ServerController {
             for (Room r : roomList) {
                 if (r.getId().equals(idRoom)) {
                     Message message = MessageMapper.convertDTOtoEntity(messageDTO);
-                    message.setUser(userService.getByPseudo(messageDTO.getUser()));
-                    roomService.addMessage(idRoom, message);
+                    Optional<User> optionalUser = userService.getByPseudo(messageDTO.getUser());
+                    if (optionalUser.isEmpty()) return ResponseEntity.notFound().build();
+                    User user = optionalUser.get();
+                    message.setUser(user);
+                    roomService.addMessage(idRoom,message);
                     return ResponseEntity.status(HttpStatus.CREATED).build();
                 }
             }
