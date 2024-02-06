@@ -118,7 +118,7 @@ public class ServerController {
         serverService.add(server);
         return ResponseEntity.status(HttpStatus.CREATED).build();
     }
-@PutMapping("{idServer}/rooms/{idRoom}")
+@PutMapping("{idServer}{idRoom}")
     public ResponseEntity<?> updateRoom(@PathVariable("idServer") Long idServer, @PathVariable("idRoom") Long idRoom, @RequestBody RoomDTO roomDTO) {
         Optional<Server> optionalServer = serverService.findById(idServer);
         if (optionalServer.isEmpty()) {
@@ -137,7 +137,7 @@ public class ServerController {
             return ResponseEntity.notFound().build();
         }
     }
-    @DeleteMapping("{idServer}/rooms/{idRoom}")
+    @DeleteMapping("{idServer}/{idRoom}")
     public ResponseEntity<?> deleteRoom(@PathVariable("idServer") Long idServer, @PathVariable("idRoom") Long idRoom) {
         Optional<Server> optionalServer = serverService.findById(idServer);
         if (optionalServer.isEmpty()) {
