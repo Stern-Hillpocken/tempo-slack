@@ -1,11 +1,13 @@
 package firstgroup.temposlack.service;
 
+import firstgroup.temposlack.model.Message;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import firstgroup.temposlack.model.Room;
 import firstgroup.temposlack.dao.RoomRepository;
 
 import java.util.List;
+import java.util.Optional;
 
 @Service
 public class RoomService {
@@ -17,11 +19,17 @@ public class RoomService {
         return roomRepository.findAll();
     }
 
-    public Room getRoomById(Long id) {
-        return roomRepository.findById(id).orElse(null);
+    public Optional<Room> getRoomById(Long id) {
+        return roomRepository.findById(id);
     }
 
     public void createRoom(Room room) {
+        roomRepository.save(room);
+    }
+
+    public void addMessage(Long id, Message message){
+        Room room = getRoomById(id).get();
+        room.addMessage(message);
         roomRepository.save(room);
     }
 

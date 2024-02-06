@@ -9,6 +9,7 @@ public class Message {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
+    @ManyToOne
     private User user;
     private LocalDateTime date;
     private String content;

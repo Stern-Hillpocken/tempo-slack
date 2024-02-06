@@ -1,5 +1,9 @@
 package firstgroup.temposlack.dto;
 
+import firstgroup.temposlack.model.Room;
+
+import java.util.List;
+
 public class ServerDTO {
 
     private String name;
