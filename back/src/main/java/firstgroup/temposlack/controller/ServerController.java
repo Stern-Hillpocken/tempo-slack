@@ -28,6 +28,8 @@ public class ServerController {
     RoomService roomService;
     @Autowired
     UserService userService;
+    @Autowired
+    MessageService messageService;
 
     @GetMapping
     public List<Server> findAll() {

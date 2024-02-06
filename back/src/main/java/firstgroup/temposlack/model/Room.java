@@ -12,7 +12,7 @@ public class Room {
 
     private String title;
     //private List<Role> permissions;
-    @OneToMany
+    @OneToMany(cascade = CascadeType.ALL)
     private List<Message> messageList;
 
     public Room() {

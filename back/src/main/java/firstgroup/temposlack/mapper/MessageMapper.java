@@ -24,11 +24,7 @@ public class MessageMapper {
     public static Message convertDTOtoEntity(MessageDTO messageDTO){
         Message message = new Message();
         message.setContent(messageDTO.getContent());
-        if (messageDTO.getDate().isBlank()){
-            message.setDate(LocalDateTime.now());
-        } else {
-            message.setDate(LocalDateTime.parse(messageDTO.getDate(),formatter));
-        }
+        message.setDate(LocalDateTime.now());
         return message;
     }
 }
