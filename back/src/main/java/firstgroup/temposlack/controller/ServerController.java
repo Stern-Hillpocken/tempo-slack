@@ -156,8 +156,10 @@ public class ServerController {
                 if (r.getId().equals(idRoom)) {
                     Message messageEdit = MessageMapper.convertDTOtoEntity(messageDTO);
                     Message messageToUpdate = optionalMessage.get();
-                    messageToUpdate.setId(idMessage);
-                    messageToUpdate.setUser(userService.getByPseudo(messageDTO.getUser()));
+                    Optional<User> optionalUser = userService.getByPseudo(messageDTO.getUser());
+                    if (optionalUser.isEmpty()) return ResponseEntity.notFound().build();
+                    User user = optionalUser.get();
+                    messageToUpdate.setUser(user);
                     messageService.update(messageEdit, messageToUpdate);
                     return ResponseEntity.ok().build();
                 }

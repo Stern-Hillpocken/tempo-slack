@@ -10,6 +10,7 @@ import firstgroup.temposlack.model.Room;
 import firstgroup.temposlack.model.User;
 import firstgroup.temposlack.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
@@ -25,10 +26,10 @@ public class UserController {
     @PostMapping()
     public ResponseEntity<?> add(@RequestBody UserSignInDTO userSignInDTO) {
         if (userSignInDTO == null) return ResponseEntity.noContent().build();
-        if (userSignInDTO.getPseudo() == null || userSignInDTO.getPseudo().isEmpty()) return ResponseEntity.noContent().build();
-        if (userSignInDTO.getPassword() == null || userSignInDTO.getPassword().isEmpty()) return ResponseEntity.noContent().build();
-        if (userSignInDTO.getEmail() == null || userSignInDTO.getEmail().isEmpty()) return ResponseEntity.noContent().build();
-        if (userSignInDTO.getAvatar() == null || userSignInDTO.getAvatar().isEmpty()) return ResponseEntity.noContent().build();
+        if (userSignInDTO.getPseudo() == null || userSignInDTO.getPseudo().isEmpty()) return ResponseEntity.status(HttpStatus.NO_CONTENT).body("pseudo");
+        if (userSignInDTO.getPassword() == null || userSignInDTO.getPassword().isEmpty()) return ResponseEntity.status(HttpStatus.NO_CONTENT).body("password");
+        if (userSignInDTO.getEmail() == null || userSignInDTO.getEmail().isEmpty()) return ResponseEntity.status(HttpStatus.NO_CONTENT).body("email");
+        if (userSignInDTO.getAvatar() == null || userSignInDTO.getAvatar().isEmpty()) return ResponseEntity.status(HttpStatus.NO_CONTENT).body("avatar");
         return service.add(userSignInDTO);
     }
 
