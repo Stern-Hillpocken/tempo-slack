@@ -23,6 +23,11 @@ public class UserController {
 
     @PostMapping()
     public ResponseEntity<?> add(@RequestBody UserSignInDTO userSignInDTO) {
+        if (userSignInDTO == null) return ResponseEntity.noContent().build();
+        if (userSignInDTO.getPseudo() == null || userSignInDTO.getPseudo().isEmpty()) return ResponseEntity.noContent().build();
+        if (userSignInDTO.getPassword() == null || userSignInDTO.getPassword().isEmpty()) return ResponseEntity.noContent().build();
+        if (userSignInDTO.getEmail() == null || userSignInDTO.getEmail().isEmpty()) return ResponseEntity.noContent().build();
+        if (userSignInDTO.getAvatar() == null || userSignInDTO.getAvatar().isEmpty()) return ResponseEntity.noContent().build();
         return service.add(userSignInDTO);
     }
 
@@ -36,9 +41,10 @@ public class UserController {
         UserPublicDTO userPublicDTO = UserPublicMapper.userToDTO(user);
         return ResponseEntity.ok(userPublicDTO);
     }
-    @GetMapping("/{id}")
-    public ResponseEntity<UserPrivateDTO> getPrivateById(@PathVariable Long id, @RequestBody String userPseudo) {
-        Optional<User> optionalUser = service.getById(id);
+    @GetMapping("/me")
+    public ResponseEntity<UserPrivateDTO> getPrivateById(@RequestBody String userPseudo) {
+        if (userPseudo == null || userPseudo.isEmpty()) return ResponseEntity.noContent().build();
+        Optional<User> optionalUser = service.getByPseudo(userPseudo);
         if (optionalUser.isEmpty()) {
             return ResponseEntity.notFound().build();
         }
