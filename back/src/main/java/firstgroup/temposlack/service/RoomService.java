@@ -32,6 +32,4 @@ public class RoomService {
         room.addMessage(message);
         roomRepository.save(room);
     }
-
-
 }
