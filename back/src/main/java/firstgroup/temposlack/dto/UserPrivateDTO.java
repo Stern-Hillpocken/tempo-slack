@@ -11,4 +11,8 @@ public class UserPrivateDTO {
         this.email = email;
         this.avatar = avatar;
     }
+
+    public String getPseudo() {
+        return pseudo;
+    }
 }

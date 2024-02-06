@@ -1,6 +1,7 @@
 package firstgroup.temposlack.service;
 
 import firstgroup.temposlack.dao.UserRepository;
+import firstgroup.temposlack.dto.UserPrivateDTO;
 import firstgroup.temposlack.dto.UserPublicDTO;
 import firstgroup.temposlack.dto.UserSignInDTO;
 import firstgroup.temposlack.mapper.UserPublicMapper;
@@ -11,23 +12,21 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 
+import java.util.Optional;
+
 @Service
 public class UserService {
     
     @Autowired
     UserRepository repository;
     
-    public UserPublicDTO getById(Long id) {
-        User user = repository.findById(id).orElseThrow(
-                () -> new RuntimeException("User id: "+id+" not found.")
-        );
-        return UserPublicMapper.userToDTO(user);
+    public Optional<User> getById(Long id) {
+        Optional<User> user = repository.findById(id);
+        return user;
     }
 
-    public User getByPseudo(String pseudo) {
-        User user = repository.findByPseudo(pseudo).orElseThrow(
-                () -> new RuntimeException("Pseudo "+pseudo+" not found.")
-        );
+    public Optional<User> getByPseudo(String pseudo) {
+        Optional<User> user = repository.findByPseudo(pseudo);
         return user;
     }
 
