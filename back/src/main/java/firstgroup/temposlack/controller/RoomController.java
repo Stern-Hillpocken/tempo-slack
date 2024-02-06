@@ -43,6 +43,28 @@ public class RoomController {
         roomService.createRoom(room);
         return ResponseEntity.created(null).build();
     }
+    @PutMapping("/{id}")
+    public ResponseEntity<Void> updateRoom(@PathVariable Long id, @RequestBody RoomDTO roomDTO) {
+        Optional<Room> optionalRoom = roomService.getRoomById(id);
+        if (optionalRoom.isEmpty()) {
+            return ResponseEntity.notFound().build();
+        } else {
+            Room existingRoom = optionalRoom.get();
+            Room updatedRoom = RoomMapper.convertToEntity(roomDTO);
+            existingRoom.setTitle(updatedRoom.getTitle());
 
-
+            roomService.updateRoom(existingRoom);
+            return ResponseEntity.noContent().build();
+        }
+    }
+    @DeleteMapping("/{id}")
+    public ResponseEntity<Void> deleteRoom(@PathVariable Long id) {
+        Optional<Room> optionalRoom = roomService.getRoomById(id);
+        if (optionalRoom.isEmpty()) {
+            return ResponseEntity.notFound().build();
+        } else {
+            roomService.deleteRoom(id);
+            return ResponseEntity.noContent().build();
+        }
+    }
 }
