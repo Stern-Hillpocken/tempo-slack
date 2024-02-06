@@ -21,18 +21,19 @@ public class UserService {
     UserRepository repository;
     
     public Optional<User> getById(Long id) {
-        Optional<User> user = repository.findById(id);
-        return user;
+        return repository.findById(id);
     }
 
     public Optional<User> getByPseudo(String pseudo) {
-        Optional<User> user = repository.findByPseudo(pseudo);
-        return user;
+        return repository.findByPseudo(pseudo);
     }
 
     public ResponseEntity<?> add(UserSignInDTO userSignInDTO) {
         User user = UserSignInMapper.signInDTOToUser(userSignInDTO);
-        repository.save(user);
-        return ResponseEntity.status(HttpStatus.CREATED).build();
+        if (getByPseudo(user.getPseudo()).isEmpty()) {
+            repository.save(user);
+            return ResponseEntity.status(HttpStatus.CREATED).build();
+        }
+        return ResponseEntity.status(HttpStatus.IM_USED).build();
     }
 }
