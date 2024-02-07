@@ -21,9 +21,8 @@ public class Server {
     private List<Room> roomList = new ArrayList<>();
     @ManyToMany
     private List<User> userList = new ArrayList<>();
-//    @ManyToMany
-//    @JoinTable()
-//    private List<Role> roleList;
+    @OneToMany
+    private List<Role> roleList = new ArrayList<>();
 
     public Server() {
     }
@@ -64,6 +63,14 @@ public class Server {
 
     public void setUserList(List<User> userList) {
         this.userList = userList;
+    }
+
+    public List<Role> getRoleList() {
+        return roleList;
+    }
+
+    public void setRoleList(List<Role> roleList) {
+        this.roleList = roleList;
     }
 
     public void addRoom(Room room) {
