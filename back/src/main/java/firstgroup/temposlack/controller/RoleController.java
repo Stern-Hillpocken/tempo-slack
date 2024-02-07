@@ -47,7 +47,7 @@ public class RoleController {
         Role role = RoleMapper.convertDTOtoEntity(roleDTO);
         Server server = optionalServer.get();
         role.setServer(server);
-        roleService.createRole(role,server);
+        roleService.createRole(role, server);
         return ResponseEntity.status(HttpStatus.CREATED).build();
     }
 
@@ -61,7 +61,8 @@ public class RoleController {
         User user = optionalUser.get();
         for (Role r : server.getRoleList()) {
             if (r.getName().equals(roleDTO.getName())) {
-                r.addUser(user);
+                ;
+                roleService.addRoleUser(r, user);
                 return ResponseEntity.status(HttpStatus.CREATED).build();
             }
         }
@@ -75,6 +76,26 @@ public class RoleController {
         Role role = optionalRole.get();
         Server server = role.getServer();
         roleService.delete(idRole, server);
+        return ResponseEntity.ok().build();
+    }
+
+    @DeleteMapping("{idUser}/roles/{idRole}")
+    public ResponseEntity<?> deleteRoleUser(@PathVariable("idRole") Long idRole, @PathVariable("idUser") Long idUser) {
+        Optional<Role> optionalRole = roleService.findById(idRole);
+        Optional<User> optionalUser = userService.getById(idUser);
+        if (optionalRole.isEmpty() || optionalUser.isEmpty()) return ResponseEntity.notFound().build();
+        User user = optionalUser.get();
+        Role role = optionalRole.get();
+        roleService.deleteRoleUser(role, user);
+        return ResponseEntity.ok().build();
+    }
+
+    @PutMapping("roles/{idRole}")
+    public ResponseEntity<?> editRoleName(@PathVariable("idRole") Long idRole, @RequestBody RoleDTO roleDTO){
+        Optional<Role> optionalRole = roleService.findById(idRole);
+        if (optionalRole.isEmpty()) return ResponseEntity.notFound().build();
+        Role role = optionalRole.get();
+        roleService.updateName(role, roleDTO.getName());
         return ResponseEntity.ok().build();
     }
 }

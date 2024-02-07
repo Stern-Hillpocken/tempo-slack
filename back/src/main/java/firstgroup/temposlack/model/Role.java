@@ -62,6 +62,10 @@ public class Role {
         userList.add(user);
     }
 
+    public void deleteUser(User user){
+        userList.remove(user);
+    }
+
     @Override
     public String toString() {
         return "Role{" +

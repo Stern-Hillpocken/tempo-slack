@@ -4,6 +4,7 @@ import firstgroup.temposlack.dao.RoleRepository;
 import firstgroup.temposlack.dao.ServerRepository;
 import firstgroup.temposlack.model.Role;
 import firstgroup.temposlack.model.Server;
+import firstgroup.temposlack.model.User;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -35,4 +36,20 @@ public class RoleService {
         server.deleteRole(id);
         roleRepository.deleteById(id);
     }
+
+    public void deleteRoleUser(Role role, User user){
+        role.deleteUser(user);
+        roleRepository.save(role);
+    }
+
+    public void addRoleUser(Role role, User user){
+        role.addUser(user);
+        roleRepository.save(role);
+    }
+
+    public void updateName(Role role, String name){
+        role.setName(name);
+        roleRepository.save(role);
+    }
+
 }
