@@ -225,7 +225,7 @@ public class ServerController {
         Optional<Room> optionalRoom = roomService.getRoomById(idRoom);
         Optional<Message> optionalMessage = messageService.findById(idMessage);
         if (optionalServer.isEmpty() || optionalRoom.isEmpty() || optionalMessage.isEmpty() || userPseudoPasswordDTO == null ||
-                !userService.isUserPseudoPasswordValid(userPseudoPasswordDTO)) {
+                !userService.isUserPseudoPasswordDTOValid(userPseudoPasswordDTO)) {
             return ResponseEntity.notFound().build();
         } else {
             Optional<User> optionalUser = userService.getByPseudo(userPseudoPasswordDTO.getPseudo());

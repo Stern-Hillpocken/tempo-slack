@@ -7,12 +7,15 @@ import firstgroup.temposlack.mapper.UserSignInMapper;
 import firstgroup.temposlack.model.Room;
 import firstgroup.temposlack.model.User;
 import firstgroup.temposlack.service.UserService;
+import org.apache.coyote.Response;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.Optional;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 @RestController
 @RequestMapping("/users")
@@ -28,6 +31,13 @@ public class UserController {
         if (userSignInDTO.getPassword() == null || userSignInDTO.getPassword().isEmpty()) return ResponseEntity.status(HttpStatus.NO_CONTENT).body("password");
         if (userSignInDTO.getEmail() == null || userSignInDTO.getEmail().isEmpty()) return ResponseEntity.status(HttpStatus.NO_CONTENT).body("email");
         if (userSignInDTO.getAvatar() == null || userSignInDTO.getAvatar().isEmpty()) return ResponseEntity.status(HttpStatus.NO_CONTENT).body("avatar");
+
+        if (service.hasEmoji(userSignInDTO.getPseudo())) return ResponseEntity.badRequest().build();
+        if (!service.isAvatarExist(userSignInDTO.getAvatar())) return ResponseEntity.badRequest().build();
+
+        Optional<User> userWithThisPseudo = service.getByPseudo(userSignInDTO.getPseudo());
+        if (userWithThisPseudo.isPresent()) return ResponseEntity.status(HttpStatus.CONFLICT).build();
+
         User user = UserSignInMapper.signInDTOToUser(userSignInDTO);
         service.add(user);
         return ResponseEntity.status(HttpStatus.CREATED).build();
@@ -46,7 +56,7 @@ public class UserController {
 
     @GetMapping("/me")
     public ResponseEntity<UserPrivateDTO> getPrivateById(@RequestBody UserPseudoPasswordDTO userPseudoPasswordDTO) {
-        if (userPseudoPasswordDTO == null || !service.isUserPseudoPasswordValid(userPseudoPasswordDTO)) return ResponseEntity.noContent().build();
+        if (userPseudoPasswordDTO == null || !service.isUserPseudoPasswordDTOValid(userPseudoPasswordDTO)) return ResponseEntity.noContent().build();
 
         Optional<User> optionalUser = service.getByPseudo(userPseudoPasswordDTO.getPseudo());
         if (optionalUser.isEmpty()) {
@@ -67,6 +77,9 @@ public class UserController {
 
         Optional<User> optionalNewUser = service.getByPseudo(userUpdateDTO.getNewPseudo());
         if (optionalNewUser.isPresent()) return ResponseEntity.status(HttpStatus.IM_USED).build();
+
+        if(service.hasEmoji(userUpdateDTO.getNewPseudo())) return ResponseEntity.badRequest().build();
+        if (!service.isAvatarExist(userUpdateDTO.getNewAvatar())) return ResponseEntity.badRequest().build();
 
         User user = optionalOldUser.get();
         if (!user.getPassword().equals(userUpdateDTO.getOldPassword())) return ResponseEntity.notFound().build();
