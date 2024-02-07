@@ -6,10 +6,7 @@ import firstgroup.temposlack.model.Message;
 import firstgroup.temposlack.model.Room;
 import firstgroup.temposlack.model.Server;
 import firstgroup.temposlack.model.User;
-import firstgroup.temposlack.service.MessageService;
-import firstgroup.temposlack.service.RoomService;
-import firstgroup.temposlack.service.ServerService;
-import firstgroup.temposlack.service.UserService;
+import firstgroup.temposlack.service.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -63,9 +60,8 @@ public class ServerController {
     @PostMapping
     public ResponseEntity<?> addServer(@RequestBody ServerCreatedDTO serverCreatedDTO) {
         Server server = ServerCreatedMapper.convertToEntity(serverCreatedDTO);
-        server.addRoom(new Room("Général"));
-        server.addUser(serverCreatedDTO.getUser());
-        serverService.add(server);
+        User user = serverCreatedDTO.getUser();
+        serverService.add(server,user);
         return ResponseEntity.status(HttpStatus.CREATED).build();
 
     }
@@ -100,13 +96,11 @@ public class ServerController {
             return ResponseEntity.notFound().build();
         } else {
             Room room = RoomCreatedMapper.convertDTOToEntity(roomCreatedDTO);
-            roomService.createRoom(room);
             Server server = optionalServer.get();
             if (!server.isUserInServer(roomCreatedDTO.getUser().getPseudo())) {
                 return ResponseEntity.notFound().build();
             }
-            server.addRoom(room);
-            serverService.add(server);
+            roomService.createRoom(room,server);
             return ResponseEntity.status(HttpStatus.CREATED).build();
         }
     }

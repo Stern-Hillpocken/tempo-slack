@@ -1,6 +1,7 @@
 package firstgroup.temposlack.controller;
 
 import firstgroup.temposlack.dto.RoleDTO;
+import firstgroup.temposlack.dto.UserPseudoPasswordDTO;
 import firstgroup.temposlack.mapper.RoleMapper;
 import firstgroup.temposlack.model.Role;
 import firstgroup.temposlack.model.Server;
@@ -42,10 +43,19 @@ public class RoleController {
     @PostMapping("{idServer}/roles")
     public ResponseEntity<?> addRoleToServer(@PathVariable("idServer") Long idServer, @RequestBody RoleDTO roleDTO) {
         Optional<Server> optionalServer = serverService.findById(idServer);
-        if (optionalServer.isEmpty() || roleDTO.getName() == null || roleDTO.getName().isBlank())
+        Optional<User> optionalUser = userService.getByPseudo(roleDTO.getUser().getPseudo());
+        if (optionalServer.isEmpty() || optionalUser.isEmpty() || roleDTO.getName() == null || roleDTO.getName().isBlank())
             return ResponseEntity.notFound().build();
-        Role role = RoleMapper.convertDTOtoEntity(roleDTO);
         Server server = optionalServer.get();
+        if (!userService.isUserMatching(roleDTO.getUser())) {
+            return ResponseEntity.notFound().build();
+        }
+        if (!server.isUserInServer(roleDTO.getUser().getPseudo())) {
+            return ResponseEntity.badRequest().build();
+        }
+        User user = optionalUser.get();
+        if (!roleService.isOwner(user, server)) return ResponseEntity.badRequest().build();
+        Role role = RoleMapper.convertDTOtoEntity(roleDTO);
         role.setServer(server);
         roleService.createRole(role, server);
         return ResponseEntity.status(HttpStatus.CREATED).build();
@@ -55,10 +65,19 @@ public class RoleController {
     public ResponseEntity<?> addRoleToUser(@PathVariable("idServer") Long idServer, @PathVariable("idUser") Long idUser, @RequestBody RoleDTO roleDTO) {
         Optional<Server> optionalServer = serverService.findById(idServer);
         Optional<User> optionalUser = userService.getById(idUser);
-        if (optionalServer.isEmpty() || optionalUser.isEmpty() || roleDTO.getName() == null || roleDTO.getName().isBlank())
+        Optional<User> optionalUserOwner = userService.getByPseudo(roleDTO.getUser().getPseudo());
+        if (optionalServer.isEmpty() || optionalUser.isEmpty() || optionalUserOwner.isEmpty() || roleDTO.getName() == null || roleDTO.getName().isBlank())
             return ResponseEntity.notFound().build();
         Server server = optionalServer.get();
         User user = optionalUser.get();
+        if (!userService.isUserMatching(roleDTO.getUser())) {
+            return ResponseEntity.notFound().build();
+        }
+        if (!server.isUserInServer(roleDTO.getUser().getPseudo()) || !server.isUserInServer(user.getPseudo())) {
+            return ResponseEntity.badRequest().build();
+        }
+        User userOwner = optionalUserOwner.get();
+        if (!roleService.isOwner(userOwner, server)) return ResponseEntity.badRequest().build();
         for (Role r : server.getRoleList()) {
             if (r.getName().equals(roleDTO.getName())) {
                 roleService.addRoleUser(r, user);
@@ -69,22 +88,39 @@ public class RoleController {
     }
 
     @DeleteMapping("roles/{idRole}")
-    public ResponseEntity<?> deleteRoleServer(@PathVariable("idRole") Long idRole) {
+    public ResponseEntity<?> deleteRoleServer(@PathVariable("idRole") Long idRole, @RequestBody UserPseudoPasswordDTO userPseudoPasswordDTO) {
         Optional<Role> optionalRole = roleService.findById(idRole);
-        if (optionalRole.isEmpty()) return ResponseEntity.notFound().build();
+        Optional<User> optionalUser = userService.getByPseudo(userPseudoPasswordDTO.getPseudo());
+        if (optionalRole.isEmpty() || optionalUser.isEmpty()) return ResponseEntity.notFound().build();
+        if (!userService.isUserMatching(userPseudoPasswordDTO)) {
+            return ResponseEntity.notFound().build();
+        }
+        User user = optionalUser.get();
         Role role = optionalRole.get();
         Server server = role.getServer();
+        if (!server.isUserInServer(user.getPseudo()) || !roleService.isOwner(user, server)) {
+            return ResponseEntity.badRequest().build();
+        }
         roleService.delete(idRole, server);
         return ResponseEntity.ok().build();
     }
 
     @DeleteMapping("{idUser}/roles/{idRole}")
-    public ResponseEntity<?> deleteRoleUser(@PathVariable("idRole") Long idRole, @PathVariable("idUser") Long idUser) {
+    public ResponseEntity<?> deleteRoleUser(@PathVariable("idRole") Long idRole, @PathVariable("idUser") Long idUser, @RequestBody UserPseudoPasswordDTO userPseudoPasswordDTO) {
         Optional<Role> optionalRole = roleService.findById(idRole);
         Optional<User> optionalUser = userService.getById(idUser);
-        if (optionalRole.isEmpty() || optionalUser.isEmpty()) return ResponseEntity.notFound().build();
+        Optional<User> optionalUserOwner = userService.getByPseudo(userPseudoPasswordDTO.getPseudo());
+        if (optionalRole.isEmpty() || optionalUser.isEmpty() || optionalUserOwner.isEmpty()) return ResponseEntity.notFound().build();
         User user = optionalUser.get();
+        if (!userService.isUserMatching(userPseudoPasswordDTO)) {
+            return ResponseEntity.notFound().build();
+        }
+        User userOwner = optionalUserOwner.get();
         Role role = optionalRole.get();
+        Server server = role.getServer();
+        if (!server.isUserInServer(user.getPseudo()) || !server.isUserInServer(userOwner.getPseudo()) || !roleService.isOwner(userOwner, server)) {
+            return ResponseEntity.badRequest().build();
+        }
         roleService.deleteRoleUser(role, user);
         return ResponseEntity.ok().build();
     }
@@ -92,8 +128,17 @@ public class RoleController {
     @PutMapping("roles/{idRole}")
     public ResponseEntity<?> editRoleName(@PathVariable("idRole") Long idRole, @RequestBody RoleDTO roleDTO) {
         Optional<Role> optionalRole = roleService.findById(idRole);
-        if (optionalRole.isEmpty()) return ResponseEntity.notFound().build();
+        Optional<User> optionalUser = userService.getByPseudo(roleDTO.getUser().getPseudo());
+        if (optionalRole.isEmpty() || optionalUser.isEmpty()) return ResponseEntity.notFound().build();
+        if (!userService.isUserMatching(roleDTO.getUser())) {
+            return ResponseEntity.notFound().build();
+        }
+        User user = optionalUser.get();
         Role role = optionalRole.get();
+        Server server = role.getServer();
+        if (!server.isUserInServer(user.getPseudo()) || !roleService.isOwner(user, server)) {
+            return ResponseEntity.badRequest().build();
+        }
         roleService.updateName(role, roleDTO.getName());
         return ResponseEntity.ok().build();
     }
