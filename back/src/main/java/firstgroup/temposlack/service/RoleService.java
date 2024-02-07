@@ -52,4 +52,8 @@ public class RoleService {
         roleRepository.save(role);
     }
 
+    public boolean isOwner(User user){
+        return true;
+    }
+
 }

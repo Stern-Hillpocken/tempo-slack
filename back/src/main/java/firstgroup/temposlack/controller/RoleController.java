@@ -42,10 +42,18 @@ public class RoleController {
     @PostMapping("{idServer}/roles")
     public ResponseEntity<?> addRoleToServer(@PathVariable("idServer") Long idServer, @RequestBody RoleDTO roleDTO) {
         Optional<Server> optionalServer = serverService.findById(idServer);
-        if (optionalServer.isEmpty() || roleDTO.getName() == null || roleDTO.getName().isBlank())
+        Optional<User> optionalUser = userService.getByPseudo(roleDTO.getUser().getPseudo());
+        if (optionalServer.isEmpty() || optionalUser.isEmpty() || roleDTO.getName() == null || roleDTO.getName().isBlank())
             return ResponseEntity.notFound().build();
-        Role role = RoleMapper.convertDTOtoEntity(roleDTO);
         Server server = optionalServer.get();
+        if (!userService.isUserMatching(roleDTO.getUser())){
+            return ResponseEntity.notFound().build();
+        }
+        if (!server.isUserInServer(roleDTO.getUser().getPseudo())){
+            return ResponseEntity.badRequest().build();
+        }
+        User user = optionalUser.get();
+        Role role = RoleMapper.convertDTOtoEntity(roleDTO);
         role.setServer(server);
         roleService.createRole(role, server);
         return ResponseEntity.status(HttpStatus.CREATED).build();
