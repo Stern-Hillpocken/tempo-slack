@@ -20,11 +20,6 @@ public class Server {
     @JoinColumn(name = "room_id")
     private List<Room> roomList = new ArrayList<>();
     @ManyToMany
-//    @JoinTable(
-//            name="server_user",
-//            joinColumns = @JoinColumn(name="server_id"),
-//            inverseJoinColumns = @JoinColumn(name="user_id")
-//    )
     private List<User> userList = new ArrayList<>();
     @OneToMany
     private List<Role> roleList = new ArrayList<>();
@@ -81,20 +76,22 @@ public class Server {
     public void addRoom(Room room) {
         roomList.add(room);
     }
+
     public void addUser(User user) {
         userList.add(user);
     }
+
     public void deleteRoom(Room room) {
         roomList.remove(room);
     }
 
-    public void addRole (Role role){
+    public void addRole(Role role) {
         roleList.add(role);
     }
 
-    public void deleteRole (Long id){
-        for (Role role : roleList){
-            if (role.getId().equals(id)){
+    public void deleteRole(Long id) {
+        for (Role role : roleList) {
+            if (role.getId().equals(id)) {
                 roleList.remove(role);
                 break;
             }

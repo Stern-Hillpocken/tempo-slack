@@ -51,7 +51,8 @@ public class UserService {
     }
 
     public boolean isUserSignInDTOValid(UserSignInDTO userSignInDTO) {
-        if (userSignInDTO.getPseudo() == null || userSignInDTO.getPassword() == null || userSignInDTO.getEmail() == null || userSignInDTO.getAvatar() == null) return false;
+        if (userSignInDTO.getPseudo() == null || userSignInDTO.getPassword() == null || userSignInDTO.getEmail() == null || userSignInDTO.getAvatar() == null)
+            return false;
         return true;
     }
 

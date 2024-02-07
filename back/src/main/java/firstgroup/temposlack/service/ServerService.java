@@ -21,11 +21,13 @@ public class ServerService {
     RoleService roleService;
 
     public void add(Server server, User user) {
-        server.addRoom(new Room("Général"));
+        Room room = new Room("Général");
+        room.setRemovable(false);
+        server.addRoom(room);
         server.addUser(user);
         Role role = new Role("Owner");
-        roleService.createRole(role,server);
-        roleService.addRoleUser(role,user);
+        roleService.createRole(role, server);
+        roleService.addRoleUser(role, user);
         serverRepository.save(server);
     }
 
@@ -53,6 +55,7 @@ public class ServerService {
         }
         return true;
     }
+
     public boolean isRoomCreatedDTOValid(RoomCreatedDTO roomCreatedDTO) {
         if (roomCreatedDTO.getTitle() == null || roomCreatedDTO.getTitle().isBlank() ||
                 roomCreatedDTO.getUser().getPseudo() == null || roomCreatedDTO.getUser().getPseudo().isBlank() ||
