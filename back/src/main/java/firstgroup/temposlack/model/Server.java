@@ -84,6 +84,9 @@ public class Server {
     public void addUser(User user) {
         userList.add(user);
     }
+    public void deleteRoom(Room room) {
+        roomList.remove(room);
+    }
 
     public void addRole (Role role){
         roleList.add(role);
