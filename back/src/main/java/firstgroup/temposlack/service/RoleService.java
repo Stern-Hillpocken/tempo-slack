@@ -52,8 +52,17 @@ public class RoleService {
         roleRepository.save(role);
     }
 
-    public boolean isOwner(User user){
-        return true;
+    public boolean isOwner(User user, Server server){
+        for (Role r : server.getRoleList()){
+            if (r.getName().equals("Owner")){
+                for (User u : r.getUserList()){
+                    if (u.getPseudo().equals(user.getPseudo())){
+                        return true;
+                    }
+                }
+            }
+        }
+        return false;
     }
 
 }
