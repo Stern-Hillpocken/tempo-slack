@@ -32,6 +32,13 @@ public class UserService {
         return repository.findByPseudo(pseudo);
     }
 
+    public boolean isUserMatching(UserPseudoPasswordDTO user) {
+        Optional<User> optionalUser = getByPseudo(user.getPseudo());
+        if (optionalUser.isEmpty()) return false;
+        if (!optionalUser.get().getPassword().equals(user.getPassword())) return false;
+        return true;
+    }
+
     public void add(User user) {
         repository.save(user);
     }
@@ -63,5 +70,18 @@ public class UserService {
             if (ae.name().equalsIgnoreCase(avatar)) return true;
         }
         return false;
+    }
+
+    public boolean hasStrangeChar(String str) {
+        // W = !w = no-word character
+        Pattern pattern = Pattern.compile("\\W");
+        Matcher matcher = pattern.matcher(str);
+        return matcher.find();
+    }
+
+    public boolean isPasswordWellFormated(String password) {
+        if (password.length() < 6) return false;
+        if (!Pattern.compile("\\W").matcher(password).find()) return false;
+        return true;
     }
 }

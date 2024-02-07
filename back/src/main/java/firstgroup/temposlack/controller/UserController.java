@@ -32,8 +32,10 @@ public class UserController {
         if (userSignInDTO.getEmail() == null || userSignInDTO.getEmail().isEmpty()) return ResponseEntity.status(HttpStatus.NO_CONTENT).body("email");
         if (userSignInDTO.getAvatar() == null || userSignInDTO.getAvatar().isEmpty()) return ResponseEntity.status(HttpStatus.NO_CONTENT).body("avatar");
 
-        if (service.hasEmoji(userSignInDTO.getPseudo())) return ResponseEntity.badRequest().build();
-        if (!service.isAvatarExist(userSignInDTO.getAvatar())) return ResponseEntity.badRequest().build();
+        if (service.hasEmoji(userSignInDTO.getPseudo())) return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("pseudo");
+        if (service.hasStrangeChar(userSignInDTO.getPseudo())) return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("pseudo");
+        if (!service.isPasswordWellFormated(userSignInDTO.getPassword())) return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("password");
+        if (!service.isAvatarExist(userSignInDTO.getAvatar())) return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("avatar");
 
         Optional<User> userWithThisPseudo = service.getByPseudo(userSignInDTO.getPseudo());
         if (userWithThisPseudo.isPresent()) return ResponseEntity.status(HttpStatus.CONFLICT).build();
@@ -76,10 +78,13 @@ public class UserController {
         if (optionalOldUser.isEmpty()) return ResponseEntity.notFound().build();
 
         Optional<User> optionalNewUser = service.getByPseudo(userUpdateDTO.getNewPseudo());
-        if (optionalNewUser.isPresent()) return ResponseEntity.status(HttpStatus.IM_USED).build();
+        if (optionalNewUser.isPresent()) return ResponseEntity.status(HttpStatus.CONFLICT).build();
 
-        if(service.hasEmoji(userUpdateDTO.getNewPseudo())) return ResponseEntity.badRequest().build();
-        if (!service.isAvatarExist(userUpdateDTO.getNewAvatar())) return ResponseEntity.badRequest().build();
+        if (service.hasEmoji(userUpdateDTO.getNewPseudo())) return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("pseudo");
+        if (service.hasStrangeChar(userUpdateDTO.getNewPseudo())) return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("pseudo");
+        if (!service.isPasswordWellFormated(userUpdateDTO.getNewPassword())) return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("password");
+        if (!service.isAvatarExist(userUpdateDTO.getNewAvatar())) return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("avatar");
+
 
         User user = optionalOldUser.get();
         if (!user.getPassword().equals(userUpdateDTO.getOldPassword())) return ResponseEntity.notFound().build();
