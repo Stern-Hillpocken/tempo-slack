@@ -20,6 +20,11 @@ public class Server {
     @JoinColumn(name = "room_id")
     private List<Room> roomList = new ArrayList<>();
     @ManyToMany
+//    @JoinTable(
+//            name="server_user",
+//            joinColumns = @JoinColumn(name="server_id"),
+//            inverseJoinColumns = @JoinColumn(name="user_id")
+//    )
     private List<User> userList = new ArrayList<>();
 //    @ManyToMany
 //    @JoinTable()
@@ -68,6 +73,9 @@ public class Server {
 
     public void addRoom(Room room) {
         roomList.add(room);
+    }
+    public void addUser(User user) {
+        userList.add(user);
     }
 
     public boolean isUserInServer(String pseudo) {
