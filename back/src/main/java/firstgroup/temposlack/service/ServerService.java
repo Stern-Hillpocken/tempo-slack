@@ -3,8 +3,10 @@ package firstgroup.temposlack.service;
 import firstgroup.temposlack.dao.ServerRepository;
 import firstgroup.temposlack.dto.MessagePostedDTO;
 import firstgroup.temposlack.dto.RoomCreatedDTO;
+import firstgroup.temposlack.model.Role;
 import firstgroup.temposlack.model.Room;
 import firstgroup.temposlack.model.Server;
+import firstgroup.temposlack.model.User;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -15,8 +17,15 @@ import java.util.Optional;
 public class ServerService {
     @Autowired
     ServerRepository serverRepository;
+    @Autowired
+    RoleService roleService;
 
-    public void add(Server server) {
+    public void add(Server server, User user) {
+        server.addRoom(new Room("Général"));
+        server.addUser(user);
+        Role role = new Role("Owner");
+        roleService.createRole(role,server);
+        roleService.addRoleUser(role,user);
         serverRepository.save(server);
     }
 
