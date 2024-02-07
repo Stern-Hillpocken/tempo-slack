@@ -64,4 +64,17 @@ public class UserService {
         }
         return false;
     }
+
+    public boolean hasStrangeChar(String str) {
+        // W = !w = no-word character
+        Pattern pattern = Pattern.compile("\\W");
+        Matcher matcher = pattern.matcher(str);
+        return matcher.find();
+    }
+
+    public boolean isPasswordWellFormated(String password) {
+        if (password.length() < 6) return false;
+        if (!Pattern.compile("\\W").matcher(password).find()) return false;
+        return true;
+    }
 }
