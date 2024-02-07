@@ -5,6 +5,7 @@ import firstgroup.temposlack.dto.UserPrivateDTO;
 import firstgroup.temposlack.dto.UserPseudoPasswordDTO;
 import firstgroup.temposlack.dto.UserPublicDTO;
 import firstgroup.temposlack.dto.UserSignInDTO;
+import firstgroup.temposlack.enums.AvatarEnum;
 import firstgroup.temposlack.mapper.UserPublicMapper;
 import firstgroup.temposlack.mapper.UserSignInMapper;
 import firstgroup.temposlack.model.User;
@@ -14,6 +15,8 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 
 import java.util.Optional;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 @Service
 public class UserService {
@@ -33,7 +36,7 @@ public class UserService {
         repository.save(user);
     }
 
-    public boolean isUserPseudoPasswordValid(UserPseudoPasswordDTO userPseudoPasswordDTO) {
+    public boolean isUserPseudoPasswordDTOValid(UserPseudoPasswordDTO userPseudoPasswordDTO) {
         if (userPseudoPasswordDTO.getPseudo() == null || userPseudoPasswordDTO.getPseudo().isBlank() || userPseudoPasswordDTO.getPassword() == null || userPseudoPasswordDTO.getPassword().isBlank()) {
             return false;
         }
@@ -47,5 +50,18 @@ public class UserService {
 
     public void update(User user) {
         repository.save(user);
+    }
+
+    public boolean hasEmoji(String str) {
+        // So : other symbol
+        Matcher m = Pattern.compile("\\p{So}").matcher(str);
+        return m.find();
+    }
+
+    public boolean isAvatarExist(String avatar) {
+        for (AvatarEnum ae : AvatarEnum.values()) {
+            if (ae.name().equalsIgnoreCase(avatar)) return true;
+        }
+        return false;
     }
 }
