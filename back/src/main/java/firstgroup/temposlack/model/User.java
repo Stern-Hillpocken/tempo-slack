@@ -4,6 +4,7 @@ import jakarta.persistence.*;
 
 import java.time.LocalDateTime;
 import java.util.List;
+
 import firstgroup.temposlack.model.Server;
 
 @Entity(name = "users") // because 'user' is reserved in postgresql
@@ -22,7 +23,6 @@ public class User {
     @ManyToMany
     private List<Server> serverList;
 
-    //private List<Role> roleList;
 
     public User() {
     }

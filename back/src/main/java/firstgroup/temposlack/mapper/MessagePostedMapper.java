@@ -9,7 +9,7 @@ import java.time.format.DateTimeFormatter;
 
 public class MessagePostedMapper {
 
-    public static Message convertDTOtoEntity(MessagePostedDTO messagePostedDTO){
+    public static Message convertDTOtoEntity(MessagePostedDTO messagePostedDTO) {
         Message message = new Message();
         message.setContent(messagePostedDTO.getContent());
         message.setDate(LocalDateTime.now());

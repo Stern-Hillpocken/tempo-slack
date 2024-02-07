@@ -54,13 +54,13 @@ public class Room {
         this.messageList = messageList;
     }
 
-    public void addMessage(Message message){
+    public void addMessage(Message message) {
         this.messageList.add(message);
     }
 
-    public void deleteMessage (Long id) {
-        for (Message message : messageList){
-            if (message.getId().equals(id)){
+    public void deleteMessage(Long id) {
+        for (Message message : messageList) {
+            if (message.getId().equals(id)) {
                 messageList.remove(message);
                 break;
             }

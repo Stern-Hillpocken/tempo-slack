@@ -110,7 +110,8 @@ public class RoleController {
         Optional<Role> optionalRole = roleService.findById(idRole);
         Optional<User> optionalUser = userService.getById(idUser);
         Optional<User> optionalUserOwner = userService.getByPseudo(userPseudoPasswordDTO.getPseudo());
-        if (optionalRole.isEmpty() || optionalUser.isEmpty() || optionalUserOwner.isEmpty()) return ResponseEntity.notFound().build();
+        if (optionalRole.isEmpty() || optionalUser.isEmpty() || optionalUserOwner.isEmpty())
+            return ResponseEntity.notFound().build();
         User user = optionalUser.get();
         if (!userService.isUserMatching(userPseudoPasswordDTO)) {
             return ResponseEntity.notFound().build();

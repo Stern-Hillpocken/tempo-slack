@@ -19,7 +19,8 @@ public class RoomCreatedMapper {
         room.setTitle(roomCreatedDTO.getTitle());
         return room;
     }
-    public static RoomCreatedDTO convertToDTO (Room room) {
+
+    public static RoomCreatedDTO convertToDTO(Room room) {
         RoomCreatedDTO roomCreatedDTO = new RoomCreatedDTO();
         roomCreatedDTO.setTitle(room.getTitle());
         return roomCreatedDTO;

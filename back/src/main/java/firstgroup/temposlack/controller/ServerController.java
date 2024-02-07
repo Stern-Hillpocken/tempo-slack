@@ -31,31 +31,25 @@ public class ServerController {
 
     //affiche tous les serveurs
     @GetMapping
-    public List<Server> findAll() {
-        return serverService.findAll();
+    public ResponseEntity<List<Server>> findAll() {
+        return ResponseEntity.ok(serverService.findAll());
     }
 
     //affiche 1 serveur selon id
     @GetMapping("{idServer}")
     public ResponseEntity<?> findById(@PathVariable("idServer") Long id) {
-        Optional<Server> s = serverService.findById(id);
-        if (s.isEmpty()) {
-            return ResponseEntity.notFound().build();
-        } else {
-            return ResponseEntity.ok(s.get());
-        }
+        Optional<Server> optionalServer = serverService.findById(id);
+        if (optionalServer.isEmpty()) return ResponseEntity.notFound().build();
+        return ResponseEntity.ok(optionalServer.get());
     }
 
     //affiche 1 room selon id room et serveur
     @GetMapping("{idServer}/{idRoom}")
     public ResponseEntity<?> findById(@PathVariable("idServer") Long idServer, @PathVariable("idRoom") Long idRoom) {
-        Optional<Server> s = serverService.findById(idServer);
-        Optional<Room> r = roomService.getRoomById(idRoom);
-        if (s.isEmpty() || r.isEmpty()) {
-            return ResponseEntity.notFound().build();
-        } else {
-            return ResponseEntity.ok(r.get());
-        }
+        Optional<Server> optionalServer = serverService.findById(idServer);
+        Optional<Room> optionalRoom = roomService.getRoomById(idRoom);
+        if (optionalServer.isEmpty() || optionalRoom.isEmpty()) return ResponseEntity.notFound().build();
+        return ResponseEntity.ok(optionalRoom.get());
     }
 
     //ajoute server et création room "général"

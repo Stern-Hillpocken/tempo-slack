@@ -18,25 +18,25 @@ public class MessageService {
     @Autowired
     private RoomRepository roomRepository;
 
-    public void add(Message message){
+    public void add(Message message) {
         messageRepository.save(message);
     }
 
-    public List<Message> getAll(){
+    public List<Message> getAll() {
         return messageRepository.findAll();
     }
 
-    public Optional<Message> findById(Long id){
+    public Optional<Message> findById(Long id) {
         return messageRepository.findById(id);
     }
 
-    public void delete(Long id, Room room){
+    public void delete(Long id, Room room) {
         room.deleteMessage(id);
         roomRepository.save(room);
         messageRepository.deleteById(id);
     }
 
-    public void update(Message message){
+    public void update(Message message) {
         message.setDate(LocalDateTime.now());
         messageRepository.save(message);
     }

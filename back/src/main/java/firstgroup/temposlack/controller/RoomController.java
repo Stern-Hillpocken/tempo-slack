@@ -16,7 +16,7 @@ import java.util.Optional;
 public class RoomController {
 
     @Autowired
-     RoomService roomService;
+    RoomService roomService;
 
     @GetMapping
     public List<RoomDTO> getAllRooms() {
@@ -51,6 +51,7 @@ public class RoomController {
             return ResponseEntity.noContent().build();
         }
     }
+
     @DeleteMapping("/{id}")
     public ResponseEntity<Void> deleteRoom(@PathVariable Long id) {
         Optional<Room> optionalRoom = roomService.getRoomById(id);

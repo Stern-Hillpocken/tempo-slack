@@ -57,11 +57,11 @@ public class Role {
         this.server = server;
     }
 
-    public void addUser(User user){
+    public void addUser(User user) {
         userList.add(user);
     }
 
-    public void deleteUser(User user){
+    public void deleteUser(User user) {
         userList.remove(user);
     }
 
