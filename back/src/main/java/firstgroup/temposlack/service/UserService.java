@@ -32,6 +32,13 @@ public class UserService {
         return repository.findByPseudo(pseudo);
     }
 
+    public boolean isUserMatching(UserPseudoPasswordDTO user) {
+        Optional<User> optionalUser = getByPseudo(user.getPseudo());
+        if (optionalUser.isEmpty()) return false;
+        if (!optionalUser.get().getPassword().equals(user.getPassword())) return false;
+        return true;
+    }
+
     public void add(User user) {
         repository.save(user);
     }
