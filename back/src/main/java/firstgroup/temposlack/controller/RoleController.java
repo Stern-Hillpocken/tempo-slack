@@ -61,7 +61,6 @@ public class RoleController {
         User user = optionalUser.get();
         for (Role r : server.getRoleList()) {
             if (r.getName().equals(roleDTO.getName())) {
-                ;
                 roleService.addRoleUser(r, user);
                 return ResponseEntity.status(HttpStatus.CREATED).build();
             }
@@ -91,7 +90,7 @@ public class RoleController {
     }
 
     @PutMapping("roles/{idRole}")
-    public ResponseEntity<?> editRoleName(@PathVariable("idRole") Long idRole, @RequestBody RoleDTO roleDTO){
+    public ResponseEntity<?> editRoleName(@PathVariable("idRole") Long idRole, @RequestBody RoleDTO roleDTO) {
         Optional<Role> optionalRole = roleService.findById(idRole);
         if (optionalRole.isEmpty()) return ResponseEntity.notFound().build();
         Role role = optionalRole.get();
