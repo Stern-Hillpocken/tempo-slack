@@ -27,35 +27,54 @@ public class RoleController {
     UserService userService;
 
     @GetMapping("roles")
-    public ResponseEntity<List<Role>> findAllRole(){
+    public ResponseEntity<List<Role>> findAllRole() {
         return ResponseEntity.ok(roleService.getAll());
     }
 
-    @PostMapping("{idServer}/roles")
-    public ResponseEntity<?> addRoleToServer(@PathVariable("idServer") Long idServer,@RequestBody RoleDTO roleDTO){
+    @GetMapping("{idServer}/roles")
+    public ResponseEntity<List<Role>> findAllRoleInServer(@PathVariable("idServer") Long idServer) {
         Optional<Server> optionalServer = serverService.findById(idServer);
-        if (optionalServer.isEmpty() || roleDTO.getName() == null || roleDTO.getName().isBlank()) return ResponseEntity.notFound().build();
+        if (optionalServer.isEmpty()) return ResponseEntity.notFound().build();
+        Server server = optionalServer.get();
+        return ResponseEntity.ok(server.getRoleList());
+    }
+
+    @PostMapping("{idServer}/roles")
+    public ResponseEntity<?> addRoleToServer(@PathVariable("idServer") Long idServer, @RequestBody RoleDTO roleDTO) {
+        Optional<Server> optionalServer = serverService.findById(idServer);
+        if (optionalServer.isEmpty() || roleDTO.getName() == null || roleDTO.getName().isBlank())
+            return ResponseEntity.notFound().build();
         Role role = RoleMapper.convertDTOtoEntity(roleDTO);
         Server server = optionalServer.get();
         role.setServer(server);
-        roleService.createRole(role);
+        roleService.createRole(role,server);
         return ResponseEntity.status(HttpStatus.CREATED).build();
     }
 
     @PostMapping("{idServer}/{idUser}/roles")
-    public ResponseEntity<?> addRoleToUser(@PathVariable("idServer") Long idServer, @PathVariable("idUser") Long idUser, @RequestBody RoleDTO roleDTO){
+    public ResponseEntity<?> addRoleToUser(@PathVariable("idServer") Long idServer, @PathVariable("idUser") Long idUser, @RequestBody RoleDTO roleDTO) {
         Optional<Server> optionalServer = serverService.findById(idServer);
         Optional<User> optionalUser = userService.getById(idUser);
-        if (optionalServer.isEmpty() || optionalUser.isEmpty() || roleDTO.getName() == null || roleDTO.getName().isBlank()) return ResponseEntity.notFound().build();
+        if (optionalServer.isEmpty() || optionalUser.isEmpty() || roleDTO.getName() == null || roleDTO.getName().isBlank())
+            return ResponseEntity.notFound().build();
         Server server = optionalServer.get();
         User user = optionalUser.get();
-        for (Role r : server.getRoleList()){
-            if (r.getName().equals(roleDTO.getName())){
+        for (Role r : server.getRoleList()) {
+            if (r.getName().equals(roleDTO.getName())) {
                 r.addUser(user);
                 return ResponseEntity.status(HttpStatus.CREATED).build();
             }
         }
         return ResponseEntity.notFound().build();
+    }
 
+    @DeleteMapping("roles/{idRole}")
+    public ResponseEntity<?> deleteRoleServer(@PathVariable("idRole") Long idRole) {
+        Optional<Role> optionalRole = roleService.findById(idRole);
+        if (optionalRole.isEmpty()) return ResponseEntity.notFound().build();
+        Role role = optionalRole.get();
+        Server server = role.getServer();
+        roleService.delete(idRole, server);
+        return ResponseEntity.ok().build();
     }
 }

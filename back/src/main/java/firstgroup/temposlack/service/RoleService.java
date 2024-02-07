@@ -1,7 +1,9 @@
 package firstgroup.temposlack.service;
 
 import firstgroup.temposlack.dao.RoleRepository;
+import firstgroup.temposlack.dao.ServerRepository;
 import firstgroup.temposlack.model.Role;
+import firstgroup.temposlack.model.Server;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -12,9 +14,13 @@ import java.util.Optional;
 public class RoleService {
     @Autowired
     private RoleRepository roleRepository;
+    @Autowired
+    private ServerRepository serverRepository;
 
-    public void createRole(Role role){
+    public void createRole(Role role, Server server){
+        server.addRole(role);
         roleRepository.save(role);
+        serverRepository.save(server);
     }
 
     public List<Role> getAll(){
@@ -25,7 +31,8 @@ public class RoleService {
         return roleRepository.findById(id);
     }
 
-    public void delete(Long id){
+    public void delete(Long id, Server server){
+        server.deleteRole(id);
         roleRepository.deleteById(id);
     }
 }

@@ -209,7 +209,7 @@ public class ServerController {
             Server server = optionalServer.get();
             List<Room> roomList = server.getRoomList();
             for (Room r : roomList) {
-                if (r.getId() == idRoom) {
+                if (r.getId().equals(idRoom)) {
                     roomService.deleteRoom(idRoom);
                     return ResponseEntity.ok().build();
                 }
