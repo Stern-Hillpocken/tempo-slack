@@ -10,6 +10,7 @@ public class ServerMapper {
     ServerDTO dto = new ServerDTO();
     dto.setName(server.getName());
     dto.setRoomList(server.getRoomList());
+    dto.setUserList(server.getUserList());
     return dto;
     }
 
@@ -18,6 +19,9 @@ public class ServerMapper {
         entity.setName(serverDTO.getName());
         if (serverDTO.getRoomList() != null){
             entity.setRoomList(serverDTO.getRoomList());
+        }
+        if (serverDTO.getUserList() != null){
+            entity.setUserList(serverDTO.getUserList());
         }
         return entity;
     }

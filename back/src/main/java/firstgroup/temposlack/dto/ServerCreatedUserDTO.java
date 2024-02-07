@@ -5,11 +5,12 @@ import firstgroup.temposlack.model.User;
 
 import java.util.List;
 
-public class ServerDTO {
+public class ServerCreatedUserDTO {
 
     private String name;
     private List<Room> roomList;
     private List<User> userList;
+    private User user;
 
     public String getName() {
         return name;
@@ -33,5 +34,13 @@ public class ServerDTO {
 
     public void setUserList(List<User> userList) {
         this.userList = userList;
+    }
+
+    public User getUser() {
+        return user;
+    }
+
+    public void setUser(User user) {
+        this.user = user;
     }
 }

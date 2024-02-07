@@ -4,6 +4,7 @@ public class RoomCreatedDTO {
 
     private Long id;
     private String title;
+    private UserPseudoPasswordDTO user;
 
     // Getters and setters
 
@@ -21,5 +22,13 @@ public class RoomCreatedDTO {
 
     public void setTitle(String title) {
         this.title = title;
+    }
+
+    public UserPseudoPasswordDTO getUser() {
+        return user;
+    }
+
+    public void setUser(UserPseudoPasswordDTO user) {
+        this.user = user;
     }
 }

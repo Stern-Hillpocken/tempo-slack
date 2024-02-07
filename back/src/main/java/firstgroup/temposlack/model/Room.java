@@ -41,7 +41,7 @@ public class Room {
 //    public list <Role> getPermissions() {
 //        return permissions;
 //    }
-
+//
 //    public void setPermissions(List<Role> permissions) {
 //        this.permissions = permissions;
 //    }
