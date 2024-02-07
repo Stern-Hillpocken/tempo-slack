@@ -29,20 +29,23 @@ public class UserService {
         return repository.findByPseudo(pseudo);
     }
 
-    public ResponseEntity<?> add(UserSignInDTO userSignInDTO) {
-        User user = UserSignInMapper.signInDTOToUser(userSignInDTO);
-        if (getByPseudo(user.getPseudo()).isEmpty()) {
-            repository.save(user);
-            return ResponseEntity.status(HttpStatus.CREATED).build();
-        }
-        return ResponseEntity.status(HttpStatus.IM_USED).build();
+    public void add(User user) {
+        repository.save(user);
     }
 
     public boolean isUserPseudoPasswordValid(UserPseudoPasswordDTO userPseudoPasswordDTO) {
-        if (userPseudoPasswordDTO.getPseudo() == null || userPseudoPasswordDTO.getPseudo().isBlank() || userPseudoPasswordDTO.getPassword() == null ||
-                userPseudoPasswordDTO.getPassword().isBlank()) {
+        if (userPseudoPasswordDTO.getPseudo() == null || userPseudoPasswordDTO.getPseudo().isBlank() || userPseudoPasswordDTO.getPassword() == null || userPseudoPasswordDTO.getPassword().isBlank()) {
             return false;
         }
         return true;
+    }
+
+    public boolean isUserSignInDTOValid(UserSignInDTO userSignInDTO) {
+        if (userSignInDTO.getPseudo() == null || userSignInDTO.getPassword() == null || userSignInDTO.getEmail() == null || userSignInDTO.getAvatar() == null) return false;
+        return true;
+    }
+
+    public void update(User user) {
+        repository.save(user);
     }
 }
