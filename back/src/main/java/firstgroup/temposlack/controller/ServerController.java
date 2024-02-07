@@ -6,10 +6,7 @@ import firstgroup.temposlack.model.Message;
 import firstgroup.temposlack.model.Room;
 import firstgroup.temposlack.model.Server;
 import firstgroup.temposlack.model.User;
-import firstgroup.temposlack.service.MessageService;
-import firstgroup.temposlack.service.RoomService;
-import firstgroup.temposlack.service.ServerService;
-import firstgroup.temposlack.service.UserService;
+import firstgroup.temposlack.service.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -63,9 +60,8 @@ public class ServerController {
     @PostMapping
     public ResponseEntity<?> addServer(@RequestBody ServerCreatedDTO serverCreatedDTO) {
         Server server = ServerCreatedMapper.convertToEntity(serverCreatedDTO);
-        server.addRoom(new Room("Général"));
-        server.addUser(serverCreatedDTO.getUser());
-        serverService.add(server);
+        User user = serverCreatedDTO.getUser();
+        serverService.add(server,user);
         return ResponseEntity.status(HttpStatus.CREATED).build();
 
     }
@@ -101,7 +97,7 @@ public class ServerController {
         Optional<Server> optionalServer = serverService.findById(idServer);
         Optional<User> optionalUser = userService.getByPseudo(roomCreatedDTO.getUser().getPseudo());
         if (optionalServer.isEmpty() || optionalUser.isEmpty()) return ResponseEntity.notFound().build();
-
+      
         Room room = RoomCreatedMapper.convertDTOToEntity(roomCreatedDTO);
         roomService.createRoom(room);
         Server server = optionalServer.get();
@@ -174,28 +170,28 @@ public class ServerController {
         return ResponseEntity.notFound().build();
     }
 
-    //modifie une room
-//    @PutMapping("{idServer}/{idRoom}")
-//    public ResponseEntity<?> updateRoom(@PathVariable("idServer") Long idServer, @PathVariable("idRoom") Long idRoom, @RequestBody RoomCreatedDTO roomCreatedDTO) {
-//        Optional<Server> optionalServer = serverService.findById(idServer);
-//        if (optionalServer.isEmpty()) {
-//            return ResponseEntity.notFound().build();
-//        } else {
-//            Server server = optionalServer.get();
-//            if (!server.isUserInServer(roomCreatedDTO.getUser().getPseudo())) {
-//                return ResponseEntity.notFound().build();
-//            }
-//            List<Room> roomList = server.getRoomList();
-//            for (Room r : roomList) {
-//                if (r.getId() == idRoom) {
-//                    Room room = RoomCreatedMapper.convertToEntity(roomCreatedDTO);
-//                    room.setId(idRoom);
-//                    roomService.updateRoom(room);
-//                }
-//            }
-//            return ResponseEntity.ok().build();
-//        }
-//    }
+   // modifie une room avec autorisation user
+    @PutMapping("{idServer}/{idRoom}")
+    public ResponseEntity<?> updateRoom(@PathVariable("idServer") Long idServer, @PathVariable("idRoom") Long idRoom, @RequestBody RoomCreatedDTO roomCreatedDTO) {
+        Optional<Server> optionalServer = serverService.findById(idServer);
+        if (optionalServer.isEmpty() || roomCreatedDTO ==null || roomCreatedDTO.getUser()==null) {
+            return ResponseEntity.notFound().build();
+        } else {
+            Server server = optionalServer.get();
+            if (!server.isUserInServer(roomCreatedDTO.getUser().getPseudo())) {
+                return ResponseEntity.notFound().build();
+            }
+            List<Room> roomList = server.getRoomList();
+            for (Room r : roomList) {
+                if (r.getId() == idRoom) {
+                    Room room = RoomCreatedMapper.convertDTOToEntity(roomCreatedDTO);
+                    room.setId(idRoom);
+                    roomService.updateRoom(room);
+                }
+            }
+            return ResponseEntity.ok().build();
+        }
+    }
 
 
     @PutMapping("{idServer}/{idRoom}/{idMessage}")
@@ -230,18 +226,24 @@ public class ServerController {
         }
         return ResponseEntity.notFound().build();
     }
-// supprime une room
+// supprime une room avec autorisation user
     @DeleteMapping("{idServer}/{idRoom}")
-    public ResponseEntity<?> deleteRoom(@PathVariable("idServer") Long idServer, @PathVariable("idRoom") Long idRoom) {
+    public ResponseEntity<?> deleteRoom(@PathVariable("idServer") Long idServer, @PathVariable("idRoom") Long idRoom, @RequestBody RoomDeletedDTO roomDeletedDTO) {
         Optional<Server> optionalServer = serverService.findById(idServer);
-        if (optionalServer.isEmpty()) {
+        Optional<Room> optionalRoom = roomService.getRoomById(idRoom);
+        if (optionalServer.isEmpty() || optionalRoom.isEmpty() || roomDeletedDTO == null || roomDeletedDTO.getUser() ==null) {
             return ResponseEntity.notFound().build();
         } else {
             Server server = optionalServer.get();
+            if (!server.isUserInServer(roomDeletedDTO.getUser().getPseudo())) {
+                return ResponseEntity.notFound().build();
+            }
             List<Room> roomList = server.getRoomList();
             for (Room r : roomList) {
                 if (r.getId().equals(idRoom)) {
                     roomService.deleteRoom(idRoom);
+                    server.deleteRoom(optionalRoom.get());
+                    serverService.update(server);
                     return ResponseEntity.ok().build();
                 }
             }
