@@ -77,6 +77,19 @@ public class Server {
         roomList.add(room);
     }
 
+    public void addRole (Role role){
+        roleList.add(role);
+    }
+
+    public void deleteRole (Long id){
+        for (Role role : roleList){
+            if (role.getId().equals(id)){
+                roleList.remove(role);
+                break;
+            }
+        }
+    }
+
     public boolean isUserInServer(String pseudo) {
         for (User user : userList) {
             if (user.getPseudo().equals(pseudo)) {
@@ -86,15 +99,6 @@ public class Server {
         return false;
     }
 
-//    public List<Role> getRoleList() {
-//        return roleList;
-//    }
-//
-//    public void setRoleList(List<Role> roleList) {
-//        this.roleList = roleList;
-//    }
-
-
     @Override
     public String toString() {
         return "Server{" +
@@ -102,9 +106,7 @@ public class Server {
                 ", name='" + name + '\'' +
                 ", roomList=" + roomList +
                 ", userList=" + userList +
-
-                // ", roleList=" + roleList +
-
+                ", roleList=" + roleList +
                 '}';
     }
 }

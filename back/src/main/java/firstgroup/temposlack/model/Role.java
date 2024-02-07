@@ -1,5 +1,6 @@
 package firstgroup.temposlack.model;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
 
 import java.util.ArrayList;
@@ -14,6 +15,7 @@ public class Role {
     @ManyToMany
     private List<User> userList = new ArrayList<>();
     @ManyToOne
+    @JsonIgnore
     private Server server;
 
     public Role() {
@@ -58,5 +60,19 @@ public class Role {
 
     public void addUser(User user){
         userList.add(user);
+    }
+
+    public void deleteUser(User user){
+        userList.remove(user);
+    }
+
+    @Override
+    public String toString() {
+        return "Role{" +
+                "id=" + id +
+                ", name='" + name + '\'' +
+                ", userList=" + userList +
+                ", server=" + server +
+                '}';
     }
 }
