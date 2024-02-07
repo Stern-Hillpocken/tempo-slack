@@ -21,7 +21,6 @@ public class RoomCreatedMapper {
     }
     public static RoomCreatedDTO convertToDTO (Room room) {
         RoomCreatedDTO roomCreatedDTO = new RoomCreatedDTO();
-        roomCreatedDTO.setId(room.getId());
         roomCreatedDTO.setTitle(room.getTitle());
         return roomCreatedDTO;
     }

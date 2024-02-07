@@ -101,9 +101,9 @@ public class Server {
         }
     }
 
-    public boolean isUserInServer(String pseudo) {
-        for (User user : userList) {
-            if (user.getPseudo().equals(pseudo)) {
+    public boolean isUserInServer(User user) {
+        for (User userDB : userList) {
+            if (userDB.equals(user)) {
                 return true;
             }
         }

@@ -4,6 +4,7 @@ target/
 !**/src/main/**/target/
 !**/src/test/**/target/
 application.properties
+.idea/*
 
 ### STS ###
 .apt_generated
