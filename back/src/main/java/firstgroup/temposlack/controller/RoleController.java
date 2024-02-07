@@ -50,10 +50,10 @@ public class RoleController {
         if (!userService.isUserMatching(roleDTO.getUser())) {
             return ResponseEntity.notFound().build();
         }
-        if (!server.isUserInServer(roleDTO.getUser().getPseudo())) {
+        User user = optionalUser.get();
+        if (!server.isUserInServer(user)) {
             return ResponseEntity.badRequest().build();
         }
-        User user = optionalUser.get();
         if (!roleService.isOwner(user, server)) return ResponseEntity.badRequest().build();
         Role role = RoleMapper.convertDTOtoEntity(roleDTO);
         role.setServer(server);
@@ -73,10 +73,10 @@ public class RoleController {
         if (!userService.isUserMatching(roleDTO.getUser())) {
             return ResponseEntity.notFound().build();
         }
-        if (!server.isUserInServer(roleDTO.getUser().getPseudo()) || !server.isUserInServer(user.getPseudo())) {
+        User userOwner = optionalUserOwner.get();
+        if (!server.isUserInServer(user) || !server.isUserInServer(userOwner)) {
             return ResponseEntity.badRequest().build();
         }
-        User userOwner = optionalUserOwner.get();
         if (!roleService.isOwner(userOwner, server)) return ResponseEntity.badRequest().build();
         for (Role r : server.getRoleList()) {
             if (r.getName().equals(roleDTO.getName())) {
@@ -98,7 +98,7 @@ public class RoleController {
         User user = optionalUser.get();
         Role role = optionalRole.get();
         Server server = role.getServer();
-        if (!server.isUserInServer(user.getPseudo()) || !roleService.isOwner(user, server)) {
+        if (!server.isUserInServer(user) || !roleService.isOwner(user, server)) {
             return ResponseEntity.badRequest().build();
         }
         roleService.delete(idRole, server);
@@ -118,7 +118,7 @@ public class RoleController {
         User userOwner = optionalUserOwner.get();
         Role role = optionalRole.get();
         Server server = role.getServer();
-        if (!server.isUserInServer(user.getPseudo()) || !server.isUserInServer(userOwner.getPseudo()) || !roleService.isOwner(userOwner, server)) {
+        if (!server.isUserInServer(user) || !server.isUserInServer(userOwner) || !roleService.isOwner(userOwner, server)) {
             return ResponseEntity.badRequest().build();
         }
         roleService.deleteRoleUser(role, user);
@@ -136,7 +136,7 @@ public class RoleController {
         User user = optionalUser.get();
         Role role = optionalRole.get();
         Server server = role.getServer();
-        if (!server.isUserInServer(user.getPseudo()) || !roleService.isOwner(user, server)) {
+        if (!server.isUserInServer(user) || !roleService.isOwner(user, server)) {
             return ResponseEntity.badRequest().build();
         }
         roleService.updateName(role, roleDTO.getName());

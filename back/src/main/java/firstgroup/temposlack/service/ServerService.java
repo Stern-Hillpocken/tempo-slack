@@ -21,7 +21,9 @@ public class ServerService {
     RoleService roleService;
 
     public void add(Server server, User user) {
-        server.addRoom(new Room("Général"));
+        Room room = new Room("Général");
+        room.setRemovable(false);
+        server.addRoom(room);
         server.addUser(user);
         Role role = new Role("Owner");
         roleService.createRole(role,server);

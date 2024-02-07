@@ -8,9 +8,7 @@ import java.util.List;
 public class ServerCreatedDTO {
 
     private String name;
-    private List<Room> roomList;
-    private List<User> userList;
-    private User user;
+    private UserPseudoPasswordDTO user;
 
     public String getName() {
         return name;
@@ -20,27 +18,11 @@ public class ServerCreatedDTO {
         this.name = name;
     }
 
-    public List<Room> getRoomList() {
-        return roomList;
-    }
-
-    public void setRoomList(List<Room> roomList) {
-        this.roomList = roomList;
-    }
-
-    public List<User> getUserList() {
-        return userList;
-    }
-
-    public void setUserList(List<User> userList) {
-        this.userList = userList;
-    }
-
-    public User getUser() {
+    public UserPseudoPasswordDTO getUser() {
         return user;
     }
 
-    public void setUser(User user) {
+    public void setUser(UserPseudoPasswordDTO user) {
         this.user = user;
     }
 }

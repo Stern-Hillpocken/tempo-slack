@@ -11,7 +11,7 @@ public class Room {
     private Long id;
 
     private String title;
-    //private List<Role> permissions;
+    private boolean isRemovable = true;
     @OneToMany(cascade = CascadeType.ALL)
     private List<Message> messageList;
 
@@ -38,14 +38,13 @@ public class Room {
         this.title = title;
     }
 
-//    public list <Role> getPermissions() {
-//        return permissions;
-//    }
-//
-//    public void setPermissions(List<Role> permissions) {
-//        this.permissions = permissions;
-//    }
+    public boolean isRemovable() {
+        return isRemovable;
+    }
 
+    public void setRemovable(boolean removable) {
+        isRemovable = removable;
+    }
 
     public List<Message> getMessageList() {
         return messageList;
