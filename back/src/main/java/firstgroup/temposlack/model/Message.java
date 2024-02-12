@@ -1,8 +1,12 @@
 package firstgroup.temposlack.model;
 
+import firstgroup.temposlack.enums.ReactionType;
+import firstgroup.temposlack.mapper.UserIdSetConverter;
 import jakarta.persistence.*;
-
 import java.time.LocalDateTime;
+import java.util.HashMap;
+import java.util.Map;
+import java.util.Set;
 
 @Entity
 public class Message {
@@ -13,6 +17,13 @@ public class Message {
     private User user;
     private LocalDateTime date;
     private String content;
+
+    @ElementCollection
+    @Convert(converter = UserIdSetConverter.class)
+    @CollectionTable(name = "message_reactions", joinColumns = @JoinColumn(name = "message_id"))
+    @MapKeyColumn(name = "reaction_type")
+    @Column(name = "user_ids")
+    private Map<String, Set<Long>> reactions = new HashMap<>();
 
     public Message() {
     }
@@ -55,6 +66,14 @@ public class Message {
         this.content = content;
     }
 
+    public Map<String, Set<Long>> getReactions() {
+        return reactions;
+    }
+
+    public void setReactions(Map<String, Set<Long>> reactions) {
+        this.reactions = reactions;
+    }
+
     @Override
     public String toString() {
         return "Message{" +
@@ -62,6 +81,7 @@ public class Message {
                 ", user=" + user +
                 ", date=" + date +
                 ", content='" + content + '\'' +
+                ", reactions=" + reactions +
                 '}';
     }
 }
