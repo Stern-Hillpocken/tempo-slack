@@ -20,22 +20,22 @@ public class ServerService {
     @Autowired
     RoleService roleService;
 
-    public void add(Server server, User user) {
+    public void createServer(Server server, User user) {
         Room room = new Room("Général");
         room.setRemovable(false);
         server.addRoom(room);
         server.addUser(user);
-        Role role = new Role("Owner");
+        Role role = new Role("owner");
         roleService.createRole(role, server);
         roleService.addRoleUser(role, user);
         serverRepository.save(server);
     }
 
-    public List<Server> findAll() {
+    public List<Server> getAll() {
         return serverRepository.findAll();
     }
 
-    public Optional<Server> findById(Long id) {
+    public Optional<Server> getById(Long id) {
         return serverRepository.findById(id);
     }
 

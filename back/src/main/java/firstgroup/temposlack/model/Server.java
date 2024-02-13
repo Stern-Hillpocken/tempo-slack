@@ -17,7 +17,7 @@ public class Server {
 
     private String name;
     @OneToMany(cascade = CascadeType.ALL)
-    @JoinColumn(name = "room_id")
+   // @JoinColumn(name = "room_id")
     private List<Room> roomList = new ArrayList<>();
     @ManyToMany
     private List<User> userList = new ArrayList<>();
@@ -73,14 +73,13 @@ public class Server {
         this.roleList = roleList;
     }
 
-    public void addRoom(Room room) {
-        roomList.add(room);
-    }
-
     public void addUser(User user) {
         userList.add(user);
     }
 
+    public void addRoom(Room room) {
+        roomList.add(room);
+    }
     public void deleteRoom(Room room) {
         roomList.remove(room);
     }
