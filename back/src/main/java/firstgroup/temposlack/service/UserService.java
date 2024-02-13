@@ -1,17 +1,11 @@
 package firstgroup.temposlack.service;
 
 import firstgroup.temposlack.dao.UserRepository;
-import firstgroup.temposlack.dto.UserPrivateDTO;
 import firstgroup.temposlack.dto.UserPseudoPasswordDTO;
-import firstgroup.temposlack.dto.UserPublicDTO;
 import firstgroup.temposlack.dto.UserSignInDTO;
 import firstgroup.temposlack.enums.AvatarEnum;
-import firstgroup.temposlack.mapper.UserPublicMapper;
-import firstgroup.temposlack.mapper.UserSignInMapper;
 import firstgroup.temposlack.model.User;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.HttpStatus;
-import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 
 import java.util.Optional;
@@ -22,17 +16,17 @@ import java.util.regex.Pattern;
 public class UserService {
 
     @Autowired
-    UserRepository repository;
+    UserRepository userRepository;
 
     public Optional<User> getById(Long id) {
-        return repository.findById(id);
+        return userRepository.findById(id);
     }
 
     public Optional<User> getByPseudo(String pseudo) {
-        return repository.findByPseudo(pseudo);
+        return userRepository.findByPseudo(pseudo);
     }
 
-    public boolean isUserMatching(UserPseudoPasswordDTO user) {
+    public boolean isUserPasswordMatching(UserPseudoPasswordDTO user) {
         Optional<User> optionalUser = getByPseudo(user.getPseudo());
         if (optionalUser.isEmpty()) return false;
         if (!optionalUser.get().getPassword().equals(user.getPassword())) return false;
@@ -40,7 +34,7 @@ public class UserService {
     }
 
     public void add(User user) {
-        repository.save(user);
+        userRepository.save(user);
     }
 
     public boolean isUserPseudoPasswordDTOValid(UserPseudoPasswordDTO userPseudoPasswordDTO) {
@@ -57,7 +51,7 @@ public class UserService {
     }
 
     public void update(User user) {
-        repository.save(user);
+        userRepository.save(user);
     }
 
     public boolean hasEmoji(String str) {

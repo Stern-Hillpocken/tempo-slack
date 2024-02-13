@@ -14,9 +14,9 @@ import java.util.Optional;
 @Service
 public class MessageService {
     @Autowired
-    private MessageRepository messageRepository;
+    MessageRepository messageRepository;
     @Autowired
-    private RoomRepository roomRepository;
+    RoomRepository roomRepository;
 
     public void add(Message message) {
         messageRepository.save(message);
@@ -26,7 +26,7 @@ public class MessageService {
         return messageRepository.findAll();
     }
 
-    public Optional<Message> findById(Long id) {
+    public Optional<Message> getById(Long id) {
         return messageRepository.findById(id);
     }
 

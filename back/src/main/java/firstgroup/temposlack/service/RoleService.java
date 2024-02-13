@@ -14,9 +14,9 @@ import java.util.Optional;
 @Service
 public class RoleService {
     @Autowired
-    private RoleRepository roleRepository;
+    RoleRepository roleRepository;
     @Autowired
-    private ServerRepository serverRepository;
+    ServerRepository serverRepository;
 
     public void createRole(Role role, Server server) {
         server.addRole(role);
@@ -28,7 +28,7 @@ public class RoleService {
         return roleRepository.findAll();
     }
 
-    public Optional<Role> findById(Long id) {
+    public Optional<Role> getById(Long id) {
         return roleRepository.findById(id);
     }
 
@@ -54,7 +54,7 @@ public class RoleService {
 
     public boolean isOwner(User user, Server server) {
         for (Role r : server.getRoleList()) {
-            if (r.getName().equals("Owner")) {
+            if (r.getName().equals("owner")) {
                 for (User u : r.getUserList()) {
                     if (u.getPseudo().equals(user.getPseudo())) {
                         return true;

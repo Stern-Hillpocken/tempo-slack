@@ -33,8 +33,7 @@ public class RoomService {
         serverRepository.save(server);
     }
 
-    public void addMessage(Long id, Message message) {
-        Room room = getRoomById(id).get();
+    public void addMessage(Room room, Message message) {
         room.addMessage(message);
         roomRepository.save(room);
     }
