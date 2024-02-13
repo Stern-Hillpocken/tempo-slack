@@ -284,4 +284,53 @@ public class ServerController {
         messageService.delete(idMessage, room);
         return ResponseEntity.ok().build();
     }
+
+    //Add reaction to a message
+
+    @PostMapping("{idServer}/{idRoom}/{idMessage}/add-reaction")
+    public ResponseEntity<?> addReaction(@PathVariable("idServer") Long idServer, @PathVariable("idRoom") Long idRoom,
+                                        @PathVariable("idMessage") Long idMessage, @RequestBody ReactionDTO reactionDTO) {
+        if (reactionDTO == null || reactionDTO.getReactionType() == null || reactionDTO.getReactionType().isBlank() || reactionDTO.getUser() == null || reactionDTO.getUser().getPseudo() == null || reactionDTO.getUser().getPseudo().isBlank())
+            return ResponseEntity.noContent().build();
+        Optional<Server> optionalServer = serverService.findById(idServer);
+        Optional<Room> optionalRoom = roomService.getRoomById(idRoom);
+        Optional<Message> optionalMessage = messageService.findById(idMessage);
+        Optional<User> optionalUser = userService.getByPseudo(reactionDTO.getUser().getPseudo());
+        if (optionalServer.isEmpty() || optionalRoom.isEmpty() || optionalMessage.isEmpty() || optionalUser.isEmpty())
+            return ResponseEntity.notFound().build();
+        Server server = optionalServer.get();
+        Room room = optionalRoom.get();
+        Message message = optionalMessage.get();
+        User user = optionalUser.get();
+        if (!server.isUserInServer(user)) return ResponseEntity.notFound().build();
+        if (!userService.isUserMatching(reactionDTO.getUser())) return ResponseEntity.notFound().build();
+        messageService.addReaction(idMessage, reactionDTO.getReactionType(), user.getId());
+        return ResponseEntity.ok().build();
+    }
+
+    //Remove reaction to a message
+
+    @DeleteMapping("{idServer}/{idRoom}/{idMessage}/remove-reaction")
+    public ResponseEntity<?> removeReaction(@PathVariable("idServer") Long idServer, @PathVariable("idRoom") Long idRoom,
+                                           @PathVariable("idMessage") Long idMessage, @RequestBody ReactionDTO reactionDTO) {
+        if (reactionDTO == null || reactionDTO.getReactionType() == null || reactionDTO.getReactionType().isBlank() || reactionDTO.getUser() == null || reactionDTO.getUser().getPseudo() == null || reactionDTO.getUser().getPseudo().isBlank())
+            return ResponseEntity.noContent().build();
+        Optional<Server> optionalServer = serverService.findById(idServer);
+        Optional<Room> optionalRoom = roomService.getRoomById(idRoom);
+        Optional<Message> optionalMessage = messageService.findById(idMessage);
+        Optional<User> optionalUser = userService.getByPseudo(reactionDTO.getUser().getPseudo());
+        if (optionalServer.isEmpty() || optionalRoom.isEmpty() || optionalMessage.isEmpty() || optionalUser.isEmpty())
+            return ResponseEntity.notFound().build();
+        Server server = optionalServer.get();
+        Room room = optionalRoom.get();
+        Message message = optionalMessage.get();
+        User user = optionalUser.get();
+        if (!server.isUserInServer(user)) return ResponseEntity.notFound().build();
+        if (!userService.isUserMatching(reactionDTO.getUser())) return ResponseEntity.notFound().build();
+        messageService.removeReaction(idMessage, reactionDTO.getReactionType(), user.getId());
+        return ResponseEntity.ok().build();
+    }
 }
+
+
+

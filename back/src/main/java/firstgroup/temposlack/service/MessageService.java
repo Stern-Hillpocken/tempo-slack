@@ -57,11 +57,11 @@ public class MessageService {
                 .orElseThrow(() -> new EntityNotFoundException("Message not found"));
         if (message.getReactions().containsKey(reactionType)) {
             Set<Long> userIds = message.getReactions().get(reactionType);
-            if (userIds.remove(userId)) { // Vérifie si l'utilisateur avait réagi et supprime sa réaction
+            if (userIds.remove(userId)) { // verify if the user has reacted and remove it from the list of reactions
                 if (userIds.isEmpty()) {
-                    message.getReactions().remove(reactionType); // Supprime le type de réaction s'il n'y a plus d'utilisateurs
+                    message.getReactions().remove(reactionType); // Delete the reaction type if no user has reacted anymore from Message
                 }
-                messageRepository.save(message); // Sauvegarde le message avec les réactions mises à jour
+                messageRepository.save(message); // save with reaction updated
             }
         }
     }
