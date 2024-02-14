@@ -1,15 +1,15 @@
 package firstgroup.temposlack.dto;
 
-public class UserAddedToServerDTO {
+public class UserToUpdateInServerDTO {
 
     private UserPseudoPasswordDTO user;
-    private String userPseudoToAdd;
+    private String userPseudoToUpdate;
 
     public UserPseudoPasswordDTO getUser() {
         return user;
     }
 
-    public String getUserPseudoToAdd() {
-        return userPseudoToAdd;
+    public String getUserPseudoToUpdate() {
+        return userPseudoToUpdate;
     }
 }
