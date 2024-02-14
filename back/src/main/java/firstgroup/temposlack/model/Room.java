@@ -2,6 +2,7 @@ package firstgroup.temposlack.model;
 
 import jakarta.persistence.*;
 
+import java.util.ArrayList;
 import java.util.List;
 
 @Entity
@@ -13,7 +14,7 @@ public class Room {
     private String title;
     private boolean isRemovable = true;
     @OneToMany(cascade = CascadeType.ALL)
-    private List<Message> messageList;
+    private List<Message> messageList = new ArrayList<>();
 
     public Room() {
     }
