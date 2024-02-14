@@ -4,29 +4,25 @@ import firstgroup.temposlack.dto.*;
 import firstgroup.temposlack.mapper.UserPrivateMapper;
 import firstgroup.temposlack.mapper.UserPublicMapper;
 import firstgroup.temposlack.mapper.UserSignInMapper;
-import firstgroup.temposlack.model.Room;
 import firstgroup.temposlack.model.User;
 import firstgroup.temposlack.service.UserService;
-import org.apache.coyote.Response;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.Optional;
-import java.util.regex.Matcher;
-import java.util.regex.Pattern;
 
 @RestController
 @RequestMapping("/users")
 public class UserController {
 
     @Autowired
-    UserService service;
+    UserService userService;
 
     @PostMapping()
     public ResponseEntity<?> add(@RequestBody UserSignInDTO userSignInDTO) {
-        if (userSignInDTO == null || !service.isUserSignInDTOValid(userSignInDTO))
+        if (userSignInDTO == null || !userService.isUserSignInDTOValid(userSignInDTO))
             return ResponseEntity.noContent().build();
         if (userSignInDTO.getPseudo() == null || userSignInDTO.getPseudo().isEmpty())
             return ResponseEntity.status(HttpStatus.NO_CONTENT).body("pseudo");
@@ -37,26 +33,26 @@ public class UserController {
         if (userSignInDTO.getAvatar() == null || userSignInDTO.getAvatar().isEmpty())
             return ResponseEntity.status(HttpStatus.NO_CONTENT).body("avatar");
 
-        if (service.hasEmoji(userSignInDTO.getPseudo()))
+        if (userService.hasEmoji(userSignInDTO.getPseudo()))
             return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("pseudo");
-        if (service.hasStrangeChar(userSignInDTO.getPseudo()))
+        if (userService.hasStrangeChar(userSignInDTO.getPseudo()))
             return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("pseudo");
-        if (!service.isPasswordWellFormated(userSignInDTO.getPassword()))
+        if (!userService.isPasswordWellFormated(userSignInDTO.getPassword()))
             return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("password");
-        if (!service.isAvatarExist(userSignInDTO.getAvatar()))
+        if (!userService.isAvatarExist(userSignInDTO.getAvatar()))
             return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("avatar");
 
-        Optional<User> userWithThisPseudo = service.getByPseudo(userSignInDTO.getPseudo());
+        Optional<User> userWithThisPseudo = userService.getByPseudo(userSignInDTO.getPseudo());
         if (userWithThisPseudo.isPresent()) return ResponseEntity.status(HttpStatus.CONFLICT).build();
 
         User user = UserSignInMapper.signInDTOToUser(userSignInDTO);
-        service.add(user);
+        userService.add(user);
         return ResponseEntity.status(HttpStatus.CREATED).build();
     }
 
     @GetMapping("/{id}")
     public ResponseEntity<UserPublicDTO> getPublicById(@PathVariable Long id) {
-        Optional<User> optionalUser = service.getById(id);
+        Optional<User> optionalUser = userService.getById(id);
         if (optionalUser.isEmpty()) {
             return ResponseEntity.notFound().build();
         }
@@ -67,10 +63,10 @@ public class UserController {
 
     @GetMapping("/me")
     public ResponseEntity<UserPrivateDTO> getPrivateById(@RequestBody UserPseudoPasswordDTO userPseudoPasswordDTO) {
-        if (userPseudoPasswordDTO == null || !service.isUserPseudoPasswordDTOValid(userPseudoPasswordDTO))
+        if (userPseudoPasswordDTO == null || !userService.isUserPseudoPasswordDTOValid(userPseudoPasswordDTO))
             return ResponseEntity.noContent().build();
 
-        Optional<User> optionalUser = service.getByPseudo(userPseudoPasswordDTO.getPseudo());
+        Optional<User> optionalUser = userService.getByPseudo(userPseudoPasswordDTO.getPseudo());
         if (optionalUser.isEmpty()) {
             return ResponseEntity.notFound().build();
         }
@@ -86,19 +82,19 @@ public class UserController {
     public ResponseEntity<?> update(@RequestBody UserUpdateDTO userUpdateDTO) {
         if (userUpdateDTO == null || userUpdateDTO.getOldPseudo() == null || userUpdateDTO.getNewPseudo() == null || userUpdateDTO.getOldPassword() == null || userUpdateDTO.getNewPassword() == null || userUpdateDTO.getOldEmail() == null || userUpdateDTO.getNewEmail() == null || userUpdateDTO.getOldAvatar() == null || userUpdateDTO.getNewAvatar() == null)
             return ResponseEntity.noContent().build();
-        Optional<User> optionalOldUser = service.getByPseudo(userUpdateDTO.getOldPseudo());
+        Optional<User> optionalOldUser = userService.getByPseudo(userUpdateDTO.getOldPseudo());
         if (optionalOldUser.isEmpty()) return ResponseEntity.notFound().build();
 
-        Optional<User> optionalNewUser = service.getByPseudo(userUpdateDTO.getNewPseudo());
+        Optional<User> optionalNewUser = userService.getByPseudo(userUpdateDTO.getNewPseudo());
         if (optionalNewUser.isPresent()) return ResponseEntity.status(HttpStatus.CONFLICT).build();
 
-        if (service.hasEmoji(userUpdateDTO.getNewPseudo()))
+        if (userService.hasEmoji(userUpdateDTO.getNewPseudo()))
             return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("pseudo");
-        if (service.hasStrangeChar(userUpdateDTO.getNewPseudo()))
+        if (userService.hasStrangeChar(userUpdateDTO.getNewPseudo()))
             return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("pseudo");
-        if (!service.isPasswordWellFormated(userUpdateDTO.getNewPassword()))
+        if (!userService.isPasswordWellFormated(userUpdateDTO.getNewPassword()))
             return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("password");
-        if (!service.isAvatarExist(userUpdateDTO.getNewAvatar()))
+        if (!userService.isAvatarExist(userUpdateDTO.getNewAvatar()))
             return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("avatar");
 
 
@@ -108,7 +104,7 @@ public class UserController {
         user.setPassword(userUpdateDTO.getNewPassword());
         user.setEmail(userUpdateDTO.getNewEmail());
         user.setAvatar(userUpdateDTO.getNewAvatar());
-        service.update(user);
+        userService.update(user);
         return ResponseEntity.ok().build();
     }
 }
