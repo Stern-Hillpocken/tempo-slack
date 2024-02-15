@@ -10,6 +10,14 @@ public class ServerCreatedDTO {
     private String name;
     private UserPseudoPasswordDTO user;
 
+    public ServerCreatedDTO() {
+    }
+
+    public ServerCreatedDTO(String name, UserPseudoPasswordDTO user) {
+        this.name = name;
+        this.user = user;
+    }
+
     public String getName() {
         return name;
     }
