@@ -23,6 +23,7 @@ public class User {
     @ManyToMany
     private List<Server> serverList;
 
+    private boolean accountIsActive = true;
 
     public User() {
     }
@@ -73,5 +74,13 @@ public class User {
 
     public void setAvatar(String avatar) {
         this.avatar = avatar;
+    }
+
+    public boolean getAccountIsActive() {
+        return accountIsActive;
+    }
+
+    public void setAccountIsActive(boolean accountIsActive) {
+        this.accountIsActive = accountIsActive;
     }
 }

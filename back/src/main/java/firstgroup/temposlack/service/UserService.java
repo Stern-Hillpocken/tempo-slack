@@ -79,4 +79,9 @@ public class UserService {
         if (!Pattern.compile("\\W").matcher(password).find()) return false;
         return true;
     }
+
+    public void toggleAccount(User user) {
+        user.setAccountIsActive(!user.getAccountIsActive());
+        userRepository.save(user);
+    }
 }
