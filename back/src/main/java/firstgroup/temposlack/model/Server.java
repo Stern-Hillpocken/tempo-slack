@@ -116,4 +116,13 @@ public class Server {
                 ", roleList=" + roleList +
                 '}';
     }
+
+    public void removeUser(User userToUpdate) {
+        for (int i = 0; i < userList.size(); i++) {
+            if (userList.get(i).equals(userToUpdate)) {
+                userList.remove(i);
+                break;
+            }
+        }
+    }
 }

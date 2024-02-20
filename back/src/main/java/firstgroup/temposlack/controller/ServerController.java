@@ -285,4 +285,28 @@ public class ServerController {
         messageService.delete(idMessage, room);
         return ResponseEntity.ok().build();
     }
+
+    @DeleteMapping("{idServer}/remove-user")
+    public ResponseEntity<?> removeUserFromServer(@PathVariable Long idServer, @RequestBody UserToUpdateInServerDTO userToUpdateInServerDTO) {
+        if (userToUpdateInServerDTO.getUser() == null || !userService.isUserPseudoPasswordDTOValid(userToUpdateInServerDTO.getUser())) return ResponseEntity.noContent().build();
+        if (userToUpdateInServerDTO.getUserPseudoToUpdate() == null || userToUpdateInServerDTO.getUserPseudoToUpdate().isBlank()) return ResponseEntity.noContent().build();
+
+        if (userService.getByPseudo(userToUpdateInServerDTO.getUserPseudoToUpdate()).isEmpty()) return ResponseEntity.notFound().build();
+        User userToUpdate = userService.getByPseudo(userToUpdateInServerDTO.getUserPseudoToUpdate()).get();
+        if (!userService.isUserPasswordMatching(userToUpdateInServerDTO.getUser())) return ResponseEntity.notFound().build();
+        User user = userService.getByPseudo(userToUpdateInServerDTO.getUser().getPseudo()).get();
+
+        Optional<Server> optionalServer = serverService.getById(idServer);
+        if (optionalServer.isEmpty()) return ResponseEntity.notFound().build();
+        Server server = optionalServer.get();
+
+
+        if (!server.isUserInServer(user) || !server.isUserInServer(userToUpdate)) return ResponseEntity.notFound().build();
+        if (!roleService.isOwner(user, server) && !user.equals(userToUpdate)) return ResponseEntity.status(HttpStatus.UNAUTHORIZED).build();
+
+        server.removeUser(userToUpdate);
+        serverService.update(server);
+
+        return ResponseEntity.ok().build();
+    }
 }
