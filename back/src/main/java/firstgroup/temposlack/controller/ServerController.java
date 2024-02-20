@@ -71,16 +71,16 @@ public class ServerController {
     // Add a user to a server
     @PostMapping("{idServer}/add-user")
     public ResponseEntity<?> addUserToServer(@PathVariable("idServer") Long idServer,
-                                             @RequestBody UserToUpdateInServerDTO userToUpdateInServerDTO) {
-        if (userToUpdateInServerDTO == null || !userService.isUserPseudoPasswordDTOValid(userToUpdateInServerDTO.getUser()) || userToUpdateInServerDTO.getUserPseudoToUpdate() == null || userToUpdateInServerDTO.getUserPseudoToUpdate().isBlank())
+                                             @RequestBody UserAddedToServerDTO userAddedToServerDTO) {
+        if (userAddedToServerDTO == null || !userService.isUserPseudoPasswordDTOValid(userAddedToServerDTO.getUser()) || userAddedToServerDTO.getUserPseudoToAdd() == null || userAddedToServerDTO.getUserPseudoToAdd().isBlank())
             return ResponseEntity.noContent().build();
 
         Optional<Server> optionalServer = serverService.getById(idServer);
-        Optional<User> optionalUser = userService.getByPseudo(userToUpdateInServerDTO.getUser().getPseudo());
-        Optional<User> optionalUserToAdd = userService.getByPseudo(userToUpdateInServerDTO.getUserPseudoToUpdate());
+        Optional<User> optionalUser = userService.getByPseudo(userAddedToServerDTO.getUser().getPseudo());
+        Optional<User> optionalUserToAdd = userService.getByPseudo(userAddedToServerDTO.getUserPseudoToAdd());
         if (optionalServer.isEmpty() || optionalUser.isEmpty() || optionalUserToAdd.isEmpty())
             return ResponseEntity.notFound().build();
-        if (!userService.isUserPasswordMatching(userToUpdateInServerDTO.getUser())) return ResponseEntity.notFound().build();
+        if (!userService.isUserPasswordMatching(userAddedToServerDTO.getUser())) return ResponseEntity.notFound().build();
 
         Server server = optionalServer.get();
         User user = optionalUser.get();
