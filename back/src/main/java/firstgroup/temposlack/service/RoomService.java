@@ -1,6 +1,8 @@
 package firstgroup.temposlack.service;
 
+import firstgroup.temposlack.dao.ServerRepository;
 import firstgroup.temposlack.model.Message;
+import firstgroup.temposlack.model.Server;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import firstgroup.temposlack.model.Room;
@@ -14,6 +16,8 @@ public class RoomService {
 
     @Autowired
     RoomRepository roomRepository;
+    @Autowired
+    ServerRepository serverRepository;
 
     public List<Room> getAllRooms() {
         return roomRepository.findAll();
@@ -23,12 +27,13 @@ public class RoomService {
         return roomRepository.findById(id);
     }
 
-    public void createRoom(Room room) {
+    public void createRoom(Room room, Server server) {
+        server.addRoom(room);
         roomRepository.save(room);
+        serverRepository.save(server);
     }
 
-    public void addMessage(Long id, Message message){
-        Room room = getRoomById(id).get();
+    public void addMessage(Room room, Message message) {
         room.addMessage(message);
         roomRepository.save(room);
     }
@@ -36,8 +41,15 @@ public class RoomService {
         roomRepository.save(updatedRoom);
     }
 
+    public void updateRoom(Room updatedRoom) {
+        roomRepository.save(updatedRoom);
+    }
+  
     public void deleteRoom(Long id) {
         roomRepository.deleteById(id);
     }
 
+    public void deleteRoom(Long id) {
+        roomRepository.deleteById(id);
+    }
 }

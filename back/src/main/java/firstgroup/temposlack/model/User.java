@@ -4,6 +4,7 @@ import jakarta.persistence.*;
 
 import java.time.LocalDateTime;
 import java.util.List;
+
 import firstgroup.temposlack.model.Server;
 
 @Entity(name = "users") // because 'user' is reserved in postgresql
@@ -22,7 +23,7 @@ public class User {
     @ManyToMany
     private List<Server> serverList;
 
-    //private List<Role> roleList;
+    private boolean accountIsActive = true;
 
     public User() {
     }
@@ -57,5 +58,29 @@ public class User {
 
     public LocalDateTime getLastUpdate() {
         return lastUpdate;
+    }
+
+    public void setPseudo(String pseudo) {
+        this.pseudo = pseudo;
+    }
+
+    public void setPassword(String password) {
+        this.password = password;
+    }
+
+    public void setEmail(String email) {
+        this.email = email;
+    }
+
+    public void setAvatar(String avatar) {
+        this.avatar = avatar;
+    }
+
+    public boolean getAccountIsActive() {
+        return accountIsActive;
+    }
+
+    public void setAccountIsActive(boolean accountIsActive) {
+        this.accountIsActive = accountIsActive;
     }
 }

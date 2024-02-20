@@ -16,14 +16,13 @@ public class Server {
     private Long id;
 
     private String name;
-    @OneToMany (cascade = CascadeType.ALL)
-    @JoinColumn(name="room_id")
+    @OneToMany(cascade = CascadeType.ALL)
+   // @JoinColumn(name = "room_id")
     private List<Room> roomList = new ArrayList<>();
     @ManyToMany
     private List<User> userList = new ArrayList<>();
-//    @ManyToMany
-//    @JoinTable()
-//    private List<Role> roleList;
+    @OneToMany
+    private List<Role> roleList = new ArrayList<>();
 
     public Server() {
     }
@@ -66,18 +65,46 @@ public class Server {
         this.userList = userList;
     }
 
-    public void addRoom(Room room){
-        roomList.add(room);
+    public List<Role> getRoleList() {
+        return roleList;
     }
 
-//    public List<Role> getRoleList() {
-//        return roleList;
-//    }
-//
-//    public void setRoleList(List<Role> roleList) {
-//        this.roleList = roleList;
-//    }
+    public void setRoleList(List<Role> roleList) {
+        this.roleList = roleList;
+    }
 
+    public void addUser(User user) {
+        userList.add(user);
+    }
+
+    public void addRoom(Room room) {
+        roomList.add(room);
+    }
+    public void deleteRoom(Room room) {
+        roomList.remove(room);
+    }
+
+    public void addRole(Role role) {
+        roleList.add(role);
+    }
+
+    public void deleteRole(Long id) {
+        for (Role role : roleList) {
+            if (role.getId().equals(id)) {
+                roleList.remove(role);
+                break;
+            }
+        }
+    }
+
+    public boolean isUserInServer(User user) {
+        for (User userDB : userList) {
+            if (userDB.equals(user)) {
+                return true;
+            }
+        }
+        return false;
+    }
 
     @Override
     public String toString() {
@@ -86,9 +113,16 @@ public class Server {
                 ", name='" + name + '\'' +
                 ", roomList=" + roomList +
                 ", userList=" + userList +
-
-               // ", roleList=" + roleList +
-
+                ", roleList=" + roleList +
                 '}';
+    }
+
+    public void removeUser(User userToUpdate) {
+        for (int i = 0; i < userList.size(); i++) {
+            if (userList.get(i).equals(userToUpdate)) {
+                userList.remove(i);
+                break;
+            }
+        }
     }
 }

@@ -16,7 +16,7 @@ import java.util.Optional;
 public class RoomController {
 
     @Autowired
-     RoomService roomService;
+    RoomService roomService;
 
     @GetMapping
     public List<RoomDTO> getAllRooms() {
@@ -43,6 +43,7 @@ public class RoomController {
         roomService.createRoom(room);
         return ResponseEntity.created(null).build();
     }
+
     @PutMapping("/{id}")
     public ResponseEntity<Void> updateRoom(@PathVariable Long id, @RequestBody RoomDTO roomDTO) {
         Optional<Room> optionalRoom = roomService.getRoomById(id);
@@ -57,6 +58,7 @@ public class RoomController {
             return ResponseEntity.noContent().build();
         }
     }
+
     @DeleteMapping("/{id}")
     public ResponseEntity<Void> deleteRoom(@PathVariable Long id) {
         Optional<Room> optionalRoom = roomService.getRoomById(id);
