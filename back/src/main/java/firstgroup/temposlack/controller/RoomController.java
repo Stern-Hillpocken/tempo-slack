@@ -37,6 +37,13 @@ public class RoomController {
 
     }
 
+    @PostMapping
+    public ResponseEntity<Void> createRoom(@RequestBody RoomDTO roomDTO) {
+        Room room = RoomMapper.convertToEntity(roomDTO);
+        roomService.createRoom(room);
+        return ResponseEntity.created(null).build();
+    }
+
     @PutMapping("/{id}")
     public ResponseEntity<Void> updateRoom(@PathVariable Long id, @RequestBody RoomDTO roomDTO) {
         Optional<Room> optionalRoom = roomService.getRoomById(id);
