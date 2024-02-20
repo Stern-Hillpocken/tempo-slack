@@ -293,9 +293,9 @@ public class ServerController {
                                         @PathVariable("idMessage") Long idMessage, @RequestBody ReactionDTO reactionDTO) {
         if (reactionDTO == null || reactionDTO.getReactionType() == null || reactionDTO.getReactionType().isBlank() || reactionDTO.getUser() == null || reactionDTO.getUser().getPseudo() == null || reactionDTO.getUser().getPseudo().isBlank())
             return ResponseEntity.noContent().build();
-        Optional<Server> optionalServer = serverService.findById(idServer);
+        Optional<Server> optionalServer = serverService.getById(idServer);
         Optional<Room> optionalRoom = roomService.getRoomById(idRoom);
-        Optional<Message> optionalMessage = messageService.findById(idMessage);
+        Optional<Message> optionalMessage = messageService.getById(idMessage);
         Optional<User> optionalUser = userService.getByPseudo(reactionDTO.getUser().getPseudo());
         if (optionalServer.isEmpty() || optionalRoom.isEmpty() || optionalMessage.isEmpty() || optionalUser.isEmpty())
             return ResponseEntity.notFound().build();
@@ -304,7 +304,7 @@ public class ServerController {
         Message message = optionalMessage.get();
         User user = optionalUser.get();
         if (!server.isUserInServer(user)) return ResponseEntity.notFound().build();
-        if (!userService.isUserMatching(reactionDTO.getUser())) return ResponseEntity.notFound().build();
+        if (!userService.isUserPasswordMatching(reactionDTO.getUser())) return ResponseEntity.notFound().build();
         messageService.addReaction(idMessage, reactionDTO.getReactionType(), user.getId());
         return ResponseEntity.ok().build();
     }
@@ -316,9 +316,9 @@ public class ServerController {
                                            @PathVariable("idMessage") Long idMessage, @RequestBody ReactionDTO reactionDTO) {
         if (reactionDTO == null || reactionDTO.getReactionType() == null || reactionDTO.getReactionType().isBlank() || reactionDTO.getUser() == null || reactionDTO.getUser().getPseudo() == null || reactionDTO.getUser().getPseudo().isBlank())
             return ResponseEntity.noContent().build();
-        Optional<Server> optionalServer = serverService.findById(idServer);
+        Optional<Server> optionalServer = serverService.getById(idServer);
         Optional<Room> optionalRoom = roomService.getRoomById(idRoom);
-        Optional<Message> optionalMessage = messageService.findById(idMessage);
+        Optional<Message> optionalMessage = messageService.getById(idMessage);
         Optional<User> optionalUser = userService.getByPseudo(reactionDTO.getUser().getPseudo());
         if (optionalServer.isEmpty() || optionalRoom.isEmpty() || optionalMessage.isEmpty() || optionalUser.isEmpty())
             return ResponseEntity.notFound().build();
@@ -327,7 +327,7 @@ public class ServerController {
         Message message = optionalMessage.get();
         User user = optionalUser.get();
         if (!server.isUserInServer(user)) return ResponseEntity.notFound().build();
-        if (!userService.isUserMatching(reactionDTO.getUser())) return ResponseEntity.notFound().build();
+        if (!userService.isUserPasswordMatching(reactionDTO.getUser())) return ResponseEntity.notFound().build();
         messageService.removeReaction(idMessage, reactionDTO.getReactionType(), user.getId());
         return ResponseEntity.ok().build();
     }
