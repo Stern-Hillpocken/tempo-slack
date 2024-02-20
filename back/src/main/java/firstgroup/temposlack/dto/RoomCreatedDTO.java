@@ -1,9 +1,18 @@
 package firstgroup.temposlack.dto;
 
+import firstgroup.temposlack.model.Room;
+
 public class RoomCreatedDTO {
 
     private String title;
     private UserPseudoPasswordDTO user;
+
+    public RoomCreatedDTO() {}
+
+    public RoomCreatedDTO(String title, UserPseudoPasswordDTO user) {
+        this.title = title;
+        this.user = user;
+    }
 
     // Getters and setters
 

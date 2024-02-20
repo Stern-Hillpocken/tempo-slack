@@ -20,6 +20,34 @@ public class UserController {
     @Autowired
     UserService userService;
 
+    @GetMapping("/{id}")
+    public ResponseEntity<UserPublicDTO> getPublicById(@PathVariable Long id) {
+        Optional<User> optionalUser = userService.getById(id);
+        if (optionalUser.isEmpty()) {
+            return ResponseEntity.notFound().build();
+        }
+        User user = optionalUser.get();
+        UserPublicDTO userPublicDTO = UserPublicMapper.userToDTO(user);
+        return ResponseEntity.ok(userPublicDTO);
+    }
+
+    @GetMapping("/me")
+    public ResponseEntity<UserPrivateDTO> getPrivateById(@RequestBody UserPseudoPasswordDTO userPseudoPasswordDTO) {
+        if (userPseudoPasswordDTO == null || !userService.isUserPseudoPasswordDTOValid(userPseudoPasswordDTO))
+            return ResponseEntity.noContent().build();
+
+        Optional<User> optionalUser = userService.getByPseudo(userPseudoPasswordDTO.getPseudo());
+        if (optionalUser.isEmpty()) {
+            return ResponseEntity.notFound().build();
+        }
+
+        User user = optionalUser.get();
+        UserPrivateDTO userPrivateDTO = UserPrivateMapper.userToDTO(user);
+        if (user.getPseudo().equals(userPseudoPasswordDTO.getPseudo()) && user.getPassword().equals(userPseudoPasswordDTO.getPassword()))
+            return ResponseEntity.ok(userPrivateDTO);
+        return ResponseEntity.notFound().build();
+    }
+
     @PostMapping()
     public ResponseEntity<?> add(@RequestBody UserSignInDTO userSignInDTO) {
         if (userSignInDTO == null || !userService.isUserSignInDTOValid(userSignInDTO))
@@ -50,32 +78,19 @@ public class UserController {
         return ResponseEntity.status(HttpStatus.CREATED).build();
     }
 
-    @GetMapping("/{id}")
-    public ResponseEntity<UserPublicDTO> getPublicById(@PathVariable Long id) {
-        Optional<User> optionalUser = userService.getById(id);
-        if (optionalUser.isEmpty()) {
-            return ResponseEntity.notFound().build();
-        }
-        User user = optionalUser.get();
-        UserPublicDTO userPublicDTO = UserPublicMapper.userToDTO(user);
-        return ResponseEntity.ok(userPublicDTO);
+    @PostMapping("/disable-account")
+    public ResponseEntity<?> disableAccount(@RequestBody UserPseudoPasswordDTO userDTO) {
+        if (userDTO == null || !userService.isUserPseudoPasswordDTOValid(userDTO)) return ResponseEntity.noContent().build();
+        if (!userService.isUserPasswordMatching(userDTO)) return ResponseEntity.notFound().build();
+
+        User user = userService.getByPseudo(userDTO.getPseudo()).get();
+        userService.toggleAccount(user);
+        return ResponseEntity.ok().build();
     }
 
-    @GetMapping("/me")
-    public ResponseEntity<UserPrivateDTO> getPrivateById(@RequestBody UserPseudoPasswordDTO userPseudoPasswordDTO) {
-        if (userPseudoPasswordDTO == null || !userService.isUserPseudoPasswordDTOValid(userPseudoPasswordDTO))
-            return ResponseEntity.noContent().build();
-
-        Optional<User> optionalUser = userService.getByPseudo(userPseudoPasswordDTO.getPseudo());
-        if (optionalUser.isEmpty()) {
-            return ResponseEntity.notFound().build();
-        }
-
-        User user = optionalUser.get();
-        UserPrivateDTO userPrivateDTO = UserPrivateMapper.userToDTO(user);
-        if (user.getPseudo().equals(userPseudoPasswordDTO.getPseudo()) && user.getPassword().equals(userPseudoPasswordDTO.getPassword()))
-            return ResponseEntity.ok(userPrivateDTO);
-        return ResponseEntity.notFound().build();
+    @PostMapping("/enable-account")
+    public ResponseEntity<?> enableAccount(@RequestBody UserPseudoPasswordDTO userDTO) {
+        return disableAccount(userDTO);
     }
 
     @PutMapping("/me")
@@ -96,7 +111,6 @@ public class UserController {
             return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("password");
         if (!userService.isAvatarExist(userUpdateDTO.getNewAvatar()))
             return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("avatar");
-
 
         User user = optionalOldUser.get();
         if (!user.getPassword().equals(userUpdateDTO.getOldPassword())) return ResponseEntity.notFound().build();
