@@ -13,6 +13,7 @@ public class Message {
     private User user;
     private LocalDateTime date;
     private String content;
+    private LocalDateTime dateEdit;
 
     public Message() {
     }
@@ -55,5 +56,11 @@ public class Message {
         this.content = content;
     }
 
+    public LocalDateTime getDateEdit() {
+        return dateEdit;
+    }
 
+    public void setDateEdit(LocalDateTime dateEdit) {
+        this.dateEdit = dateEdit;
+    }
 }
