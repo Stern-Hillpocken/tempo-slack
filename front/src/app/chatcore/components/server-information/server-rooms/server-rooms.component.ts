@@ -10,7 +10,6 @@ import { Room } from "src/app/core/models/room.model";
 })
 export class ServerRoomsComponent implements OnInit {
   id!: number;
-  serverName: string = "";
   roomList: Room[] = [];
   selected: any;
 

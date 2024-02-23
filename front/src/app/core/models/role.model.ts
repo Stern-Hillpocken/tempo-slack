@@ -1,9 +1,9 @@
 import { Server } from "./server.model";
 import { User } from "./user.model";
 
-export interface Room {
+export interface Role {
   id: number;
-  title: string;
+  name: string;
   userList: User[];
   server: Server;
 }
