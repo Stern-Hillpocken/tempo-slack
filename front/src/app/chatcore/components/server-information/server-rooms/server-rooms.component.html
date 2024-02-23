@@ -1,1 +1,7 @@
-<p>server-rooms works!</p>
+<h1>Rooms</h1>
+
+<ul *ngIf="roomList.length > 0">
+  <li *ngFor="let room of roomList">
+    <button [ngClass]="{ activeRoom: selected }" class="btn btn-info" (click)="update()">{{ room }}</button>
+  </li>
+</ul>
