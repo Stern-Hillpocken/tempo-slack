@@ -1,1 +1,6 @@
-<p>message works!</p>
+<ul *ngFor="let message of messagesList">
+    <div>
+        <span>{{message.user}}</span>
+        <div>{{message.content}}</div>
+    </div>
+</ul>

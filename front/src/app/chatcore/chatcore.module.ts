@@ -13,6 +13,7 @@ import { ServerListComponent } from './components/server-list/server-list.compon
 import { ServerInformationComponent } from './components/server-information/server-information.component';
 import { ChatComponent } from './components/chat/chat.component';
 import { ChatcoreRoutingModule } from './chatcore-routing.module';
+import { ReactiveFormsModule } from '@angular/forms';
 
 
 
@@ -33,7 +34,8 @@ import { ChatcoreRoutingModule } from './chatcore-routing.module';
   ],
   imports: [
     CommonModule,
-    ChatcoreRoutingModule
+    ChatcoreRoutingModule,
+    ReactiveFormsModule
   ],
   exports: [
     ChatComponent,

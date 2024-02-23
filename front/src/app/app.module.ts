@@ -8,6 +8,7 @@ import { CoreModule } from './core/core.module';
 import { ErrorsModule } from './errors/errors.module';
 import { ChatcoreModule } from './chatcore/chatcore.module';
 import { RouterModule } from '@angular/router';
+import { HttpClientModule } from '@angular/common/http';
 
 @NgModule({
   declarations: [
@@ -20,6 +21,7 @@ import { RouterModule } from '@angular/router';
     CoreModule, 
     ChatcoreModule,
     ErrorsModule,
+    HttpClientModule,
     NgbModule
   ],
   providers: [],

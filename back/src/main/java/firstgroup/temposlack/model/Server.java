@@ -1,7 +1,6 @@
 package firstgroup.temposlack.model;
 
 
-import firstgroup.temposlack.model.Room;
 import jakarta.persistence.*;
 
 import java.util.ArrayList;
