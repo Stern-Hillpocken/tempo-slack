@@ -2,12 +2,14 @@
 <div
     *ngIf="isPopupDisplay"
     id="popup-add-server"
-    class="popup"
+    class="popup-container"
 >
-    <p (click)="closePopup()">[X]</p>
-    <form [formGroup]="formAddServer">
-        <label for="name">Nom</label>
-        <input formControlName="name" type="text" id="add-server-name">
-        <input type="submit" (click)="addServer()" value="Ajouter" [disabled]="!formAddServer.valid">
-    </form>
+    <div class="popup-inner">
+        <button (click)="closePopup()">Close [X]</button>
+        <form [formGroup]="formAddServer">
+            <label for="name">Nom</label>
+            <input formControlName="name" type="text" id="add-server-name">
+            <input type="submit" (click)="addServer()" value="Ajouter" [disabled]="!formAddServer.valid">
+        </form>
+    </div>
 </div>

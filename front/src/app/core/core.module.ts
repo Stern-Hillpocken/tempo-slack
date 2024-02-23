@@ -8,6 +8,7 @@ import { LandingComponent } from './pages/landing/landing.component';
 import { FormChoiceComponent } from './components/landing-page/form-choice/form-choice.component';
 import { ReactiveFormsModule } from '@angular/forms';
 import { PopupFeedbackComponent } from './components/popup-feedback/popup-feedback.component';
+import { ThemeChoiceComponent } from './components/theme-choice/theme-choice.component';
 
 
 
@@ -19,7 +20,8 @@ import { PopupFeedbackComponent } from './components/popup-feedback/popup-feedba
     SigninComponent,
     LandingComponent,
     FormChoiceComponent,
-    PopupFeedbackComponent
+    PopupFeedbackComponent,
+    ThemeChoiceComponent
   ],
   imports: [
     CommonModule,

@@ -2,3 +2,71 @@
 
 /* Importing Bootstrap SCSS file. */
 @import 'bootstrap/scss/bootstrap';
+
+/*@font-face {
+    font-family: "font-base";
+    src: url("assets/fonts/NovaRound-Bold.ttf");
+}
+
+@font-face {
+    font-family: "font-header";
+    src: url("assets/fonts/Evil Empire.otf");
+}*/
+
+:root {
+    --color-valid: green;
+}
+
+*{
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    font-family: "font-base";
+}
+
+body[data-theme='navy']{
+    --color-accent: #E23E57;
+    --color-complement: #474F7A;
+    --color-dominent: #1F2544;
+    --color-light-accent: #88304E;
+    --color-text: white;
+}
+
+body[data-theme='retro']{
+    --color-accent: #F0B86E;
+    --color-complement: #EBE76C;
+    --color-dominent: #836096;
+    --color-light-accent: #ED7B7B;
+    --color-text: black;
+}
+
+body {
+    background-color: var(--color-dominent);
+    color: var(--color-text);
+}
+
+button, input[type='submit'] {
+    background-color: var(--color-accent);
+}
+
+input:disabled {
+    background-color: var(--color-light-accent);
+}
+
+.popup-container {
+    position: absolute;
+    top: 0;
+    left: 0;
+    background-color: rgba(0,0,0,0.8);
+    height: 100%;
+    width: 100%;
+}
+
+.popup-inner {
+    background-color: var(--color-dominent);
+    position: absolute;
+    left: 50%;
+    top: 10%;
+    transform: translate(-50%, 0);
+    border: 2px solid var(--color-text);
+}
