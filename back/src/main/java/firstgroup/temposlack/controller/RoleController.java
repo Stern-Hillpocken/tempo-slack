@@ -55,6 +55,9 @@ public class RoleController {
             return ResponseEntity.badRequest().build();
         }
         if (!roleService.isOwner(user, server)) return ResponseEntity.badRequest().build();
+        for (Role role : server.getRoleList()){
+            if(role.getName().equals(roleDTO.getName())) return ResponseEntity.status(HttpStatus.UNAUTHORIZED).build();
+        }
         Role role = RoleMapper.convertDTOtoEntity(roleDTO);
         role.setServer(server);
         roleService.createRole(role, server);
@@ -139,6 +142,9 @@ public class RoleController {
         Server server = role.getServer();
         if (!server.isUserInServer(user) || !roleService.isOwner(user, server)) {
             return ResponseEntity.badRequest().build();
+        }
+        for (Role r : server.getRoleList()){
+            if(r.getName().equals(roleDTO.getName())) return ResponseEntity.status(HttpStatus.UNAUTHORIZED).build();
         }
         roleService.updateName(role, roleDTO.getName());
         return ResponseEntity.ok().build();
