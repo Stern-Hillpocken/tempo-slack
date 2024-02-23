@@ -7,4 +7,10 @@ import { Component } from '@angular/core';
 })
 export class LandingPageComponent {
 
+  formChoiceToDisplay: "login" | "signin" = "login";
+
+  onFormChoiceReceive(value: "login" | "signin"): void {
+    this.formChoiceToDisplay = value;
+  }
+
 }
