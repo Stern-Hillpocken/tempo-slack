@@ -13,14 +13,14 @@ import { HttpClientModule } from "@angular/common/http";
 @NgModule({
   declarations: [AppComponent],
   imports: [
+    BrowserModule,
+    HttpClientModule,
+    CoreModule,
     ChatcoreModule,
     AppRoutingModule,
-    BrowserModule,
-    RouterModule,
-    CoreModule,
     ErrorsModule,
+    RouterModule,
     NgbModule,
-    HttpClientModule,
   ],
   providers: [],
   bootstrap: [AppComponent],
