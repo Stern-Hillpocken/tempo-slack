@@ -1,1 +1,5 @@
-<p>server-list works!</p>
+<div id="server-list">
+    <ng-container *ngFor="let server of servers">
+        <app-server-display [server]="server"></app-server-display>
+    </ng-container>
+</div>

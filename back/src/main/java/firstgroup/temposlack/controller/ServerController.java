@@ -68,6 +68,16 @@ public class ServerController {
 
     }
 
+    @PostMapping("mine")
+    public ResponseEntity<?> allMine(@RequestBody UserPseudoPasswordDTO userPseudoPasswordDTO) {
+        if (userPseudoPasswordDTO == null || userService.isUserPseudoPasswordDTOValid(userPseudoPasswordDTO)) return ResponseEntity.noContent().build();
+        if (!userService.isUserPasswordMatching(userPseudoPasswordDTO)) return ResponseEntity.status(HttpStatus.UNAUTHORIZED).build();
+
+        User user = userService.getByPseudo(userPseudoPasswordDTO.getPseudo()).get();
+        List<ServerListDTO> serverListDTOs = serverService.getAllMine(user);
+        return ResponseEntity.ok(serverListDTOs);
+    }
+
     // Add a user to a server
     @PostMapping("{idServer}/add-user")
     public ResponseEntity<?> addUserToServer(@PathVariable("idServer") Long idServer,
