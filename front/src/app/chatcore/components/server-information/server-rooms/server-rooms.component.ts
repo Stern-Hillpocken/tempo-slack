@@ -24,7 +24,7 @@ export class ServerRoomsComponent implements OnInit {
   }
 
   update() {
-    // this.chatService.update(); COmmunication avec le chat service
+    // this.chatService.update(); Communication avec le chat service
     this.selected = !this.selected;
   }
 }
