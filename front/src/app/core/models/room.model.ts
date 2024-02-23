@@ -4,5 +4,6 @@ export interface Room {
   id: number;
   title: string;
   userList: [];
+  messageList:[];
   //server: Server;
 }
