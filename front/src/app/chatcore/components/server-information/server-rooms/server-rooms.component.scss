@@ -1,0 +1,6 @@
+.activeRoom {
+  color: red;
+}
+.activeRoom::before {
+  content: "\00BB ";
+}
