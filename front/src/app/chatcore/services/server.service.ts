@@ -37,6 +37,6 @@ export class ServerService {
   addRoomInServerById(roomTitle: string, idServer: number): Observable<Room> {
     let dto = { title: roomTitle, user: this.localStorageService.getPseudoPassword() };
     console.log(dto);
-    return this.http.post<Room>(`${this.apiUrl}/${idServer}`, dto);
+    return this.http.post<Room>(this.utils.getBaseUrl()+"/"+idServer, dto);
   }
 }
