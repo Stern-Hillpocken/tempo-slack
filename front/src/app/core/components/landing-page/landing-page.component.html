@@ -5,7 +5,9 @@
 ></app-form-choice>
 <app-signin
     *ngIf="formChoiceToDisplay === 'signin'"
+    (signinEmitter)="onSigninReceive($event)"
 ></app-signin>
 <app-login
     *ngIf="formChoiceToDisplay === 'login'"
+    (loginEmitter)="onLoginReceive($event)"
 ></app-login>
