@@ -1,15 +1,15 @@
-import { NgModule } from '@angular/core';
-import { RouterModule, Routes } from '@angular/router';
-import { LandingComponent } from './core/pages/landing/landing.component';
+import { NgModule } from "@angular/core";
+import { RouterModule, Routes } from "@angular/router";
+import { LandingComponent } from "./core/pages/landing/landing.component";
 
 const routes: Routes = [
-  { path:"", component: LandingComponent },
+  { path: "", component: LandingComponent },
   { path: "home", loadChildren: () => import("./chatcore/chatcore.module").then((m) => m.ChatcoreModule) },
-  { path: "**", loadChildren: () => import("./errors/errors.module").then((m) => m.ErrorsModule) }
+  { path: "**", loadChildren: () => import("./errors/errors.module").then((m) => m.ErrorsModule) },
 ];
 
 @NgModule({
   imports: [RouterModule.forRoot(routes)],
-  exports: []
+  exports: [],
 })
-export class AppRoutingModule { }
+export class AppRoutingModule {}

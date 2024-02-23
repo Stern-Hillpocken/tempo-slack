@@ -2,7 +2,7 @@
 
 export interface Room {
   id: number;
-  name: string;
+  title: string;
   userList: [];
   //server: Server;
 }

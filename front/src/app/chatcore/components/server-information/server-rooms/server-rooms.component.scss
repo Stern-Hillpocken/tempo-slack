@@ -1,7 +1,6 @@
 .activeRoom {
   color: red;
-  list-style: none;
 }
 .activeRoom::before {
-  content: "\00BB";
+  content: "\00BB ";
 }
