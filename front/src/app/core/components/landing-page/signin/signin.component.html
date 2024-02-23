@@ -1,1 +1,11 @@
-<p>signin works!</p>
+<form [formGroup]="formSignin">
+    <label for="pseudo">Pseudo</label>
+    <input formControlName="pseudo" type="text" id="pseudo">
+    <label for="password">Password</label>
+    <input formControlName="password" type="password" id="password">
+    <label for="email">Email</label>
+    <input formControlName="email" type="email" id="email">
+    <label for="avatar">Avatar</label>
+    <input formControlName="avatar" type="text" id="avatar">
+    <input type="submit" (click)="signin()" value="Inscription" [disabled]="!formSignin.valid">
+</form>

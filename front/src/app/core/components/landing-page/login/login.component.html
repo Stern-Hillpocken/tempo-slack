@@ -1,1 +1,7 @@
-<p>login works!</p>
+<form [formGroup]="formLogin">
+    <label for="pseudo">Pseudo</label>
+    <input formControlName="pseudo" type="text" id="pseudo">
+    <label for="password">Password</label>
+    <input formControlName="password" type="password" id="password">
+    <input type="submit" (click)="login()" value="Connexion" [disabled]="!formLogin.valid">
+</form>
