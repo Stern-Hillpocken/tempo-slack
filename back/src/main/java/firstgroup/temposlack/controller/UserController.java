@@ -4,10 +4,12 @@ import firstgroup.temposlack.dto.*;
 import firstgroup.temposlack.mapper.UserPrivateMapper;
 import firstgroup.temposlack.mapper.UserPublicMapper;
 import firstgroup.temposlack.mapper.UserSignInMapper;
+import firstgroup.temposlack.model.ErrorResponse;
 import firstgroup.temposlack.model.User;
 import firstgroup.temposlack.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
+import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
@@ -53,22 +55,22 @@ public class UserController {
         if (userSignInDTO == null || !userService.isUserSignInDTOValid(userSignInDTO))
             return ResponseEntity.noContent().build();
         if (userSignInDTO.getPseudo() == null || userSignInDTO.getPseudo().isEmpty())
-            return ResponseEntity.status(HttpStatus.NO_CONTENT).body("pseudo");
+            return ResponseEntity.status(HttpStatus.NO_CONTENT).body(new ErrorResponse("No pseudo found."));
         if (userSignInDTO.getPassword() == null || userSignInDTO.getPassword().isEmpty())
-            return ResponseEntity.status(HttpStatus.NO_CONTENT).body("password");
+            return ResponseEntity.status(HttpStatus.NO_CONTENT).body(new ErrorResponse("No password found."));
         if (userSignInDTO.getEmail() == null || userSignInDTO.getEmail().isEmpty())
-            return ResponseEntity.status(HttpStatus.NO_CONTENT).body("email");
+            return ResponseEntity.status(HttpStatus.NO_CONTENT).body(new ErrorResponse("No email found."));
         if (userSignInDTO.getAvatar() == null || userSignInDTO.getAvatar().isEmpty())
-            return ResponseEntity.status(HttpStatus.NO_CONTENT).body("avatar");
+            return ResponseEntity.status(HttpStatus.NO_CONTENT).body(new ErrorResponse("No avatar found."));
 
         if (userService.hasEmoji(userSignInDTO.getPseudo()))
-            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("pseudo");
+            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(new ErrorResponse("Pseudo has emoji or emoji's like symbol."));
         if (userService.hasStrangeChar(userSignInDTO.getPseudo()))
-            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("pseudo");
-        if (!userService.isPasswordWellFormated(userSignInDTO.getPassword()))
-            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("password");
+            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(new ErrorResponse("Pseudo has strange character."));
+        if (!userService.isPasswordWellFormatted(userSignInDTO.getPassword()))
+            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(new ErrorResponse("Password is not well formatted."));
         if (!userService.isAvatarExist(userSignInDTO.getAvatar()))
-            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("avatar");
+            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(new ErrorResponse("Avatar does not exist."));
 
         Optional<User> userWithThisPseudo = userService.getByPseudo(userSignInDTO.getPseudo());
         if (userWithThisPseudo.isPresent()) return ResponseEntity.status(HttpStatus.CONFLICT).build();
@@ -76,6 +78,11 @@ public class UserController {
         User user = UserSignInMapper.signInDTOToUser(userSignInDTO);
         userService.add(user);
         return ResponseEntity.status(HttpStatus.CREATED).build();
+    }
+
+    @PostMapping("/exist")
+    public boolean isUserExist(@RequestBody UserPseudoPasswordDTO user) {
+        return userService.isUserPasswordMatching(user);
     }
 
     @PostMapping("/disable-account")
@@ -107,7 +114,7 @@ public class UserController {
             return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("pseudo");
         if (userService.hasStrangeChar(userUpdateDTO.getNewPseudo()))
             return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("pseudo");
-        if (!userService.isPasswordWellFormated(userUpdateDTO.getNewPassword()))
+        if (!userService.isPasswordWellFormatted(userUpdateDTO.getNewPassword()))
             return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("password");
         if (!userService.isAvatarExist(userUpdateDTO.getNewAvatar()))
             return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("avatar");
