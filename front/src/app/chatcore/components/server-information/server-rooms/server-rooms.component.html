@@ -5,3 +5,15 @@
     <button [ngClass]="{ activeRoom: selected }" class="btn btn-dark" (click)="update()">{{ room.title }}</button>
   </li>
 </ul>
+<button (click)="popUp = !popUp" class="btnbtn-dark">+</button>
+<div *ngIf="popUp">
+  <button (click)="addPopUp = !addPopUp">Ajouter une Room</button>
+  <button>B</button>
+</div>
+<div *ngIf="addPopUp">
+  <form [formGroup]="formRoom">
+    <label for="title" class="form-label">Nom de la Room</label>
+    <input formControlName="title" type="text" class="form-control" id="title" placeholder="Nom" />
+    <button (click)="addRoom()">Enregistrer</button>
+  </form>
+</div>
