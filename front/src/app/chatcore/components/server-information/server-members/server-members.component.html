@@ -1,1 +1,5 @@
-<p>server-members works!</p>
+<h1>Membres</h1>
+
+<ul *ngIf="userList.length > 0">
+  <li *ngFor="let user of userList">{{ user.pseudo }}</li>
+</ul>
