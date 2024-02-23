@@ -1,5 +1,10 @@
 <div id="server-list">
+
     <ng-container *ngFor="let server of servers">
         <app-server-display [server]="server"></app-server-display>
     </ng-container>
+    
+    <app-add-server
+        (addServerEmitter)="onAddServerReceive($event)"
+    ></app-add-server>
 </div>

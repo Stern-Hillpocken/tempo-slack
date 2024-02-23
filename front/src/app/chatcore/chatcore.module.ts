@@ -14,6 +14,7 @@ import { ServerInformationComponent } from './components/server-information/serv
 import { ChatComponent } from './components/chat/chat.component';
 import { ChatcoreRoutingModule } from './chatcore-routing.module';
 import { ReactiveFormsModule } from '@angular/forms';
+import { AddServerComponent } from './components/server-list/add-server/add-server.component';
 
 
 
@@ -30,7 +31,8 @@ import { ReactiveFormsModule } from '@angular/forms';
     ServerRoomsComponent,
     ServerMembersComponent,
     ServerRolesComponent,
-    HomeComponent
+    HomeComponent,
+    AddServerComponent
   ],
   imports: [
     CommonModule,

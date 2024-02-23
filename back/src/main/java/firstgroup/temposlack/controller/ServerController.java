@@ -65,12 +65,11 @@ public class ServerController {
         User user = optionalUser.get();
         serverService.createServer(server, user);
         return ResponseEntity.status(HttpStatus.CREATED).build();
-
     }
 
     @PostMapping("mine")
     public ResponseEntity<?> allMine(@RequestBody UserPseudoPasswordDTO userPseudoPasswordDTO) {
-        if (userPseudoPasswordDTO == null || userService.isUserPseudoPasswordDTOValid(userPseudoPasswordDTO)) return ResponseEntity.noContent().build();
+        if (userPseudoPasswordDTO == null || !userService.isUserPseudoPasswordDTOValid(userPseudoPasswordDTO)) return ResponseEntity.noContent().build();
         if (!userService.isUserPasswordMatching(userPseudoPasswordDTO)) return ResponseEntity.status(HttpStatus.UNAUTHORIZED).build();
 
         User user = userService.getByPseudo(userPseudoPasswordDTO.getPseudo()).get();

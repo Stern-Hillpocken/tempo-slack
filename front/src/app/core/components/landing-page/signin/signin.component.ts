@@ -20,9 +20,9 @@ export class SigninComponent {
 
   ngOnInit(): void {
     this.formSignin = this.fb.group({
-      pseudo: ['', [Validators.required, Validators.minLength(6), Validators.maxLength(15)]],
-      password: ['', [Validators.required, Validators.minLength(6), Validators.maxLength(15)]],
-      email: [],
+      pseudo: ['Trapez', [Validators.required, Validators.minLength(6), Validators.maxLength(15)]],
+      password: ['p@ssword', [Validators.required, Validators.minLength(6), Validators.maxLength(15)]],
+      email: ['e@mail.fr'],
       avatar: ['base']
     });
   }

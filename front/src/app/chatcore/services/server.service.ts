@@ -27,4 +27,8 @@ export class ServerService {
   getServersOfUser(pp: PseudoPassword): Observable<Server[]> {
     return this.http.post<Server[]>(this.utils.getBaseUrl()+"servers/mine", pp);
   }
+
+  addServer(serverCreatedDTO: {name: string, user: PseudoPassword}): Observable<any> {
+    return this.http.post<any>(this.utils.getBaseUrl()+"servers", serverCreatedDTO);
+  }
 }
