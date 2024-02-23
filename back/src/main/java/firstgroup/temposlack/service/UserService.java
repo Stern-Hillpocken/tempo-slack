@@ -74,7 +74,7 @@ public class UserService {
         return matcher.find();
     }
 
-    public boolean isPasswordWellFormated(String password) {
+    public boolean isPasswordWellFormatted(String password) {
         if (password.length() < 6) return false;
         if (!Pattern.compile("\\W").matcher(password).find()) return false;
         return true;
