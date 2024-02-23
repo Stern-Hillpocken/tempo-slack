@@ -3,6 +3,8 @@ import { UserService } from 'src/app/shared/user.service';
 import { SigninForm } from '../../models/signin-form.model';
 import { LocalStorageService } from 'src/app/shared/local-storage.service';
 import { Router } from '@angular/router';
+import { PopupFeedbackService } from 'src/app/shared/popup-feedback.service';
+import { PopupFeedback } from '../../models/popup-feedback.model';
 
 @Component({
   selector: 'app-landing-page',
@@ -16,7 +18,8 @@ export class LandingPageComponent {
   constructor(
     private userService: UserService,
     private lss: LocalStorageService,
-    private router: Router
+    private router: Router,
+    private pfbs: PopupFeedbackService
   ){}
 
   onFormChoiceReceive(value: "login" | "signin"): void {
@@ -26,10 +29,11 @@ export class LandingPageComponent {
   onLoginReceive(pseudoPassword: {pseudo: string, password: string}): void {
     this.userService.isUserExist(pseudoPassword).subscribe(exist => {
       if(exist) {
+        this.pfbs.setFeed(new PopupFeedback("Bon retour parmi nous 👋", "valid"));
         this.lss.setPseudoPassword(pseudoPassword);
         this.router.navigateByUrl("/home");
       } else {
-        console.log("not found")
+        this.pfbs.setFeed(new PopupFeedback("Problème lors de la connexion.", "error"));
       }
     });
   }
@@ -38,8 +42,9 @@ export class LandingPageComponent {
     this.userService.add(signinForm).subscribe(response => {
       console.log(response)
       if (response) {
-        console.log("il y a une erreur")
+        this.pfbs.setFeed(new PopupFeedback("Problème lors de l'enregistrement.", "error"));
       } else {
+        this.pfbs.setFeed(new PopupFeedback("Bienvenue parmi les 🐙 !!", "valid"));
         this.lss.setPseudoPassword({pseudo: signinForm.pseudo, password: signinForm.password});
         this.router.navigateByUrl("/home");
       }

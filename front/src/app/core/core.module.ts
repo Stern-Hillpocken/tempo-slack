@@ -5,6 +5,9 @@ import { HeroComponent } from './components/landing-page/hero/hero.component';
 import { LoginComponent } from './components/landing-page/login/login.component';
 import { SigninComponent } from './components/landing-page/signin/signin.component';
 import { LandingComponent } from './pages/landing/landing.component';
+import { FormChoiceComponent } from './components/landing-page/form-choice/form-choice.component';
+import { ReactiveFormsModule } from '@angular/forms';
+import { PopupFeedbackComponent } from './components/popup-feedback/popup-feedback.component';
 
 
 
@@ -14,10 +17,13 @@ import { LandingComponent } from './pages/landing/landing.component';
     HeroComponent,
     LoginComponent,
     SigninComponent,
-    LandingComponent
+    LandingComponent,
+    FormChoiceComponent,
+    PopupFeedbackComponent
   ],
   imports: [
-    CommonModule
-  ]
+    CommonModule,
+    ReactiveFormsModule
+  ], exports: [PopupFeedbackComponent]
 })
 export class CoreModule { }

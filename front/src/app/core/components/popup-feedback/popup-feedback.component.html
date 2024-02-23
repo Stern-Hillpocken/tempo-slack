@@ -1,1 +1,7 @@
-<p>popup-feedback works!</p>
+<div
+    *ngIf="currentFeedBack.message"
+    id="popup-feedback"
+>
+    {{ currentFeedBack.message }}<br>
+    {{ currentFeedBack.type }}
+</div>
