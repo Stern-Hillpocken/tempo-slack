@@ -5,9 +5,9 @@ public class UserToUpdateInServerDTO {
     private UserPseudoPasswordDTO user;
     private String userPseudoToUpdate;
 
-    public UserAddedToServerDTO(UserPseudoPasswordDTO user, String userPseudoToAdd) {
+    public UserToUpdateInServerDTO(UserPseudoPasswordDTO user, String userPseudoToUpdate) {
         this.user = user;
-        this.userPseudoToAdd = userPseudoToAdd;
+        this.userPseudoToUpdate = userPseudoToUpdate;
     }
 
     public UserPseudoPasswordDTO getUser() {
