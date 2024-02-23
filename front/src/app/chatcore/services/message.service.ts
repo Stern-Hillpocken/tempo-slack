@@ -7,16 +7,16 @@ import {Message} from "../../core/models/message";
   providedIn: 'root'
 })
 export class MessagesService {
-  apiUrl: string ='http://localhost:8080/servers/'
+  apiUrl: string ='http://localhost:8080/servers'
 
   constructor(private http: HttpClient) { }
 
-  addMessage(message: Message): Observable<Message>{
-         return this.http.post<Message>(`${this.apiUrl}1/1`, message)
+  addMessage(message: Message, idServer : number, idRoom: number): Observable<Message>{
+         return this.http.post<Message>(`${this.apiUrl}/${idServer}/${idRoom}`, message)
   }
 
-  getAllMessages(): Observable<Message[]> {
-        return this.http.get<Message[]>(`${this.apiUrl}1/1`);
+  getAllMessages(idServer : number, idRoom: number): Observable<Message[]> {
+        return this.http.get<Message[]>(`${this.apiUrl}/${idServer}/${idRoom}`);
    }
 
 //   
