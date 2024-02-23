@@ -3,5 +3,6 @@
     <input formControlName="pseudo" type="text" id="pseudo">
     <label for="password">Password</label>
     <input formControlName="password" type="password" id="password">
+    <br>
     <input type="submit" (click)="login()" value="Connexion" [disabled]="!formLogin.valid">
 </form>

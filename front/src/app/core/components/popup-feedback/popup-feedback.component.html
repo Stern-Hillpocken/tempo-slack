@@ -1,6 +1,7 @@
 <div
     *ngIf="currentFeedBack.message"
     id="popup-feedback"
+    [ngClass]="currentFeedBack.type"
 >
     {{ currentFeedBack.message }}<br>
     {{ currentFeedBack.type }}

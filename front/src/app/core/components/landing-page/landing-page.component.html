@@ -1,13 +1,16 @@
 <app-hero></app-hero>
-<app-form-choice
-    [formChoiceToDisplay]="formChoiceToDisplay"
-    (formChoiceEmitter)="onFormChoiceReceive($event)"
-></app-form-choice>
-<app-signin
-    *ngIf="formChoiceToDisplay === 'signin'"
-    (signinEmitter)="onSigninReceive($event)"
-></app-signin>
-<app-login
-    *ngIf="formChoiceToDisplay === 'login'"
-    (loginEmitter)="onLoginReceive($event)"
-></app-login>
+<app-theme-choice></app-theme-choice>
+<div id="forms">
+    <app-form-choice
+        [formChoiceToDisplay]="formChoiceToDisplay"
+        (formChoiceEmitter)="onFormChoiceReceive($event)"
+    ></app-form-choice>
+    <app-signin
+        *ngIf="formChoiceToDisplay === 'signin'"
+        (signinEmitter)="onSigninReceive($event)"
+    ></app-signin>
+    <app-login
+        *ngIf="formChoiceToDisplay === 'login'"
+        (loginEmitter)="onLoginReceive($event)"
+    ></app-login>
+</div>
