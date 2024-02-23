@@ -1,1 +1,5 @@
-<p>server-roles works!</p>
+<h1>Rôles</h1>
+
+<ul *ngIf="roleList.length > 0">
+  <li *ngFor="let role of roleList">{{ role.name }}</li>
+</ul>

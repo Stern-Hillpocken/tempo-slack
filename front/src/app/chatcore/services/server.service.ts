@@ -5,6 +5,7 @@ import { Server } from "src/app/core/models/server.model";
 import { Room } from "src/app/core/models/room.model";
 import { UtilsService } from "src/app/shared/utils.service.";
 import { PseudoPassword } from "src/app/core/models/pseudo-password.model";
+import { LocalStorageService } from "src/app/shared/local-storage.service";
 
 @Injectable({
   providedIn: "root",
@@ -13,7 +14,8 @@ export class ServerService {
 
   constructor(
     private http: HttpClient,
-    private utils: UtilsService
+    private utils: UtilsService,
+    private localStorageService: LocalStorageService
     ) {}
 
   getServerById(id: number): Observable<Server> {
@@ -30,5 +32,11 @@ export class ServerService {
 
   addServer(serverCreatedDTO: {name: string, user: PseudoPassword}): Observable<any> {
     return this.http.post<any>(this.utils.getBaseUrl()+"servers", serverCreatedDTO);
+  }
+
+  addRoomInServerById(roomTitle: string, idServer: number): Observable<Room> {
+    let dto = { title: roomTitle, user: this.localStorageService.getPseudoPassword() };
+    console.log(dto);
+    return this.http.post<Room>(`${this.apiUrl}/${idServer}`, dto);
   }
 }
