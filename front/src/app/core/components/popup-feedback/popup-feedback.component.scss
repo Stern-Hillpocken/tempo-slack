@@ -1,0 +1,11 @@
+#popup-feedback {
+    position: absolute;
+    left: 50%;
+    transform: translate(-50%, 0);
+    border: 2px solid var(--color-text);
+    text-align: center;
+}
+
+.valid {
+    background-color: var(--color-valid);
+}

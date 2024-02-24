@@ -3,6 +3,8 @@ package firstgroup.temposlack.service;
 import firstgroup.temposlack.dao.ServerRepository;
 import firstgroup.temposlack.dto.MessagePostedDTO;
 import firstgroup.temposlack.dto.RoomCreatedDTO;
+import firstgroup.temposlack.dto.ServerListDTO;
+import firstgroup.temposlack.mapper.ServerListMapper;
 import firstgroup.temposlack.model.Role;
 import firstgroup.temposlack.model.Room;
 import firstgroup.temposlack.model.Server;
@@ -10,6 +12,7 @@ import firstgroup.temposlack.model.User;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
@@ -65,4 +68,13 @@ public class ServerService {
         return true;
     }
 
+    public List<ServerListDTO> getAllMine(User user) {
+        List<Server> allServers = getAll();
+        List<ServerListDTO> allMineServersDTOs = new ArrayList<>();
+
+        for (Server server : allServers) {
+            if (server.isUserInServer(user)) allMineServersDTOs.add(ServerListMapper.serverToServerListDTO(server));
+        }
+        return allMineServersDTOs;
+    }
 }

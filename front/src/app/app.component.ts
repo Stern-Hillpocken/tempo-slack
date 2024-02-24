@@ -6,5 +6,10 @@ import { Component } from '@angular/core';
   styleUrls: ['./app.component.scss']
 })
 export class AppComponent {
-  title = 'Octochat';
+  title = 'Octotchat';
+
+  ngOnInit(): void {
+    if (localStorage.getItem("data-theme")) document.querySelector("body")?.setAttribute("data-theme", localStorage.getItem("data-theme") as string);
+    else document.querySelector("body")?.setAttribute("data-theme", "navy");
+  }
 }
