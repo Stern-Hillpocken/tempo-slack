@@ -1,34 +1,48 @@
-import { Component, OnInit } from "@angular/core";
-import { ActivatedRoute } from "@angular/router";
-import { ServerService } from "src/app/chatcore/services/server.service";
-import { Server } from "src/app/core/models/server.model";
+import { Component, OnInit } from '@angular/core';
+import { FormBuilder, FormGroup, Validators } from '@angular/forms';
+import { ActivatedRoute } from '@angular/router';
+import { ServerService } from 'src/app/chatcore/services/server.service';
+import { LocalStorageService } from 'src/app/shared/local-storage.service';
 
 @Component({
-  selector: "app-server-name",
-  templateUrl: "./server-name.component.html",
-  styleUrls: ["./server-name.component.scss"],
+  selector: 'app-server-name',
+  templateUrl: './server-name.component.html',
+  styleUrls: ['./server-name.component.scss']
 })
 export class ServerNameComponent implements OnInit {
   id!: number;
-  serverName: string = ''; // Nom initial du serveur
+  serverName!: string;
+  editPopup: boolean = false; 
+  formServer!: FormGroup; 
 
-  constructor(private serverService: ServerService, private activatedRoute: ActivatedRoute) {}
+  constructor(
+    private serverService: ServerService,
+    private activatedRoute: ActivatedRoute,
+    private fb: FormBuilder,
+    private localStorage: LocalStorageService
+  ) { }
 
   ngOnInit(): void {
-    this.id = Number(this.activatedRoute.snapshot.paramMap.get("id"));
-    this.serverService.getServerById(this.id).subscribe((server) => {
-      this.serverName = server.name; 
+    this.id = Number(this.activatedRoute.snapshot.paramMap.get('id'));
+    this.serverService.getServerById(this.id).subscribe(server => {
+      this.serverName = server.name;
+    });
+
+    this.formServer = this.fb.group({
+      serverName: [this.serverName, [Validators.required, Validators.minLength(1)]],
     });
   }
 
- /*  editServerName(newName: string): void {
-    const updatedServer = { name: newName }; 
-    this.serverService.updateServer(this.id, updatedServer).subscribe({
-      next: (updated) => {
-        this.serverName = updated.name; 
-        console.log('Server name updated successfully!');
-      },
-      error: (error) => console.error('There was an error updating the server name', error)
-    });
-  } */
+  edit() {
+    this.editPopup = true;
+  }
+
+  update() {
+    if (this.formServer.valid) {
+      this.serverService.updateServerNameById(this.id, this.formServer.get('serverName')?.value).subscribe(() => {
+        this.serverName = this.formServer.get('serverName')?.value;
+        this.editPopup = false; 
+      });
+    }
+  }
 }

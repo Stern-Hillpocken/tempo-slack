@@ -1,4 +1,12 @@
 <h1>Server</h1>
 <div *ngIf="serverName">
-    <h2>{{ serverName }}</h2>
+  <h2>{{ serverName }}</h2>
+  <button (click)="edit()">Modifier</button>
+</div>
+<div *ngIf="editPopup">
+  <form [formGroup]="formServer">
+    <label for="serverName" class="form-label">Nom du serveur</label>
+    <input formControlName="serverName" type="text" class="form-control" id="serverName" placeholder="Nom" />
+    <button (click)="update()" type="button">Enregistrer</button>
+  </form>
 </div>
