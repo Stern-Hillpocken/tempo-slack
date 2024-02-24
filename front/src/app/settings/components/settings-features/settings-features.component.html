@@ -1,5 +1,9 @@
 <div id="settings-features">
-    <app-navigation></app-navigation>
+    <app-navigation
+        (homeEmitter)="onHomeReceive()"
+    ></app-navigation>
     <app-user-informations></app-user-informations>
-    <app-logout></app-logout>
+    <app-logout
+        (lougoutEmitter)="onLogoutReceive()"
+    ></app-logout>
 </div>

@@ -22,4 +22,9 @@ export class LocalStorageService {
     localStorage.setItem("pseudo", pp.pseudo);
     localStorage.setItem("password", pp.password);
   }
+
+  removePseudoPassword(): void {
+    localStorage.removeItem("pseudo");
+    localStorage.removeItem("password");
+  }
 }

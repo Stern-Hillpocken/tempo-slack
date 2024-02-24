@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import { Component, EventEmitter, Output } from '@angular/core';
 
 @Component({
   selector: 'app-navigation',
@@ -7,4 +7,10 @@ import { Component } from '@angular/core';
 })
 export class NavigationComponent {
 
+  @Output()
+  homeEmitter: EventEmitter<void> = new EventEmitter();
+
+  home(): void {
+    this.homeEmitter.emit();
+  }
 }

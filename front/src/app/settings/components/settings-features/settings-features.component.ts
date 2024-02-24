@@ -1,4 +1,6 @@
 import { Component } from '@angular/core';
+import { Router } from '@angular/router';
+import { LocalStorageService } from 'src/app/shared/local-storage.service';
 
 @Component({
   selector: 'app-settings-features',
@@ -7,4 +9,17 @@ import { Component } from '@angular/core';
 })
 export class SettingsFeaturesComponent {
 
+  constructor(
+    private router: Router,
+    private lss: LocalStorageService
+  ){}
+
+  onHomeReceive(): void {
+    this.router.navigateByUrl("home");
+  }
+
+  onLogoutReceive(): void {
+    this.lss.removePseudoPassword();
+    this.router.navigateByUrl("/");
+  }
 }

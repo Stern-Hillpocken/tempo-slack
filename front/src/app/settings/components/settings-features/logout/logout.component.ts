@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import { Component, EventEmitter, Output } from '@angular/core';
 
 @Component({
   selector: 'app-logout',
@@ -7,4 +7,10 @@ import { Component } from '@angular/core';
 })
 export class LogoutComponent {
 
+  @Output()
+  lougoutEmitter: EventEmitter<void> = new EventEmitter();
+
+  logout(): void {
+    this.lougoutEmitter.emit();
+  }
 }
