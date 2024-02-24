@@ -5,6 +5,7 @@ import { LocalStorageService } from 'src/app/shared/local-storage.service';
 import { Router } from '@angular/router';
 import { PopupFeedbackService } from 'src/app/shared/popup-feedback.service';
 import { PopupFeedback } from '../../models/popup-feedback.model';
+import { HttpClient } from '@angular/common/http';
 
 @Component({
   selector: 'app-landing-page',
@@ -19,7 +20,8 @@ export class LandingPageComponent {
     private userService: UserService,
     private lss: LocalStorageService,
     private router: Router,
-    private pfbs: PopupFeedbackService
+    private pfbs: PopupFeedbackService,
+    private http: HttpClient
   ){}
 
   onFormChoiceReceive(value: "login" | "signin"): void {
@@ -49,6 +51,10 @@ export class LandingPageComponent {
         this.router.navigateByUrl("/home");
       }
     });
+  }
+
+  generateServers(): void {
+    this.http.get("http://localhost:8080/init").subscribe(resp => this.pfbs.setFeed(new PopupFeedback("Servers générés !!","valid")));
   }
 
 }
