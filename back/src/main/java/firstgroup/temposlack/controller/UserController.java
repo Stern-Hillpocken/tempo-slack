@@ -22,12 +22,22 @@ public class UserController {
     @Autowired
     UserService userService;
 
-    @GetMapping("/{id}")
+    /*@GetMapping("/{id}")
     public ResponseEntity<UserPublicDTO> getPublicById(@PathVariable Long id) {
         Optional<User> optionalUser = userService.getById(id);
         if (optionalUser.isEmpty()) {
             return ResponseEntity.notFound().build();
         }
+        User user = optionalUser.get();
+        UserPublicDTO userPublicDTO = UserPublicMapper.userToDTO(user);
+        return ResponseEntity.ok(userPublicDTO);
+    }*/
+
+    @GetMapping("/{pseudo}")
+    public ResponseEntity<UserPublicDTO> getPublicByPseudo(@PathVariable String pseudo) {
+        Optional<User> optionalUser = userService.getByPseudo(pseudo);
+        if (optionalUser.isEmpty()) return ResponseEntity.notFound().build();
+
         User user = optionalUser.get();
         UserPublicDTO userPublicDTO = UserPublicMapper.userToDTO(user);
         return ResponseEntity.ok(userPublicDTO);

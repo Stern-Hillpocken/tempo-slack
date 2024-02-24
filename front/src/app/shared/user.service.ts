@@ -3,6 +3,7 @@ import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
 import { SigninForm } from '../core/models/signin-form.model';
 import { UtilsService } from './utils.service';
+import { UserPublic } from '../core/models/user-public.model';
 
 @Injectable({
   providedIn: 'root'
@@ -20,5 +21,9 @@ export class UserService {
 
   add(signinForm: SigninForm): Observable<any> {
     return this.http.post<any>(this.utils.getBaseUrl()+"users", signinForm);
+  }
+
+  getPublic(pseudo: string): Observable<UserPublic> {
+    return this.http.get<UserPublic>(this.utils.getBaseUrl()+"users/"+pseudo);
   }
 }
