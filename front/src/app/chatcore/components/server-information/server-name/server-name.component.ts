@@ -23,7 +23,8 @@ export class ServerNameComponent implements OnInit {
   ) { }
 
   ngOnInit(): void {
-    this.id = Number(this.activatedRoute.snapshot.paramMap.get('id'));
+   // this.id = Number(this.activatedRoute.snapshot.paramMap.get('id'));
+    this.id = 1;
     this.serverService.getServerById(this.id).subscribe(server => {
       this.serverName = server.name;
     });

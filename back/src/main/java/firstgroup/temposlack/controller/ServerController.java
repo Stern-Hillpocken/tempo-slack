@@ -140,7 +140,7 @@ public class ServerController {
 
         if (!server.isUserInServer(user) || !roleService.isOwner(user, server))
             return ResponseEntity.notFound().build();
-
+        server.setName(serverUpdateDTO.getName());
         serverService.update(server);
         return ResponseEntity.ok().build();
     }

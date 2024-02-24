@@ -43,6 +43,8 @@ export class ServerService {
 
   updateServerNameById(idServer: number, updateName: string): Observable<any> {
     let dto = { name: updateName, user: this.localStorageService.getPseudoPassword()};
+    console.log(dto);
+    
     return this.http.put<any>(this.utils.getBaseUrl()+"servers/"+idServer, dto);
   }
 }
