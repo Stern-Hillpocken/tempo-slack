@@ -174,6 +174,7 @@ public class ServerController {
         Optional<Server> optionalServer = serverService.getById(idServer);
         Optional<Room> optionalRoom = roomService.getRoomById(idRoom);
         Optional<User> optionalUser = userService.getByPseudo(messagePostedDTO.getUser().getPseudo());
+
         if (optionalServer.isEmpty() || optionalRoom.isEmpty() || optionalUser.isEmpty())
             return ResponseEntity.notFound().build();
 
@@ -271,7 +272,7 @@ public class ServerController {
     }
 
     //delete message
-    @DeleteMapping("{idServer}/{idRoom}/{idMessage}")
+    @PostMapping("{idServer}/{idRoom}/{idMessage}")
     public ResponseEntity<?> deleteMessage(@PathVariable("idServer") Long idServer, @PathVariable("idRoom") Long idRoom,
                                            @PathVariable("idMessage") Long idMessage, @RequestBody UserPseudoPasswordDTO userPseudoPasswordDTO) {
         if (userPseudoPasswordDTO == null || !userService.isUserPseudoPasswordDTOValid(userPseudoPasswordDTO))

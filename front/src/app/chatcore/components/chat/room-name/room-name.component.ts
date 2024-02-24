@@ -24,8 +24,7 @@ export class RoomNameComponent {
     this.serverService.getRoomInServerById(this.idServer, this.idRoom).subscribe(room => {
       this.roomName = room.title;
       console.log(this.roomName)
-        
-    
+      
     })
 
           
