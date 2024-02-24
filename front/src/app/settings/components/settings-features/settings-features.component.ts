@@ -36,6 +36,7 @@ export class SettingsFeaturesComponent {
 
   onLogoutReceive(): void {
     this.lss.removePseudoPassword();
+    this.pfs.setFeed(new PopupFeedback("Vous êtes bien déco 🚪", "valid"));
     this.router.navigateByUrl("/");
   }
 
