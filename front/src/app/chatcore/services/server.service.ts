@@ -3,7 +3,7 @@ import { HttpClient } from "@angular/common/http";
 import { Observable } from "rxjs";
 import { Server } from "src/app/core/models/server.model";
 import { Room } from "src/app/core/models/room.model";
-import { UtilsService } from "src/app/shared/utils.service.";
+import { UtilsService } from "src/app/shared/utils.service";
 import { PseudoPassword } from "src/app/core/models/pseudo-password.model";
 import { LocalStorageService } from "src/app/shared/local-storage.service";
 
