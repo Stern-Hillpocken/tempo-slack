@@ -1,14 +1,14 @@
-<button (click)="openPopup()">Ajouter un server</button>
+<button (click)="openPopup()" id="add-server">Ajouter un server</button>
 <div
     *ngIf="isPopupDisplay"
     id="popup-add-server"
     class="popup-container"
 >
     <div class="popup-inner">
-        <button (click)="closePopup()">Close [X]</button>
+        <button (click)="closePopup()">Fermer [X]</button>
         <form [formGroup]="formAddServer">
             <label for="name">Nom</label>
-            <input formControlName="name" type="text" id="add-server-name">
+            <input formControlName="name" type="text" id="add-server-name" autofocus>
             <input type="submit" (click)="addServer()" value="Ajouter" [disabled]="!formAddServer.valid">
         </form>
     </div>

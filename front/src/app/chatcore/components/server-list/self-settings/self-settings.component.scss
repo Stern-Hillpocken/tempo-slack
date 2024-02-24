@@ -1,4 +1,9 @@
 #self-settings {
-    cursor: pointer;
-    background-color: var(--color-accent);
+    display: flex;
+    align-items: center;
+    margin: auto;
+
+    div {
+        margin-left: 0.5em;
+    }
 }

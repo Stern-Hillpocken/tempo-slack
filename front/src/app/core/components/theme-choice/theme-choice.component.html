@@ -1,7 +1,7 @@
 <div id="theme-choice">
     <p>
         Changer de couleur en&nbsp;:<br>
-        <button (click)="changeTheme('navy')">Navy</button>
-        <button (click)="changeTheme('retro')">Retro</button>
+        <button (click)="changeTheme('navy')" class="navy" [ngClass]="theme === 'navy' ? '' : 'not-selected'">Navy</button>
+        <button (click)="changeTheme('retro')" class="retro" [ngClass]="theme === 'retro' ? '' : 'not-selected'">Retro</button>
     </p>
 </div>
