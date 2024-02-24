@@ -2,45 +2,30 @@ package firstgroup.temposlack.dto;
 
 public class UserUpdateDTO {
 
-    private String oldPseudo;
-    private String oldPassword;
-    private String oldEmail;
-    private String oldAvatar;
+    private String avatar;
+    private String pseudo;
+    private String password;
+    private String email;
 
-    private String newPseudo;
-    private String newPassword;
-    private String newEmail;
-    private String newAvatar;
+    private UserPseudoPasswordDTO user;
 
-    public String getOldPseudo() {
-        return oldPseudo;
+    public String getAvatar() {
+        return avatar;
     }
 
-    public String getOldPassword() {
-        return oldPassword;
+    public String getPseudo() {
+        return pseudo;
     }
 
-    public String getOldEmail() {
-        return oldEmail;
+    public String getPassword() {
+        return password;
     }
 
-    public String getOldAvatar() {
-        return oldAvatar;
+    public String getEmail() {
+        return email;
     }
 
-    public String getNewPseudo() {
-        return newPseudo;
-    }
-
-    public String getNewPassword() {
-        return newPassword;
-    }
-
-    public String getNewEmail() {
-        return newEmail;
-    }
-
-    public String getNewAvatar() {
-        return newAvatar;
+    public UserPseudoPasswordDTO getUser() {
+        return user;
     }
 }
