@@ -1,8 +1,13 @@
 <form [formGroup]="formLogin">
-    <label for="pseudo">Pseudo</label>
-    <input formControlName="pseudo" type="text" id="pseudo">
-    <label for="password">Mot de passe</label>
-    <input formControlName="password" type="password" id="password">
-    <br>
+    <div id="zinputs">
+        <div>
+            <label for="pseudo">Pseudo</label><br>
+            <input formControlName="pseudo" type="text" id="pseudo">
+        </div>
+        <div>
+            <label for="password">Mot de passe</label><br>
+            <input formControlName="password" type="password" id="password">
+        </div>
+    </div>
     <input type="submit" (click)="login()" value="Connexion" [disabled]="!formLogin.valid">
 </form>

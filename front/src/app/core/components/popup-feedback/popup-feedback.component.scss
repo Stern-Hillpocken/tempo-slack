@@ -3,7 +3,12 @@
     left: 50%;
     transform: translate(-50%, 0);
     border: 2px solid var(--color-text);
+    border-bottom-left-radius: 1em;
+    border-bottom-right-radius: 1em;
     text-align: center;
+    padding: 1em;
+    box-shadow: -4px 4px 2px black;
+    font-size: 1.2em;
 }
 
 

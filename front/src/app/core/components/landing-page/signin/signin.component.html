@@ -1,12 +1,29 @@
 <form [formGroup]="formSignin">
-    <label for="pseudo">Pseudo</label>
-    <input formControlName="pseudo" type="text" id="pseudo">
-    <label for="password">Mot de passe</label>
-    <input formControlName="password" type="password" id="password">
-    <label for="email">Email</label>
-    <input formControlName="email" type="email" id="email">
-    <label for="avatar">Avatar</label>
-    <input formControlName="avatar" type="text" id="avatar">
-    <br>
+    <div id="zinputs">
+        <div>
+            <label for="pseudo">Pseudo</label><br>
+            <input formControlName="pseudo" type="text" id="pseudo">
+            <ng-container *ngIf="formSignin.controls['pseudo'].errors?.['minlength'] && formSignin.controls['pseudo'].touched">
+                <br>
+                <p>Le pseudo doit avoir une longueur comprise entre 3 et 15, sans emoji.</p>
+            </ng-container>
+        </div>
+        <div>
+            <label for="password">Mot de passe</label><br>
+            <input formControlName="password" type="password" id="password">
+            <ng-container *ngIf="formSignin.controls['password'].errors?.['minlength'] && formSignin.controls['password'].touched">
+                <br>
+                <p>Le mot de passe doit avoir une longueur comprise entre 6 et 20, avec un chiffre et un charactère spécial.</p>
+            </ng-container>
+        </div>
+        <div>
+            <label for="email">Email</label><br>
+            <input formControlName="email" type="email" id="email">
+        </div>
+        <div>
+            <label for="avatar">Avatar</label><br>
+            <input formControlName="avatar" type="text" id="avatar">
+        </div>
+    </div>
     <input type="submit" (click)="signin()" value="Inscription" [disabled]="!formSignin.valid">
 </form>
