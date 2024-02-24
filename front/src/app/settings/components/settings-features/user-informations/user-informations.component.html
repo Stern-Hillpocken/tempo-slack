@@ -1,1 +1,79 @@
-<p>user-informations works!</p>
+<div id="settings-user-informations">
+    <table>
+        <tr>
+            <td [ngClass]="attributeEditing === 'avatar' ? 'editing' : ''">Avatar</td>
+            <ng-container *ngIf="attributeEditing !== 'avatar'">
+                <td>{{ user.avatar }}</td>
+                <td><button (click)="edit('avatar')">Modifier</button></td>
+            </ng-container>
+            <ng-container *ngIf="attributeEditing === 'avatar'">
+                <td>
+                    <form [formGroup]="formAvatar">
+                        <input formControlName="avatar" type="text" id="avatar" autofocus>
+                        <button type="submit" (click)="update('avatar')">Mettre à jour</button>
+                    </form>
+                </td>
+                <td>
+                    <button (click)="cancel()">Annuler</button>
+                </td>
+            </ng-container>
+        </tr>
+
+        <tr>
+            <td [ngClass]="attributeEditing === 'pseudo' ? 'editing' : ''">Pseudo</td>
+            <ng-container *ngIf="attributeEditing !== 'pseudo'">
+                <td>{{ user.pseudo }}</td>
+                <td><button (click)="edit('pseudo')">Modifier</button></td>
+            </ng-container>
+            <ng-container *ngIf="attributeEditing === 'pseudo'">
+                <td>
+                    <form [formGroup]="formPseudo">
+                        <input formControlName="pseudo" type="text" id="pseudo" autofocus>
+                        <button type="submit" (click)="update('pseudo')">Mettre à jour</button>
+                    </form>
+                </td>
+                <td>
+                    <button (click)="cancel()">Annuler</button>
+                </td>
+            </ng-container>
+        </tr>
+
+        <tr>
+            <td [ngClass]="attributeEditing === 'password' ? 'editing' : ''">Mot de passe</td>
+            <ng-container *ngIf="attributeEditing !== 'password'">
+                <td>*******</td>
+                <td><button (click)="edit('password')">Modifier</button></td>
+            </ng-container>
+            <ng-container *ngIf="attributeEditing === 'password'">
+                <td>
+                    <form [formGroup]="formPassword">
+                        <input formControlName="password" type="password" id="password" autofocus>
+                        <button type="submit" (click)="update('password')">Mettre à jour</button>
+                    </form>
+                </td>
+                <td>
+                    <button (click)="cancel()">Annuler</button>
+                </td>
+            </ng-container>
+        </tr>
+
+        <tr>
+            <td [ngClass]="attributeEditing === 'email' ? 'editing' : ''">Email</td>
+            <ng-container *ngIf="attributeEditing !== 'email'">
+                <td>{{ user.email }}</td>
+                <td><button (click)="edit('email')">Modifier</button></td>
+            </ng-container>
+            <ng-container *ngIf="attributeEditing === 'email'">
+                <td>
+                    <form [formGroup]="formEmail">
+                        <input formControlName="email" type="email" id="email" autofocus>
+                        <button type="submit" (click)="update('email')">Mettre à jour</button>
+                    </form>
+                </td>
+                <td>
+                    <button (click)="cancel()">Annuler</button>
+                </td>
+            </ng-container>
+        </tr>
+    </table>
+</div>

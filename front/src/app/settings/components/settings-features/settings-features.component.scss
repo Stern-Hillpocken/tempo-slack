@@ -1,3 +1,9 @@
 #settings-features {
-    background-color: var(--color-complement);
+    text-align: center;
+    
+    div {
+        margin: auto;
+        background-color: var(--color-complement);
+        display: inline-block;
+    }
 }

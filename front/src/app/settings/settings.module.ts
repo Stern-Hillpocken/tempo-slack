@@ -6,6 +6,7 @@ import { UserInformationsComponent } from './components/settings-features/user-i
 import { NavigationComponent } from './components/settings-features/navigation/navigation.component';
 import { LogoutComponent } from './components/settings-features/logout/logout.component';
 import { SettingsRoutingModule } from './settings-routing.module';
+import { ReactiveFormsModule } from '@angular/forms';
 
 
 
@@ -19,6 +20,7 @@ import { SettingsRoutingModule } from './settings-routing.module';
   ],
   imports: [
     CommonModule,
+    ReactiveFormsModule,
     SettingsRoutingModule
   ],
   exports: [

@@ -43,7 +43,7 @@ public class UserController {
         return ResponseEntity.ok(userPublicDTO);
     }
 
-    @GetMapping("/me")
+    @PostMapping("/me")
     public ResponseEntity<UserPrivateDTO> getPrivateById(@RequestBody UserPseudoPasswordDTO userPseudoPasswordDTO) {
         if (userPseudoPasswordDTO == null || !userService.isUserPseudoPasswordDTOValid(userPseudoPasswordDTO))
             return ResponseEntity.noContent().build();
@@ -110,7 +110,7 @@ public class UserController {
         return disableAccount(userDTO);
     }
 
-    @PutMapping("/me")
+    /*@PutMapping("/me")
     public ResponseEntity<?> update(@RequestBody UserUpdateDTO userUpdateDTO) {
         if (userUpdateDTO == null || userUpdateDTO.getOldPseudo() == null || userUpdateDTO.getNewPseudo() == null || userUpdateDTO.getOldPassword() == null || userUpdateDTO.getNewPassword() == null || userUpdateDTO.getOldEmail() == null || userUpdateDTO.getNewEmail() == null || userUpdateDTO.getOldAvatar() == null || userUpdateDTO.getNewAvatar() == null)
             return ResponseEntity.noContent().build();
@@ -135,6 +135,57 @@ public class UserController {
         user.setPassword(userUpdateDTO.getNewPassword());
         user.setEmail(userUpdateDTO.getNewEmail());
         user.setAvatar(userUpdateDTO.getNewAvatar());
+        userService.update(user);
+        return ResponseEntity.ok().build();
+    }*/
+
+    @PutMapping("/avatar")
+    public ResponseEntity<?> updateAvatar(@RequestBody UserUpdateAvatarDTO userDTO) {
+        if (userDTO == null || userDTO.getAvatar() == null || userDTO.getAvatar().equals("")) return ResponseEntity.noContent().build();
+        if (!userService.isUserPasswordMatching(userDTO.getUser())) return ResponseEntity.notFound().build();
+        if (!userService.isAvatarExist(userDTO.getAvatar())) return ResponseEntity.badRequest().build();
+
+        User user = userService.getByPseudo(userDTO.getUser().getPseudo()).get();
+        user.setAvatar(userDTO.getAvatar());
+        userService.update(user);
+        return ResponseEntity.ok().build();
+    }
+
+    @PutMapping("/pseudo")
+    public ResponseEntity<?> updatePseudo(@RequestBody UserUpdatePseudoDTO userDTO) {
+        if (userDTO == null || userDTO.getPseudo() == null || userDTO.getPseudo().equals("")) return ResponseEntity.noContent().build();
+        if (!userService.isUserPasswordMatching(userDTO.getUser())) return ResponseEntity.notFound().build();
+        if (userService.hasEmoji(userDTO.getPseudo()) || userService.hasStrangeChar(userDTO.getPseudo())) return ResponseEntity.badRequest().build();
+        if (userDTO.getPseudo().equals(userDTO.getUser().getPseudo())) return ResponseEntity.ok().build();
+
+        Optional<User> optionalUser = userService.getByPseudo(userDTO.getPseudo());
+        if (optionalUser.isPresent()) return ResponseEntity.status(HttpStatus.CONFLICT).build();
+
+        User user = userService.getByPseudo(userDTO.getUser().getPseudo()).get();
+        user.setPseudo(userDTO.getPseudo());
+        userService.update(user);
+        return ResponseEntity.ok().build();
+    }
+
+    @PutMapping("/password")
+    public ResponseEntity<?> updatePassword(@RequestBody UserUpdatePasswordDTO userDTO) {
+        if (userDTO == null || userDTO.getPassword() == null || userDTO.getPassword().equals("")) return ResponseEntity.noContent().build();
+        if (!userService.isUserPasswordMatching(userDTO.getUser())) return ResponseEntity.notFound().build();
+        if (userService.hasEmoji(userDTO.getPassword()) || !userService.isPasswordWellFormatted(userDTO.getPassword())) return ResponseEntity.badRequest().build();
+
+        User user = userService.getByPseudo(userDTO.getUser().getPseudo()).get();
+        user.setPassword(userDTO.getPassword());
+        userService.update(user);
+        return ResponseEntity.ok().build();
+    }
+
+    @PutMapping("/email")
+    public ResponseEntity<?> updateEmail(@RequestBody UserUpdateEmailDTO userDTO) {
+        if (userDTO == null || userDTO.getEmail() == null || userDTO.getEmail().equals("")) return ResponseEntity.noContent().build();
+        if (!userService.isUserPasswordMatching(userDTO.getUser())) return ResponseEntity.notFound().build();
+
+        User user = userService.getByPseudo(userDTO.getUser().getPseudo()).get();
+        user.setEmail(userDTO.getEmail());
         userService.update(user);
         return ResponseEntity.ok().build();
     }
