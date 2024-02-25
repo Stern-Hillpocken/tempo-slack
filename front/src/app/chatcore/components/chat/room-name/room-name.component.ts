@@ -1,6 +1,7 @@
-import { Component } from '@angular/core';
+import { Component, Input } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 import { ServerService } from 'src/app/chatcore/services/server.service';
+import { Room } from 'src/app/core/models/room.model';
 
 @Component({
   selector: 'app-room-name',
@@ -9,27 +10,30 @@ import { ServerService } from 'src/app/chatcore/services/server.service';
 })
 export class RoomNameComponent {
 
-  idServer!: number;
-  idRoom!: number;
-  roomName! : string;
+  @Input()
+  room!: Room;
+
+  // idServer!: number;
+  // idRoom!: number;
+  // roomName! : string;
  
-  constructor(private serverService: ServerService, private activatedRoute: ActivatedRoute){
+  // constructor(private serverService: ServerService, private activatedRoute: ActivatedRoute){
 
-  }
-  ngOnInit() {
+  // }
+  // ngOnInit() {
 
-    this.idServer = Number(this.activatedRoute.snapshot.paramMap.get("idServer"));
-    this.idRoom = Number(this.activatedRoute.snapshot.paramMap.get("idRoom"));
+  //   this.idServer = Number(this.activatedRoute.snapshot.paramMap.get("idServer"));
+  //   this.idRoom = Number(this.activatedRoute.snapshot.paramMap.get("idRoom"));
     
-    this.serverService.getRoomInServerById(this.idServer, this.idRoom).subscribe(room => {
-      this.roomName = room.title;
-      console.log(this.roomName)
+  //   this.serverService.getRoomInServerById(this.idServer, this.idRoom).subscribe(room => {
+  //     this.roomName = room.title;
+  //     console.log(this.roomName)
       
-    })
+  //   })
 
           
    
-  }
+  //}
 
 
 }

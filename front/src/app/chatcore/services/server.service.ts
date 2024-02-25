@@ -51,7 +51,7 @@ export class ServerService {
 
   addMessage(message: Message, idServer : number, idRoom: number): Observable<Message>{
     console.log(message)
-    return this.http.post<Message>(this.utils.getBaseUrl()+`servers/1/1`, message)
+    return this.http.post<Message>(this.utils.getBaseUrl()+`servers/3/4`, message)
 }
   deleteMessageInRoomInServerById(idServer: number, idRoom: number, idMessage : number, user : PseudoPassword): Observable<Message> {
    return this.http.post<Message>(this.utils.getBaseUrl()+`servers/1/1/4`, user);

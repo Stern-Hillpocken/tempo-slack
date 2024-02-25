@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, EventEmitter, OnInit, Output } from '@angular/core';
 import { FormBuilder, FormControl, FormGroup } from '@angular/forms';
 import { ActivatedRoute } from '@angular/router';
 import { MessageStoreService } from 'src/app/chatcore/services/message-store.service';
@@ -15,33 +15,22 @@ import { LocalStorageService } from 'src/app/shared/local-storage.service';
 })
 export class MessageFormComponent implements OnInit{
 formMessage!: FormGroup;
-idServer! : number;
-idRoom! : number;
-user! : PseudoPassword;
-message!: Message;
 
 
+@Output()
+addMessageEmitter: EventEmitter<string> = new EventEmitter();
 
+constructor(private fb: FormBuilder, private messageService : MessagesService, private serverService : ServerService, private activatedRoute: ActivatedRoute, private localStorageService : LocalStorageService, private messageStoreService : MessageStoreService ){}
 
-constructor(private fb: FormBuilder, private messageService : MessagesService, private serverService : ServerService, private activatedRoute: ActivatedRoute, private localStorageService : LocalStorageService, private messageStoreService : MessageStoreService ){
-
-}
 ngOnInit(): void {
   // console.log(this.selected)
    this.formMessage = this.fb.group({
      content:['']
-     
    })
  }
-
- save(){
-  
-  console.log(this.formMessage.value);
-  
-  this.user = this.localStorageService.getPseudoPassword();
-  this.message = {user : this.user,...this.formMessage.value} ;
-  this.serverService.addMessage(this.message, this.idServer, this.idRoom).subscribe(v =>console.log(v))
-}
- 
+  addMessage(): void {
+    console.log('toto')
+  // this.addMessageEmitter.emit(this.formMessage.value.content);
  }
 
+}
