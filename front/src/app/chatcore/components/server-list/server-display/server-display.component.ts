@@ -1,4 +1,4 @@
-import { Component, Input } from '@angular/core';
+import { Component, EventEmitter, Input, Output } from '@angular/core';
 import { Server } from 'src/app/core/models/server.model';
 
 @Component({
@@ -9,6 +9,16 @@ import { Server } from 'src/app/core/models/server.model';
 export class ServerDisplayComponent {
 
   @Input()
+  currentServerId!: number;
+
+  @Input()
   server!: Server;
+
+  @Output()
+  changeServerEmitter: EventEmitter<Server> = new EventEmitter();
+
+  changeServer(): void {
+    this.changeServerEmitter.emit(this.server);
+  }
 
 }
