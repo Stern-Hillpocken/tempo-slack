@@ -1,0 +1,41 @@
+textarea {
+    display: block;
+    width: 100%;
+}
+
+.message {
+    background-color: var(--color-text);
+    color: black;
+    border-radius: 1em;
+    border-left: 4px solid var(--color-dominent);
+    padding: 0.5em;
+    margin-bottom: 0.5em;
+    position: relative;
+}
+
+.core {
+    display: flex;
+    >div { width: 100%; }
+
+    .message-pseudo {
+        font-weight: bold;
+        font-size: 1.2em;
+        color: var(--color-accent);
+    }
+    .message-date {
+        opacity: 0.5;
+    }
+}
+
+.message-owner {
+    border-left-color: var(--color-accent);
+}
+
+.edit-buttons {
+    display: none;
+    position: absolute;
+    right: 0;
+}
+.message:hover .edit-buttons {
+    display: block;
+}
