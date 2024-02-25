@@ -1,5 +1,5 @@
 <div id="chat" class="home-section">
     <app-room-name [room]="room"></app-room-name>
-    <app-message *ngFor="let message of messagesList" [message]="message"></app-message>
+    <app-message *ngFor="let message of messagesList.slice().reverse()" [message]="message"  (updateMessageEmitter)="onUpdateMessageReceive($event)" (deleteMessageEmitter)="onDeleteMessageReceive($event)"></app-message>
     <app-message-form (addMessageEmitter)="onAddMessageReceive($event)" ></app-message-form>
 </div>
