@@ -7,7 +7,8 @@
         <div *ngIf="popUp">
             <form [formGroup]="formUpdateMessage">
             <label for="content" class="form-label">Votre message</label>
-            <textarea formControlName="content" type="text" class="form-control" id="content"  name="content" value={{message.content}}></textarea>
+            <textarea formControlName="content" type="text" class="form-control" id="content"  name="content" [value]="message.content"></textarea>
+            <input formControlName="id" type="hidden" class="form-control" id="id"  name="id" [value]="message.id"/>
             <button (click)="updateMessage()">Enregistrer </button>
             <button (click)="closePopup()">Annuler</button>
             </form>

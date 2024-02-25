@@ -7,7 +7,7 @@ import { ServerSharedInfo } from '../core/models/server-shared-info.model';
 })
 export class ServerSharedService {
 
-  private readonly _serverShared$: BehaviorSubject<ServerSharedInfo> = new BehaviorSubject<ServerSharedInfo>(new ServerSharedInfo(0,0));
+  private readonly _serverShared$: BehaviorSubject<ServerSharedInfo> = new BehaviorSubject<ServerSharedInfo>(new ServerSharedInfo(0,6));
 
   getServerShared(): Observable<ServerSharedInfo> {
     return this._serverShared$.asObservable();

@@ -51,14 +51,14 @@ export class ServerService {
 
   addMessage(message: Message, idServer : number, idRoom: number): Observable<Message>{
     console.log(message)
-    return this.http.post<Message>(this.utils.getBaseUrl()+`servers/3/4`, message)
+    return this.http.post<Message>(this.utils.getBaseUrl()+"servers/"+idServer+"/"+idRoom, message)
 }
   deleteMessageInRoomInServerById(idServer: number, idRoom: number, idMessage : number, user : PseudoPassword): Observable<Message> {
-   return this.http.post<Message>(this.utils.getBaseUrl()+`servers/1/1/4`, user);
+   return this.http.post<Message>(this.utils.getBaseUrl()+"servers/"+idServer+"/"+idRoom+"/"+idMessage, user)
   }
 
   updateMessage(idMessage : number, message: Message): Observable<Message>{
-       return this.http.put<Message>(this.utils.getBaseUrl()+`servers/edit-message/4`, message);
+       return this.http.put<Message>(this.utils.getBaseUrl()+"servers/edit-message/"+idMessage, message);
   }
   
 }
