@@ -5,7 +5,7 @@ import { LocalStorageService } from 'src/app/shared/local-storage.service';
 import { PopupFeedbackService } from 'src/app/shared/popup-feedback.service';
 import { PopupFeedback } from 'src/app/core/models/popup-feedback.model';
 
-import { ServerSharedService } from 'src/app/shared/servershared.service';
+import { ServerSharedService } from 'src/app/shared/server-shared.service';
 
 import { UserPublic } from 'src/app/core/models/user-public.model';
 import { UserService } from 'src/app/shared/user.service';
@@ -53,7 +53,7 @@ export class ServerListComponent {
       if (this.servers.length > 0) {
         // Supposons que le dernier serveur de la liste est le nouveau serveur
         const newServer = this.servers[this.servers.length - 1];
-        this.serverSharedService.changeServerId(newServer.id);
+        this.serverSharedService.setServerId(newServer.id);
       }
     });
   }
