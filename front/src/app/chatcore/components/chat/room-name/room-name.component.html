@@ -1,1 +1,15 @@
-<p *ngIf="room">{{room.title}}</p>
+    <button (click)="openPopup()" >Modifiez</button>
+    <div *ngIf="popUp">
+        <form [formGroup]="formUpdateRoom">
+        <label for="content" class="form-label">Nouveau nom de la room</label>
+        <input formControlName="title" type="text" class="form-control" id="title"  name="title" [value]="room.title"/>
+        <button (click)="updateNameRoom()">Enregistrer </button>
+        <button (click)="closePopup()">Annuler</button>
+        </form>
+    </div>
+    <span *ngIf="room">{{room.title}}</span>
+    <button (click)="openPopupDelete()" >Supprimez</button> 
+        <div *ngIf="popUpDelete">               
+        <button (click)="deleteRoom()">Supprimez la Room</button>
+        <button (click)="closePopupDelete()">Annuler</button>
+        </div>    

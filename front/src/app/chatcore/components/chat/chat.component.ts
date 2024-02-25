@@ -65,7 +65,6 @@ export class ChatComponent implements OnInit {
     
   onDeleteMessageReceive(idMessage: number){
   this.user = this.localStorageService.getPseudoPassword();
-  console.log(this.user)
   this.serverSharedService.getServerShared().subscribe(serverInfo => {
   this.serverService.deleteMessageInRoomInServerById(serverInfo.currentServerId, serverInfo.currentRoomId, idMessage, this.user).subscribe(v => {
     console.log(v);
@@ -84,6 +83,23 @@ export class ChatComponent implements OnInit {
      this.updateDisplay(this.idServer, this.idRoom)});
    }
    }
+
+   onUpdateNameRoomReceive(room : string){
+    this.serverSharedService.getServerShared().subscribe(serverInfo => {
+    this.serverService.updateRoom(serverInfo.currentServerId, serverInfo.currentRoomId, room).subscribe(v =>{
+       console.log(v);
+     this.updateDisplay(this.idServer, this.idRoom)});
+   })
+  }
+
+   onDeleteRoomReceive(idRoom: number){
+    this.user = this.localStorageService.getPseudoPassword();
+    this.serverSharedService.getServerShared().subscribe(serverInfo => {
+    this.serverService.deleteRoomInServerById(serverInfo.currentServerId, idRoom, this.user).subscribe(v => {
+      console.log(v);
+    }) 
+  })
+  }
 }
 
 

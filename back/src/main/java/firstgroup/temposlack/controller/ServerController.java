@@ -242,7 +242,7 @@ public class ServerController {
     }
 
     // Delete a room
-    @DeleteMapping("{idServer}/{idRoom}")
+    @PostMapping("delete-room/{idServer}/{idRoom}")
     public ResponseEntity<?> deleteRoom(@PathVariable("idServer") Long idServer, @PathVariable("idRoom") Long idRoom, @RequestBody UserPseudoPasswordDTO userPseudoPasswordDTO) {
         if (userPseudoPasswordDTO == null || !userService.isUserPseudoPasswordDTOValid(userPseudoPasswordDTO))
             return ResponseEntity.noContent().build();
