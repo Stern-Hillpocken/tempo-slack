@@ -3,6 +3,7 @@ form {
 
    #zinputs {
     display: flex;
+    flex-wrap: wrap;
     justify-content: center;
     gap: 0.5em;
     margin: 2em;

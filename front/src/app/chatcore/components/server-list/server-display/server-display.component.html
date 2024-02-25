@@ -1,3 +1,3 @@
 <button (click)="changeServer()" class="server" [ngClass]="currentServerId === server.id ? '' : 'button-not-selected'">
-    {{ server.id }}/ {{ server.name }}
+    [{{ server.id }}]{{ server.name }}
 </button>
