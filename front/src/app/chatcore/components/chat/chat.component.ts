@@ -18,18 +18,14 @@ export class ChatComponent implements OnInit {
   message!: Message;
   idServer!: number;
   idRoom!: number;
-  idMessage!: number;
   user!: PseudoPassword;
-  activatedRoute: any;
   room!: Room;
   server!: Server;
-  formUpdateMessage!: FormGroup;
   
   constructor(
     private serverService: ServerService,
     private localStorageService: LocalStorageService,
-    private serverSharedService: ServerSharedService,
-    private fb: FormBuilder
+    private serverSharedService: ServerSharedService
   ){}
 
 
@@ -39,10 +35,10 @@ export class ChatComponent implements OnInit {
     this.serverSharedService.getServerShared().subscribe(serverInfo => {
       this.updateDisplay(serverInfo.currentServerId, serverInfo.currentRoomId)
     });
-      
-    this.formUpdateMessage = this.fb.group({
-      content: [''] // Initialiser avec une chaîne vide
-    });
+
+    /*setInterval(() => {
+      this.updateDisplay(this.idServer, this.idRoom);
+    }, 4000);*/
   }
 
   ngAfterViewChecked(): void {
@@ -72,25 +68,25 @@ export class ChatComponent implements OnInit {
   }
     
   onDeleteMessageReceive(idMessage: number){
-  console.log(this.user)
-  this.serverSharedService.getServerShared().subscribe(serverInfo => {
-  this.serverService.deleteMessageInRoomInServerById(serverInfo.currentServerId, serverInfo.currentRoomId, idMessage, this.user).subscribe(v => {
-    console.log(v);
-  this.updateDisplay(this.idServer, this.idRoom);
-  }
- ) })
+    console.log(this.user)
+    this.serverSharedService.getServerShared().subscribe(serverInfo => {
+      this.serverService.deleteMessageInRoomInServerById(serverInfo.currentServerId, serverInfo.currentRoomId, idMessage, this.user).subscribe(v => {
+          console.log(v);
+          this.updateDisplay(this.idServer, this.idRoom);
+      });
+    });
   }
 
-   onUpdateMessageReceive(message: Message){
-    if (message && message.id !== undefined) {
-    this.idMessage = message.id   
-    this.user = this.localStorageService.getPseudoPassword();
-    let dto = { user : this.user, content : message.content}
-   this.serverService.updateMessage(this.idMessage, dto).subscribe(v =>{
-       console.log(v);
-     this.updateDisplay(this.idServer, this.idRoom)});
-   }
-   }
+  onUpdateMessageReceive(message: Message){
+    if (message && message.id !== undefined) { 
+      this.user = this.localStorageService.getPseudoPassword();
+      let dto = { user : this.user, content : message.content};
+      this.serverService.updateMessage(message.id, dto).subscribe(v => {
+        console.log(v);
+        this.updateDisplay(this.idServer, this.idRoom);
+      });
+    }
+  }
 }
 
 
