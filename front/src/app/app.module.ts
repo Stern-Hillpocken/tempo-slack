@@ -9,6 +9,7 @@ import { ErrorsModule } from './errors/errors.module';
 import { ChatcoreModule } from './chatcore/chatcore.module';
 import { RouterModule } from '@angular/router';
 import { HttpClientModule } from '@angular/common/http';
+import { SettingsModule } from "./settings/settings.module";
 
 @NgModule({
   declarations: [AppComponent],
@@ -18,6 +19,7 @@ import { HttpClientModule } from '@angular/common/http';
     CoreModule,
     ChatcoreModule,
     AppRoutingModule,
+    SettingsModule,
     ErrorsModule,
     RouterModule,
     NgbModule,

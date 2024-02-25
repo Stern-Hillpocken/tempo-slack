@@ -15,6 +15,7 @@ import { ChatComponent } from './components/chat/chat.component';
 import { ChatcoreRoutingModule } from './chatcore-routing.module';
 import { ReactiveFormsModule } from '@angular/forms';
 import { AddServerComponent } from './components/server-list/add-server/add-server.component';
+import { SelfSettingsComponent } from './components/server-list/self-settings/self-settings.component';
 
 
 
@@ -32,7 +33,8 @@ import { AddServerComponent } from './components/server-list/add-server/add-serv
     ServerMembersComponent,
     ServerRolesComponent,
     HomeComponent,
-    AddServerComponent
+    AddServerComponent,
+    SelfSettingsComponent
   ],
   imports: [
     CommonModule,

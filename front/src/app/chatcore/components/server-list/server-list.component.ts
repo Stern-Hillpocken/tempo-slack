@@ -4,7 +4,13 @@ import { ServerService } from '../../services/server.service';
 import { LocalStorageService } from 'src/app/shared/local-storage.service';
 import { PopupFeedbackService } from 'src/app/shared/popup-feedback.service';
 import { PopupFeedback } from 'src/app/core/models/popup-feedback.model';
+
 import { ServerSharedService } from 'src/app/shared/servershared.service';
+
+import { UserPublic } from 'src/app/core/models/user-public.model';
+import { UserService } from 'src/app/shared/user.service';
+import { Router } from '@angular/router';
+
 
 @Component({
   selector: 'app-server-list',
@@ -13,17 +19,26 @@ import { ServerSharedService } from 'src/app/shared/servershared.service';
 })
 export class ServerListComponent {
 
-  servers!: Server[];
+  user!: UserPublic;
+
+  servers: Server[] = [];
 
   constructor(
+    private userService: UserService,
     private serverService: ServerService,
     private lss: LocalStorageService,
     private pfs: PopupFeedbackService,
+
     private serverSharedService: ServerSharedService
+
+    private router: Router
+
   ){}
 
   ngOnInit(): void {
     this.updateDisplay();
+
+    this.userService.getPublic(this.lss.getPseudoPassword().pseudo).subscribe(u => this.user = u);
   }
 
   onAddServerReceive(serverName: string): void {
@@ -33,8 +48,8 @@ export class ServerListComponent {
       this.updateDisplay();
       id++;
       console.log("id emit: " + id);
-      
-      this.serverSharedService.changeServerId(id); 
+
+      this.serverSharedService.changeServerId(id);
     });
   }
 
@@ -49,6 +64,10 @@ export class ServerListComponent {
       }
     });
   }
-  
+
+
+  onSettingsReceive(): void {
+    this.router.navigateByUrl("settings");
+  }
 
 }

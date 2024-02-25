@@ -14,7 +14,10 @@
 }*/
 
 :root {
+    --color-error: red;
+    --color-info: teal;
     --color-valid: green;
+    --color-warning: orange;
 }
 
 *{
@@ -47,17 +50,37 @@ body {
 
 button, input[type='submit'] {
     background-color: var(--color-accent);
+    border-radius: 2em;
+    padding: 0.5em 1em;
+    border: 2px solid var(--color-text);
+    font-size: 1.1em;
+    box-shadow: -4px 4px 2px black;
 }
 
 input:disabled {
     background-color: var(--color-light-accent);
 }
 
+.avatar {
+    background-color: var(--color-light-accent);
+    border-radius: 100%;
+    width: 40px;
+    height: 40px;
+    border: 2px solid var(--color-text);
+}
+
+.home-section {
+    background-color: var(--color-complement);
+    height: 95vh;
+    border-radius: 1em;
+    padding: 0.5em;
+}
+
 .popup-container {
     position: absolute;
     top: 0;
     left: 0;
-    background-color: rgba(0,0,0,0.8);
+    background-color: rgba(0,0,0,0.9);
     height: 100%;
     width: 100%;
 }
@@ -68,5 +91,7 @@ input:disabled {
     left: 50%;
     top: 10%;
     transform: translate(-50%, 0);
+    border-radius: 1em;
+    padding: 0.5em;
     border: 2px solid var(--color-text);
 }

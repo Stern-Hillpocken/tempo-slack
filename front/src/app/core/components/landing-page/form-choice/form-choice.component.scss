@@ -1,3 +1,18 @@
 #form-choice {
     text-align: center;
 }
+
+.signin {
+    border-top-right-radius: 0;
+    border-bottom-right-radius: 0;
+}
+
+.login {
+    border-top-left-radius: 0;
+    border-bottom-left-radius: 0;
+    margin-left: 4px;
+}
+
+.not-selected {
+    background-color: transparent;
+}

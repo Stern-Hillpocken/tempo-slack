@@ -1,4 +1,12 @@
-<div id="server-list">
+<div id="server-list" class="home-section">
+
+    <app-self-settings
+        *ngIf="user"
+        [user]="user"
+        (settingsEmitter)="onSettingsReceive()"
+    ></app-self-settings>
+
+    <hr>
 
     <ng-container *ngFor="let server of servers">
         <app-server-display [server]="server"></app-server-display>

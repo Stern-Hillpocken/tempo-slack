@@ -1,0 +1,14 @@
+<div id="settings-features">
+    <div>
+        <app-navigation
+            (homeEmitter)="onHomeReceive()"
+        ></app-navigation>
+        <app-user-informations
+            [user]="user"
+            (updateEmitter)="onUpdateReceive($event)"
+        ></app-user-informations>
+        <app-logout
+            (lougoutEmitter)="onLogoutReceive()"
+        ></app-logout>
+    </div>
+</div>

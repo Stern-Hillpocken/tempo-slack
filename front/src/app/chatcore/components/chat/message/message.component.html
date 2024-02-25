@@ -1,5 +1,24 @@
 <ul *ngFor="let message of messagesList">
     <div>
+            <div>{{message.user.pseudo}}</div>
+            <span>{{message.date}}</span>
             <div>{{message.content}}</div>
+            <span>
+               
+               <button (click)="openPopup()" >Modifier</button>
+<div *ngIf="popUp">
+    <form [formGroup]="formUpdateMessage">
+    <label for="content" class="form-label">Votre message</label>
+    <textarea formControlName="content" type="text" class="form-control" id="content"  name="content" value={{message.content}}></textarea>
+    <button (click)="updateMessage()">Enregistrer </button>
+    <button (click)="closePopup()">Annuler</button>
+  </form>
+</div>
+        <button (click)="openPopupDelete()" >Supprimer</button> 
+        <div *ngIf="popUpDelete">               
+        <button (click)="deleteMessage()">Supprimer le message</button>
+        <button (click)="closePopupDelete()">Annuler</button>
+            </div>    
+            </span>
     </div>
 </ul>
