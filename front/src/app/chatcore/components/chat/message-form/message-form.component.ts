@@ -29,8 +29,7 @@ ngOnInit(): void {
    })
  }
   addMessage(): void {
-    console.log('toto')
-  // this.addMessageEmitter.emit(this.formMessage.value.content);
+   this.addMessageEmitter.emit(this.formMessage.value.content);
  }
 
 }
