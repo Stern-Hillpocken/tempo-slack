@@ -1,10 +1,8 @@
 import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
-import { ActivatedRoute } from '@angular/router';
 import { of, switchMap } from 'rxjs';
 import { ServerService } from 'src/app/chatcore/services/server.service';
-import { LocalStorageService } from 'src/app/shared/local-storage.service';
-import { ServerSharedService } from 'src/app/shared/servershared.service';
+import { ServerSharedService } from 'src/app/shared/server-shared.service';
 
 @Component({
   selector: 'app-server-name',
@@ -24,7 +22,7 @@ export class ServerNameComponent implements OnInit {
   ) { }
 
   ngOnInit(): void {
-    this.serverSharedService.currentServerId.pipe(
+    /*this.serverSharedService.currentServerId.pipe(
       switchMap((serverId: number | null) => {
         // Vérifie si l'ID est défini avant de continuer
         if (!serverId) return of(null); // Return un observable null si server id est null ou undefined
@@ -41,6 +39,14 @@ export class ServerNameComponent implements OnInit {
           serverName: this.serverName
         });
       }
+    });*/
+    this.serverSharedService.getServerShared().subscribe(serverInfo => {
+      this.serverService.getServerById(serverInfo.currentServerId).subscribe(server => {
+        this.serverName = server.name;
+        this.formServer.patchValue({
+          serverName: this.serverName
+        });
+      })
     });
 
     this.formServer = this.fb.group({
