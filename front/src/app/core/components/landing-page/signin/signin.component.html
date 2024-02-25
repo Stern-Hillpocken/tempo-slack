@@ -31,8 +31,25 @@
             </ng-container>
         </div>
         <div>
-            <label for="avatar">Avatar</label><br>
-            <input formControlName="avatar" type="text" id="avatar">
+            <label>Avatar</label>
+            <div>
+                <label>
+                    <input type="radio" id="base" formControlName="avatar" value="base" checked>
+                    <img src="assets/images/avatars/base.png" class="avatar">
+                </label>
+                <label>
+                    <input type="radio" id="first" formControlName="avatar" value="first">
+                    <img src="assets/images/avatars/first.png" class="avatar">
+                </label>
+                <label>
+                    <input type="radio" id="owner" formControlName="avatar" value="owner">
+                    <img src="assets/images/avatars/owner.png" class="avatar">
+                </label>
+                <label>
+                    <input type="radio" id="premium" formControlName="avatar" value="premium">
+                    <img src="assets/images/avatars/premium.png" class="avatar">
+                </label>
+            </div>           
         </div>
     </div>
     <input type="submit" (click)="signin()" value="Inscription" [disabled]="!formSignin.valid">

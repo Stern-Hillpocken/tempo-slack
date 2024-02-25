@@ -3,18 +3,33 @@
         <tr>
             <td [ngClass]="attributeEditing === 'avatar' ? 'editing' : ''">Avatar</td>
             <ng-container *ngIf="attributeEditing !== 'avatar'">
-                <td>{{ user.avatar }}</td>
+                <td><img src="assets/images/avatars/{{user.avatar}}.png" class="avatar"></td>
                 <td><button (click)="edit('avatar')">Modifier</button></td>
             </ng-container>
             <ng-container *ngIf="attributeEditing === 'avatar'">
                 <td>
                     <form [formGroup]="formAvatar">
-                        <input formControlName="avatar" type="text" id="avatar" autofocus>
-                        <button type="submit" (click)="update('avatar')" [disabled]="!formAvatar.valid">Mettre à jour</button>
+                        <label>
+                            <input type="radio" id="base" formControlName="avatar" value="base" checked>
+                            <img src="assets/images/avatars/base.png" class="avatar">
+                        </label>
+                        <label>
+                            <input type="radio" id="first" formControlName="avatar" value="first">
+                            <img src="assets/images/avatars/first.png" class="avatar">
+                        </label>
+                        <label>
+                            <input type="radio" id="owner" formControlName="avatar" value="owner">
+                            <img src="assets/images/avatars/owner.png" class="avatar">
+                        </label>
+                        <label>
+                            <input type="radio" id="premium" formControlName="avatar" value="premium">
+                            <img src="assets/images/avatars/premium.png" class="avatar">
+                        </label>
+                        <button type="submit" (click)="update('avatar')" class="button-left" [disabled]="!formAvatar.valid">Mettre à jour</button>
                     </form>
                 </td>
                 <td>
-                    <button (click)="cancel()">Annuler</button>
+                    <button (click)="cancel()" class="button-right">Annuler</button>
                 </td>
             </ng-container>
         </tr>
@@ -29,11 +44,11 @@
                 <td>
                     <form [formGroup]="formPseudo">
                         <input formControlName="pseudo" type="text" id="pseudo" autofocus>
-                        <button type="submit" (click)="update('pseudo')" [disabled]="!formPseudo.valid">Mettre à jour</button>
+                        <button type="submit" (click)="update('pseudo')" class="button-left" [disabled]="!formPseudo.valid">Mettre à jour</button>
                     </form>
                 </td>
                 <td>
-                    <button (click)="cancel()">Annuler</button>
+                    <button (click)="cancel()" class="button-right">Annuler</button>
                 </td>
             </ng-container>
         </tr>
@@ -48,11 +63,11 @@
                 <td>
                     <form [formGroup]="formPassword">
                         <input formControlName="password" type="password" id="password" autofocus>
-                        <button type="submit" (click)="update('password')" [disabled]="!formPassword.valid">Mettre à jour</button>
+                        <button type="submit" (click)="update('password')" class="button-left" [disabled]="!formPassword.valid">Mettre à jour</button>
                     </form>
                 </td>
                 <td>
-                    <button (click)="cancel()">Annuler</button>
+                    <button (click)="cancel()" class="button-right">Annuler</button>
                 </td>
             </ng-container>
         </tr>
@@ -67,11 +82,11 @@
                 <td>
                     <form [formGroup]="formEmail">
                         <input formControlName="email" type="email" id="email" autofocus>
-                        <button type="submit" (click)="update('email')" [disabled]="!formEmail.valid">Mettre à jour</button>
+                        <button type="submit" (click)="update('email')" class="button-left" [disabled]="!formEmail.valid">Mettre à jour</button>
                     </form>
                 </td>
                 <td>
-                    <button (click)="cancel()">Annuler</button>
+                    <button (click)="cancel()" class="button-right">Annuler</button>
                 </td>
             </ng-container>
         </tr>

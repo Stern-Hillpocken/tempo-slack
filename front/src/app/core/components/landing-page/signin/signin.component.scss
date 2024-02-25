@@ -8,3 +8,22 @@ form {
     margin: 2em;
    }
 }
+
+input[type=radio] {
+   position: absolute;
+   opacity: 0;
+   width: 0;
+   height: 0;
+}
+
+label img {
+   cursor: pointer;
+}
+
+input[type=radio] + img {
+   filter: grayscale(1);
+}
+input[type=radio]:checked + img {
+   filter: grayscale(0);
+   outline: 2px solid var(--color-accent);
+}
