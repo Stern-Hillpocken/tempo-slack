@@ -28,9 +28,7 @@ export class ServerListComponent {
     private serverService: ServerService,
     private lss: LocalStorageService,
     private pfs: PopupFeedbackService,
-
-    private serverSharedService: ServerSharedService
-
+    private serverSharedService: ServerSharedService,
     private router: Router
 
   ){}
@@ -42,14 +40,9 @@ export class ServerListComponent {
   }
 
   onAddServerReceive(serverName: string): void {
-    let id = 0;
     this.serverService.addServer({name: serverName, user: this.lss.getPseudoPassword()}).subscribe(resp => {
       this.pfs.setFeed(new PopupFeedback("Serveur crée avec succès !", "valid"));
       this.updateDisplay();
-      id++;
-      console.log("id emit: " + id);
-
-      this.serverSharedService.changeServerId(id);
     });
   }
 
