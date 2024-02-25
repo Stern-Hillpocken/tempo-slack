@@ -74,9 +74,17 @@ public class UserService {
         return matcher.find();
     }
 
+    public boolean isPseudoWellFormatted(String password) {
+        if (password.length() < 3) return false;
+        if (password.length() > 15) return false;
+        return true;
+    }
+
     public boolean isPasswordWellFormatted(String password) {
         if (password.length() < 6) return false;
+        if (password.length() > 20) return false;
         if (!Pattern.compile("\\W").matcher(password).find()) return false;
+        //if (!Pattern.compile("\\d").matcher(password).find()) return false;
         return true;
     }
 

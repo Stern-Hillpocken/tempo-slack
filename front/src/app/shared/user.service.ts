@@ -39,4 +39,8 @@ export class UserService {
     let dto = {...obj, user: this.lss.getPseudoPassword()};
     return this.http.put(this.utils.getBaseUrl()+"users/"+Object.keys(obj)[0], dto);
   }
+
+  delete(pseudoPassword: PseudoPassword): Observable<any> {
+    return this.http.post(this.utils.getBaseUrl()+"users/disable-account", pseudoPassword);
+  }
 }

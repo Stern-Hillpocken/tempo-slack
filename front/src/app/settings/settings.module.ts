@@ -7,6 +7,7 @@ import { NavigationComponent } from './components/settings-features/navigation/n
 import { LogoutComponent } from './components/settings-features/logout/logout.component';
 import { SettingsRoutingModule } from './settings-routing.module';
 import { ReactiveFormsModule } from '@angular/forms';
+import { DeleteUserComponent } from './components/settings-features/delete-user/delete-user.component';
 
 
 
@@ -16,7 +17,8 @@ import { ReactiveFormsModule } from '@angular/forms';
     SettingsFeaturesComponent,
     UserInformationsComponent,
     NavigationComponent,
-    LogoutComponent
+    LogoutComponent,
+    DeleteUserComponent
   ],
   imports: [
     CommonModule,

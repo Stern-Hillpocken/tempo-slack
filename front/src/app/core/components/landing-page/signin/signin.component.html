@@ -4,21 +4,31 @@
             <label for="pseudo">Pseudo</label><br>
             <input formControlName="pseudo" type="text" id="pseudo">
             <ng-container *ngIf="formSignin.controls['pseudo'].errors?.['minlength'] && formSignin.controls['pseudo'].touched">
-                <br>
-                <p>Le pseudo doit avoir une longueur comprise entre 3 et 15, sans emoji.</p>
+                <p class="unvalid-form">Minimum 3 caractères.</p>
+            </ng-container>
+            <ng-container *ngIf="formSignin.controls['pseudo'].errors?.['maxlength'] && formSignin.controls['pseudo'].touched">
+                <p class="unvalid-form">Maximum 15 caractères.</p>
             </ng-container>
         </div>
         <div>
             <label for="password">Mot de passe</label><br>
             <input formControlName="password" type="password" id="password">
             <ng-container *ngIf="formSignin.controls['password'].errors?.['minlength'] && formSignin.controls['password'].touched">
-                <br>
-                <p>Le mot de passe doit avoir une longueur comprise entre 6 et 20, avec un chiffre et un charactère spécial.</p>
+                <p class="unvalid-form">Minimum 6 caractères.</p>
+            </ng-container>
+            <ng-container *ngIf="formSignin.controls['password'].errors?.['maxlength'] && formSignin.controls['password'].touched">
+                <p class="unvalid-form">Maximum 20 caractères.</p>
+            </ng-container>
+            <ng-container *ngIf="formSignin.controls['password'].errors?.['pattern'] && formSignin.controls['password'].touched">
+                <p class="unvalid-form">Doit contenir au moins un caractère spécial.</p>
             </ng-container>
         </div>
         <div>
             <label for="email">Email</label><br>
             <input formControlName="email" type="email" id="email">
+            <ng-container *ngIf="formSignin.controls['email'].errors?.['email'] && formSignin.controls['email'].touched">
+                <p class="unvalid-form">Non valide.</p>
+            </ng-container>
         </div>
         <div>
             <label for="avatar">Avatar</label><br>

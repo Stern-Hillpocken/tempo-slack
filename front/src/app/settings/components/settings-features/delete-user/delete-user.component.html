@@ -1,0 +1,10 @@
+<div id="delete-user">
+    <button (click)="deleteUserPopup()" class="button-not-selected">Désactiver mon compte</button>
+    <div *ngIf="isDeletePopup" class="popup-container">
+        <div class="popup-inner">
+            <p>Souhaitez-vous désactiver votre compte&nbsp;?</p>
+            <button (click)="deleteUserPopup()" class="button-left">Annuler</button>
+            <button (click)="deleteUserConfirmed()" class="button-right">Confirmer</button>
+        </div>
+    </div>
+</div>

@@ -48,4 +48,12 @@ export class SettingsFeaturesComponent {
       this.updateDisplay();
     });
   }
+
+  onDeleteUserReceive(): void {
+    this.userService.delete(this.lss.getPseudoPassword()).subscribe(resp => {
+      this.lss.removePseudoPassword();
+      this.pfs.setFeed(new PopupFeedback("Votre compte est bien désactivé 😭", "valid"));
+      this.router.navigateByUrl("/");
+    });
+  }
 }
