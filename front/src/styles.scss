@@ -69,6 +69,24 @@ input:disabled {
     border: 2px solid var(--color-text);
 }
 
+.button-left {
+    border-top-right-radius: 0;
+    border-bottom-right-radius: 0;
+}
+.button-right {
+    border-top-left-radius: 0;
+    border-bottom-left-radius: 0;
+    margin-left: 4px;
+}
+.button-not-selected {
+    background-color: transparent;
+    color: var(--color-text);
+    &:hover {
+        background-color: var(--color-accent);
+        color: black;
+    }
+}
+
 .home-section {
     background-color: var(--color-complement);
     height: 95vh;

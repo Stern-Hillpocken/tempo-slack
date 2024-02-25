@@ -29,13 +29,13 @@ export class UserInformationsComponent {
       avatar: [this.user.avatar, [Validators.required]]
     });
     this.formPseudo = this.fb.group({
-      pseudo: [this.user.pseudo, [Validators.required]]
+      pseudo: [this.user.pseudo, [Validators.required, Validators.minLength(3), Validators.maxLength(15)]]
     });
     this.formPassword = this.fb.group({
-      password: ["", [Validators.required]]
+      password: ["", [Validators.required, Validators.minLength(6), Validators.maxLength(20), Validators.pattern('.*\\W+.*')]]
     });
     this.formEmail = this.fb.group({
-      email: [this.user.email, [Validators.required]]
+      email: [this.user.email, [Validators.email]]
     });
   }
 

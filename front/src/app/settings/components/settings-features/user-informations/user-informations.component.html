@@ -10,7 +10,7 @@
                 <td>
                     <form [formGroup]="formAvatar">
                         <input formControlName="avatar" type="text" id="avatar" autofocus>
-                        <button type="submit" (click)="update('avatar')">Mettre à jour</button>
+                        <button type="submit" (click)="update('avatar')" [disabled]="!formAvatar.valid">Mettre à jour</button>
                     </form>
                 </td>
                 <td>
@@ -29,7 +29,7 @@
                 <td>
                     <form [formGroup]="formPseudo">
                         <input formControlName="pseudo" type="text" id="pseudo" autofocus>
-                        <button type="submit" (click)="update('pseudo')">Mettre à jour</button>
+                        <button type="submit" (click)="update('pseudo')" [disabled]="!formPseudo.valid">Mettre à jour</button>
                     </form>
                 </td>
                 <td>
@@ -48,7 +48,7 @@
                 <td>
                     <form [formGroup]="formPassword">
                         <input formControlName="password" type="password" id="password" autofocus>
-                        <button type="submit" (click)="update('password')">Mettre à jour</button>
+                        <button type="submit" (click)="update('password')" [disabled]="!formPassword.valid">Mettre à jour</button>
                     </form>
                 </td>
                 <td>
@@ -67,7 +67,7 @@
                 <td>
                     <form [formGroup]="formEmail">
                         <input formControlName="email" type="email" id="email" autofocus>
-                        <button type="submit" (click)="update('email')">Mettre à jour</button>
+                        <button type="submit" (click)="update('email')" [disabled]="!formEmail.valid">Mettre à jour</button>
                     </form>
                 </td>
                 <td>

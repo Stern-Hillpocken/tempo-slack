@@ -77,6 +77,8 @@ public class UserController {
             return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(new ErrorResponse("Pseudo has emoji or emoji's like symbol."));
         if (userService.hasStrangeChar(userSignInDTO.getPseudo()))
             return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(new ErrorResponse("Pseudo has strange character."));
+        if (!userService.isPseudoWellFormatted(userSignInDTO.getPseudo()))
+            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(new ErrorResponse("Pseudo has not correct length."));
         if (!userService.isPasswordWellFormatted(userSignInDTO.getPassword()))
             return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(new ErrorResponse("Password is not well formatted."));
         if (!userService.isAvatarExist(userSignInDTO.getAvatar()))
@@ -92,7 +94,12 @@ public class UserController {
 
     @PostMapping("/exist")
     public boolean isUserExist(@RequestBody UserPseudoPasswordDTO user) {
-        return userService.isUserPasswordMatching(user);
+        boolean isInDataBase = userService.isUserPasswordMatching(user);
+        if (isInDataBase) {
+            User userInDataBase = userService.getByPseudo(user.getPseudo()).get();
+            return userInDataBase.getAccountIsActive();
+        }
+        return isInDataBase;
     }
 
     @PostMapping("/disable-account")
@@ -156,6 +163,7 @@ public class UserController {
         if (userDTO == null || userDTO.getPseudo() == null || userDTO.getPseudo().equals("")) return ResponseEntity.noContent().build();
         if (!userService.isUserPasswordMatching(userDTO.getUser())) return ResponseEntity.notFound().build();
         if (userService.hasEmoji(userDTO.getPseudo()) || userService.hasStrangeChar(userDTO.getPseudo())) return ResponseEntity.badRequest().build();
+        if (!userService.isPseudoWellFormatted(userDTO.getPseudo())) return ResponseEntity.badRequest().build();
         if (userDTO.getPseudo().equals(userDTO.getUser().getPseudo())) return ResponseEntity.ok().build();
 
         Optional<User> optionalUser = userService.getByPseudo(userDTO.getPseudo());

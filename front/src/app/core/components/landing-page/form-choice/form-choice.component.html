@@ -1,4 +1,4 @@
 <div id="form-choice">
-    <button (click)="changeFormDisplay('signin')" class="signin" [ngClass]="formChoiceToDisplay === 'signin' ? '' : 'not-selected'">Sign in</button>
-    <button (click)="changeFormDisplay('login')" class="login" [ngClass]="formChoiceToDisplay === 'login' ? '' : 'not-selected'">Log in</button>
+    <button (click)="changeFormDisplay('signin')" class="button-left" [ngClass]="formChoiceToDisplay === 'signin' ? '' : 'button-not-selected'">Sign in</button>
+    <button (click)="changeFormDisplay('login')" class="button-right" [ngClass]="formChoiceToDisplay === 'login' ? '' : 'button-not-selected'">Log in</button>
 </div>
