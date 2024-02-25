@@ -16,8 +16,7 @@ import { ChatcoreRoutingModule } from './chatcore-routing.module';
 import { ReactiveFormsModule } from '@angular/forms';
 import { AddServerComponent } from './components/server-list/add-server/add-server.component';
 import { SelfSettingsComponent } from './components/server-list/self-settings/self-settings.component';
-
-
+import { UtilsModule } from '../utils/utils.module';
 
 @NgModule({
   declarations: [
@@ -39,7 +38,8 @@ import { SelfSettingsComponent } from './components/server-list/self-settings/se
   imports: [
     CommonModule,
     ChatcoreRoutingModule,
-    ReactiveFormsModule
+    ReactiveFormsModule,
+    UtilsModule
   ],
   exports: [
     ChatComponent,
