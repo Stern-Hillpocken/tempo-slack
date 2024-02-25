@@ -1,8 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-
-
 import { Message } from 'src/app/core/models/message';
-
 import { ServerService } from '../../services/server.service';
 import { PseudoPassword } from 'src/app/core/models/pseudo-password.model';
 import { Room } from 'src/app/core/models/room.model';
@@ -28,8 +25,6 @@ export class ChatComponent implements OnInit {
   server!: Server;
   formUpdateMessage!: FormGroup;
   
- 
-
   constructor(
     private serverService: ServerService,
     private localStorageService : LocalStorageService,
@@ -54,28 +49,10 @@ export class ChatComponent implements OnInit {
             this.messagesList = room.messageList;
             this.idRoom=roomId;
             this.idServer= serverId;
-            console.log(this.messagesList);
-            console.log(roomId)
-            console.log(serverId)
-            console.log(room.title) 
-         } 
+            } 
           )
         }
-        
-    // getRoomName() {
-    // // this.idServer = Number(this.activatedRoute.snapshot.paramMap.get("idServer"));
-    // // this.idRoom = Number(this.activatedRoute.snapshot.paramMap.get("idRoom"));
-    
-    // // this.serverService.getRoomInServerById(this.idServer, this.idRoom).subscribe(room => {
-    // //   this.room.title;
-    // //   console.log(this.room.title)})
-    //   this.serverSharedService.getServerShared().subscribe(serverInfo => {
-    //     this.serverService.getRoomInServerById(serverInfo.currentServerId, serverInfo.currentRoomId).subscribe(room => 
-    //       console.log(this.room.title) )
-    // })
-  
-    onAddMessageReceive(message: string){
-      console.log(message)
+   onAddMessageReceive(message: string){
     this.user = this.localStorageService.getPseudoPassword();
     let dto= {user : this.user, content : message} ;
     this.serverSharedService.getServerShared().subscribe(serverInfo => {
@@ -86,7 +63,6 @@ export class ChatComponent implements OnInit {
     })
   }
     
-     
   onDeleteMessageReceive(idMessage: number){
   this.user = this.localStorageService.getPseudoPassword();
   console.log(this.user)
@@ -98,16 +74,17 @@ export class ChatComponent implements OnInit {
  ) })
   }
 
-   onUpdateMessageReceive(message:Message){
-    this.idMessage = Number(this.message.id);
+   onUpdateMessageReceive(message: Message){
+    if (message && message.id !== undefined) {
+    this.idMessage = message.id   
     this.user = this.localStorageService.getPseudoPassword();
     let dto = { user : this.user, content : message.content}
    this.serverService.updateMessage(this.idMessage, dto).subscribe(v =>{
        console.log(v);
      this.updateDisplay(this.idServer, this.idRoom)});
    }
-      
- }
+   }
+}
 
 
   
