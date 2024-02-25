@@ -10,6 +10,7 @@ import { ServerSharedService } from 'src/app/shared/server-shared.service';
 import { UserPublic } from 'src/app/core/models/user-public.model';
 import { UserService } from 'src/app/shared/user.service';
 import { Router } from '@angular/router';
+import { ServerSharedInfo } from 'src/app/core/models/server-shared-info.model';
 
 
 @Component({
@@ -21,6 +22,8 @@ export class ServerListComponent {
 
   user!: UserPublic;
 
+  currentServerId!: number;
+
   servers: Server[] = [];
 
   constructor(
@@ -28,13 +31,15 @@ export class ServerListComponent {
     private serverService: ServerService,
     private lss: LocalStorageService,
     private pfs: PopupFeedbackService,
-    private serverSharedService: ServerSharedService,
+    private sss: ServerSharedService,
     private router: Router
 
   ){}
 
   ngOnInit(): void {
     this.updateDisplay();
+
+    this.sss.getServerShared().subscribe(shi => this.currentServerId = shi.currentServerId);
 
     this.userService.getPublic(this.lss.getPseudoPassword().pseudo).subscribe(u => this.user = u);
   }
@@ -49,18 +54,20 @@ export class ServerListComponent {
   updateDisplay(): void {
     this.serverService.getServersOfUser(this.lss.getPseudoPassword()).subscribe(servers => {
       this.servers = servers;
-      console.log(this.servers);
       if (this.servers.length > 0) {
         // Supposons que le dernier serveur de la liste est le nouveau serveur
-        const newServer = this.servers[this.servers.length - 1];
-        this.serverSharedService.setServerId(newServer.id);
+        const lastServer: Server = this.servers[this.servers.length - 1];
+        this.sss.setServerShared(new ServerSharedInfo(lastServer.id, lastServer.roomList[0].id));
       }
     });
   }
 
-
   onSettingsReceive(): void {
     this.router.navigateByUrl("settings");
+  }
+
+  onChangeServerReceive(server: Server): void {
+    this.sss.setServerShared(new ServerSharedInfo(server.id, server.roomList[0].id));
   }
 
 }

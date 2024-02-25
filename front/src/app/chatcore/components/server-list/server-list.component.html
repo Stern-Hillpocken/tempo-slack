@@ -9,7 +9,11 @@
     <hr>
 
     <ng-container *ngFor="let server of servers">
-        <app-server-display [server]="server"></app-server-display>
+        <app-server-display
+            [currentServerId]="currentServerId"
+            [server]="server"
+            (changeServerEmitter)="onChangeServerReceive($event)"
+        ></app-server-display>
     </ng-container>
     
     <app-add-server
