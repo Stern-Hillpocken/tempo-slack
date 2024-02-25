@@ -1,0 +1,7 @@
+@media screen and (max-width: 900px) {
+    #server-list-servers {
+        display: flex;
+        flex-wrap: nowrap;
+        overflow-x: scroll;
+    }
+}

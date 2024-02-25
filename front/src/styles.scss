@@ -3,15 +3,15 @@
 /* Importing Bootstrap SCSS file. */
 @import 'bootstrap/scss/bootstrap';
 
-/*@font-face {
+@font-face {
     font-family: "font-base";
-    src: url("assets/fonts/NovaRound-Bold.ttf");
+    src: url("assets/fonts/PortLligatSans-Regular.ttf");
 }
 
 @font-face {
     font-family: "font-header";
-    src: url("assets/fonts/Evil Empire.otf");
-}*/
+    src: url("assets/fonts/Macondo-Regular.ttf");
+}
 
 :root {
     --color-error: red;
@@ -46,6 +46,7 @@ body[data-theme='retro']{
 body {
     background-color: var(--color-dominent);
     color: var(--color-text);
+    font-family: "font-base";
 }
 
 button, input[type='submit'] {
@@ -55,6 +56,10 @@ button, input[type='submit'] {
     border: 2px solid var(--color-text);
     font-size: 1.1em;
     box-shadow: -4px 4px 2px black;
+}
+
+h1, h2, h3 {
+    font-family: "font-header";
 }
 
 input:disabled {
@@ -112,4 +117,12 @@ input:disabled {
     border-radius: 1em;
     padding: 0.5em;
     border: 2px solid var(--color-text);
+}
+
+
+@media screen and (max-width: 900px) {
+    .home-section {
+        height: inherit;
+        margin-bottom: 0.5em;
+    }
 }

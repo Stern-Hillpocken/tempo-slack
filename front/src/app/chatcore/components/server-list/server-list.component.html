@@ -8,16 +8,18 @@
 
     <hr>
 
-    <ng-container *ngFor="let server of servers">
-        <app-server-display
-            [currentServerId]="currentServerId"
-            [server]="server"
-            (changeServerEmitter)="onChangeServerReceive($event)"
-        ></app-server-display>
-    </ng-container>
-    
-    <app-add-server
-        (addServerEmitter)="onAddServerReceive($event)"
-    ></app-add-server>
+    <div id="server-list-servers">
+        <ng-container *ngFor="let server of servers">
+            <app-server-display
+                [currentServerId]="currentServerId"
+                [server]="server"
+                (changeServerEmitter)="onChangeServerReceive($event)"
+            ></app-server-display>
+        </ng-container>
+        
+        <app-add-server
+            (addServerEmitter)="onAddServerReceive($event)"
+        ></app-add-server>
+    </div>
     
 </div>
