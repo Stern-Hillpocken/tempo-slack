@@ -20,6 +20,7 @@ export class ServerInformationComponent {
 
   user!: PseudoPassword;
   userAll!: User;
+
   constructor(
     private serverService: ServerService,
     private serverSharedService: ServerSharedService,
@@ -27,18 +28,21 @@ export class ServerInformationComponent {
     private pfs: PopupFeedbackService
   ) {}
 
+  ngOnInit(): void {
+    this.serverSharedService.getServerShared().subscribe((serverInfo) => {
+      this.serverId = serverInfo.currentServerId;
+    });
+  }
+
   onAddRoleToUserReceive(name: any): void {
     let dto = {
       user: this.localStorageService.getPseudoPassword(),
       roleName: name.roleName,
       userToAdd: name.userName,
     };
-    this.serverSharedService.getServerShared().subscribe((serverInfo) => {
-      this.serverId = serverInfo.currentServerId;
-      this.serverService.addRoleToUser(this.serverId, dto).subscribe((v) => {
-        this.pfs.setFeed(new PopupFeedback("Le rôle ["+name.roleName+"] été attribué à "+name.userName+" !", "valid"));
-        //this.updateDisplay(this.idServer, this.idRoom);
-      });
+    this.serverService.addRoleToUser(this.serverId, dto).subscribe((v) => {
+      this.pfs.setFeed(new PopupFeedback("Le rôle ["+name.roleName+"] été attribué à "+name.userName+" !", "valid"));
+      //this.updateDisplay(this.idServer, this.idRoom);
     });
   }
 }
