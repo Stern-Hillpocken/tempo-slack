@@ -33,6 +33,7 @@ export class ServerRoomsComponent implements OnInit {
   ngOnInit(): void {
     this.sss.getServerShared().subscribe((shi) => {
       this.currentServerId = shi.currentServerId;
+      this.currentRoomId = shi.currentRoomId;
       this.serverService.getServerById(this.currentServerId).subscribe((server) => {
         this.roomList = server.roomList;
       });
