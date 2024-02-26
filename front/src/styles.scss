@@ -86,9 +86,15 @@ input:disabled {
 .button-not-selected {
     background-color: transparent;
     color: var(--color-text);
+    svg {
+        fill: var(--color-text);
+    }
     &:hover {
         background-color: var(--color-accent);
         color: black;
+        svg {
+            fill: black;
+        }
     }
 }
 
