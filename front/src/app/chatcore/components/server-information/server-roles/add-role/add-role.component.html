@@ -1,9 +1,10 @@
-<button (click)="openPopup()" id="add-role">Ajouter&nbsp;un&nbsp;rôle</button>
+<button (click)="openPopup()" id="add-role" class="button-left button-svg"><app-svg type="add-role"></app-svg></button>
+
 <div *ngIf="isPopupDisplay" id="popup-add-role" class="popup-container">
   <div class="popup-inner">
     <button (click)="closePopup()" class="button-svg"><app-svg type="cancel"></app-svg></button>
     <form [formGroup]="formAddRole">
-      <label for="name">Nom du nouveau Rôle&nbsp;:</label><br />
+      <label for="name">Nom du nouveau rôle&nbsp;:</label><br />
       <input formControlName="name" type="text" id="add-role-name" autofocus />
       <input type="submit" (click)="addRole()" value="Ajouter" [disabled]="!formAddRole.valid" />
     </form>

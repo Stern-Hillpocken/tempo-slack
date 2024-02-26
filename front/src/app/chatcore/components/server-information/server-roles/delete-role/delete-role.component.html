@@ -1,9 +1,10 @@
-<button (click)="openPopup()" id="delete-role">Supprimer&nbsp;un&nbsp;rôle</button>
+<button (click)="openPopup()" id="delete-role" class="button-right button-svg"><app-svg type="remove-role"></app-svg></button>
+
 <div *ngIf="isPopupDisplay" id="popup-delete-role" class="popup-container">
   <div class="popup-inner">
     <button (click)="closePopup()" class="button-svg"><app-svg type="cancel"></app-svg></button>
     <form [formGroup]="formDeleteRole">
-      <label for="name">Nom du Rôle à supprimer&nbsp;:</label><br />
+      <label for="name">Nom du rôle à supprimer&nbsp;:</label><br />
       <input formControlName="name" type="text" id="delete-role-name" autofocus />
       <input type="submit" (click)="deleteRole()" value="Supprimer" [disabled]="!formDeleteRole.valid" />
     </form>

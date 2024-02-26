@@ -31,7 +31,6 @@ export class MessageComponent {
   constructor(private fb: FormBuilder){}
 
   updateMessage(): void{
-    console.log(this.formUpdateMessage.value)
     this.updateMessageEmitter.emit(this.formUpdateMessage.value)
     this.closePopupEdit();
   }

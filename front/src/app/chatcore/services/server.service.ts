@@ -81,14 +81,10 @@ export class ServerService {
 
   updateServerNameById(idServer: number, updateName: string): Observable<any> {
     let dto = { name: updateName, user: this.localStorageService.getPseudoPassword() };
-    console.log(dto);
-
     return this.http.put<any>(this.utils.getBaseUrl() + "servers/" + idServer, dto);
   }
 
   addMessage(message: MessageSended, idServer: number, idRoom: number): Observable<Message> {
-    console.log(message);
-    console.log("idServ: " + idServer + " idRoom: " + idRoom);
     return this.http.post<Message>(this.utils.getBaseUrl() + "servers/" + idServer + "/" + idRoom, message);
   }
   deleteMessageInRoomInServerById(

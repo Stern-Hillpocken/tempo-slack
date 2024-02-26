@@ -1,18 +1,29 @@
-<h1>Rôles</h1>
+<div id="server-roles">
+  <h3 (click)="rolesFoldToggle()" class="server-info-category-title" [ngClass]="rolesDisplayed ? '' : 'closed'">Rôles {{ rolesDisplayed ? '[-]' : '[+]' }}</h3>
 
-<div *ngIf="roleList.length > 0">
-  <div *ngFor="let role of roleList">{{ role.name }}</div>
-  <app-add-role (addRoleEmitter)="onAddRoleReceive($event)"></app-add-role>
-  <button (click)="openPopup()">Attribuer</button>
-  <div *ngIf="popUp">
+  <div *ngIf="rolesDisplayed" class="server-info-category-box">
+    <ul><li *ngFor="let role of roleList">{{ role.name }}&nbsp;: <span *ngFor="let user of role.userList">{{user.pseudo}} </span></li></ul>
+
+    <div id="server-roles-edit">
+      <app-add-role (addRoleEmitter)="onAddRoleReceive($event)"></app-add-role>
+
+      <button (click)="openPopup()" class="button-center button-svg"><app-svg type="set-role"></app-svg></button>
+
+      <app-delete-role (deleteRoleEmitter)="onDeleteRoleReceive($event)"></app-delete-role>
+    </div>
+  </div>
+</div>
+
+<div *ngIf="popUp" id="popup-add-role-to-user" class="popup-container">
+  <div class="popup-inner">
     <form [formGroup]="formAddRole">
-      <input formControlName="userName" placeholder="Nom du user" name="userName" id="userName" />
-      <input formControlName="roleName" placeholder="Ajoutez un rôle" name="roleName" id="roleName" />
-      <button (click)="addRole()" type="submit" class="button-svg">
-        <app-svg type="send"></app-svg>
-      </button>
-      <button (click)="closePopup()">Annuler</button>
+      <button (click)="closePopup()" class="button-svg"><app-svg type="cancel"></app-svg></button>
+      <label>Ajouter un rôle à un pseudo&nbsp;:</label><br>
+      <input formControlName="userName" placeholder="Pseudo de la personne" name="userName" id="userName" /><br>
+      <input formControlName="roleName" placeholder="Nom du rôle" name="roleName" id="roleName" /><br>
+      <div style="text-align: center;"><button (click)="addRoleToUser()" type="submit">
+        Lui attribuer le rôle
+      </button></div>
     </form>
   </div>
-  <app-delete-role (deleteRoleEmitter)="onDeleteRoleReceive($event)"></app-delete-role>
 </div>
