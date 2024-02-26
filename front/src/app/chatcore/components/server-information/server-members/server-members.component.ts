@@ -15,6 +15,7 @@ export class ServerMembersComponent implements OnInit {
   currentServerId!: number;
   userList: User[] = [];
   isUserInServer: boolean = false;
+  membersDisplayed: boolean = false;
 
   constructor(
     private serverService: ServerService,
@@ -81,5 +82,9 @@ export class ServerMembersComponent implements OnInit {
     this.serverService.getServerById(this.currentServerId).subscribe((server) => {
       this.userList = server.userList;
     });
+  }
+
+  membersFoldToggle(): void {
+    this.membersDisplayed = !this.membersDisplayed;
   }
 }

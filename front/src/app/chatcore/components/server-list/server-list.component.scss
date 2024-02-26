@@ -1,3 +1,13 @@
+#server-list {
+    display: flex;
+    flex-direction: column;
+}
+
+#server-list-servers {
+    flex-grow: 1;
+    overflow-y: scroll;
+}
+
 @media screen and (max-width: 900px) {
     #server-list-servers {
         display: flex;
