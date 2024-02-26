@@ -1,5 +1,6 @@
 package firstgroup.temposlack.controller;
 
+import firstgroup.temposlack.dto.RoleAddUserDTO;
 import firstgroup.temposlack.dto.RoleDTO;
 import firstgroup.temposlack.dto.UserPseudoPasswordDTO;
 import firstgroup.temposlack.mapper.RoleMapper;
@@ -64,26 +65,26 @@ public class RoleController {
         return ResponseEntity.status(HttpStatus.CREATED).build();
     }
 
-    @PostMapping("{idServer}/{idUser}/roles")
-    public ResponseEntity<?> addRoleToUser(@PathVariable("idServer") Long idServer, @PathVariable("idUser") Long idUser, @RequestBody RoleDTO roleDTO) {
+    @PostMapping("{idServer}/roles/add-user")
+    public ResponseEntity<?> addRoleToUser(@PathVariable("idServer") Long idServer, @RequestBody RoleAddUserDTO roleAddUserDTO) {
         Optional<Server> optionalServer = serverService.getById(idServer);
-        Optional<User> optionalUser = userService.getById(idUser);
-        Optional<User> optionalUserOwner = userService.getByPseudo(roleDTO.getUser().getPseudo());
-        if (optionalServer.isEmpty() || optionalUser.isEmpty() || optionalUserOwner.isEmpty() || roleDTO.getName() == null || roleDTO.getName().isBlank())
+        Optional<User> optionalUserToAdd = userService.getByPseudo(roleAddUserDTO.getUserToAdd());
+        Optional<User> optionalUserOwner = userService.getByPseudo(roleAddUserDTO.getUser().getPseudo());
+        if (optionalServer.isEmpty() || optionalUserToAdd.isEmpty() || optionalUserOwner.isEmpty() || roleAddUserDTO.getUserToAdd() == null || roleAddUserDTO.getUserToAdd().isBlank())
             return ResponseEntity.notFound().build();
         Server server = optionalServer.get();
-        User user = optionalUser.get();
-        if (!userService.isUserPasswordMatching(roleDTO.getUser())) {
+        User userToAdd = optionalUserToAdd.get();
+        if (!userService.isUserPasswordMatching(roleAddUserDTO.getUser())) {
             return ResponseEntity.notFound().build();
         }
         User userOwner = optionalUserOwner.get();
-        if (!server.isUserInServer(user) || !server.isUserInServer(userOwner)) {
+        if (!server.isUserInServer(userToAdd) || !server.isUserInServer(userOwner)) {
             return ResponseEntity.badRequest().build();
         }
         if (!roleService.isOwner(userOwner, server)) return ResponseEntity.badRequest().build();
         for (Role r : server.getRoleList()) {
-            if (r.getName().equals(roleDTO.getName())) {
-                roleService.addRoleUser(r, user);
+            if (r.getName().equals(roleAddUserDTO.getRoleName())) {
+                roleService.addRoleUser(r, userToAdd);
                 return ResponseEntity.status(HttpStatus.CREATED).build();
             }
         }
