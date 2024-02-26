@@ -6,6 +6,8 @@ import { Room } from 'src/app/core/models/room.model';
 import { Server } from 'src/app/core/models/server.model';
 import { LocalStorageService } from 'src/app/shared/local-storage.service';
 import { ServerSharedService } from 'src/app/shared/server-shared.service';
+import { PopupFeedbackService } from 'src/app/shared/popup-feedback.service';
+import { PopupFeedback } from 'src/app/core/models/popup-feedback.model';
 
 @Component({
   selector: 'app-chat',
@@ -24,7 +26,8 @@ export class ChatComponent implements OnInit {
   constructor(
     private serverService: ServerService,
     private localStorageService: LocalStorageService,
-    private serverSharedService: ServerSharedService
+    private serverSharedService: ServerSharedService,
+    private pfs: PopupFeedbackService
   ){}
 
 
@@ -85,21 +88,18 @@ export class ChatComponent implements OnInit {
     }
   }
 
-  onUpdateNameRoomReceive(room : string){
-    this.serverSharedService.getServerShared().subscribe(serverInfo => {
-      this.serverService.updateRoom(serverInfo.currentServerId, serverInfo.currentRoomId, room).subscribe(v =>{
-        console.log(v);
-        this.updateDisplay(this.idServer, this.idRoom);
-      });
+  onUpdateNameRoomReceive(room: string){
+    this.serverService.updateRoom(this.idServer, this.idRoom, room).subscribe(v =>{
+      console.log(v);
+      this.pfs.setFeed(new PopupFeedback("Salon bien renommé ✏️", "valid"));
+      this.updateDisplay(this.idServer, this.idRoom);
     });
   }
 
   onDeleteRoomReceive(idRoom: number){
-    this.user = this.localStorageService.getPseudoPassword();
-    this.serverSharedService.getServerShared().subscribe(serverInfo => {
-      this.serverService.deleteRoomInServerById(serverInfo.currentServerId, idRoom, this.user).subscribe(v => {
-        console.log(v);
-      });
+    this.serverService.deleteRoomInServerById(this.idServer, idRoom, this.user).subscribe(v => {
+      console.log(v);
+      this.pfs.setFeed(new PopupFeedback("Salon bien supprimé 🗑️", "valid"));
     });
   }
 

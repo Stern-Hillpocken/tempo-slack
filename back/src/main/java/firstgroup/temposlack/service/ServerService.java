@@ -42,7 +42,7 @@ public class ServerService {
         return serverRepository.findById(id);
     }
 
-    public void update(Server server) {
+    public void save(Server server) {
         serverRepository.save(server);
     }
 

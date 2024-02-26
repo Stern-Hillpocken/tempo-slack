@@ -1,5 +1,6 @@
 #popup-feedback {
     position: absolute;
+    z-index: 1001;
     left: 50%;
     transform: translate(-50%, 0);
     border: 2px solid var(--color-text);
