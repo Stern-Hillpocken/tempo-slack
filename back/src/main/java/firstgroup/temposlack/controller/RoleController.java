@@ -91,22 +91,32 @@ public class RoleController {
         return ResponseEntity.notFound().build();
     }
 
-    @DeleteMapping("roles/{idRole}")
-    public ResponseEntity<?> deleteRoleServer(@PathVariable("idRole") Long idRole, @RequestBody UserPseudoPasswordDTO userPseudoPasswordDTO) {
-        Optional<Role> optionalRole = roleService.getById(idRole);
-        Optional<User> optionalUser = userService.getByPseudo(userPseudoPasswordDTO.getPseudo());
-        if (optionalRole.isEmpty() || optionalUser.isEmpty()) return ResponseEntity.notFound().build();
-        if (!userService.isUserPasswordMatching(userPseudoPasswordDTO)) {
+    @PostMapping("{idServer}/roles/delete")
+    public ResponseEntity<?> deleteRoleServer(@PathVariable("idServer") Long idServer, @RequestBody RoleDTO roleDTO) {
+        Optional<Server> optionalServer = serverService.getById(idServer);
+        Optional<User> optionalUser = userService.getByPseudo(roleDTO.getUser().getPseudo());
+        if (optionalServer.isEmpty() || optionalUser.isEmpty()) return ResponseEntity.notFound().build();
+        if (!userService.isUserPasswordMatching(roleDTO.getUser())) {
             return ResponseEntity.notFound().build();
         }
         User user = optionalUser.get();
-        Role role = optionalRole.get();
-        Server server = role.getServer();
+        Server server = optionalServer.get();
+        Role role = RoleMapper.convertDTOtoEntity(roleDTO);
         if (!server.isUserInServer(user) || !roleService.isOwner(user, server) || role.getName().equals("owner")) {
             return ResponseEntity.badRequest().build();
         }
-        roleService.delete(idRole, server);
-        return ResponseEntity.ok().build();
+        for (Role r : server.getRoleList() ){
+            if(r.getName().equals(role.getName())){
+                role.setId(r.getId());
+                break;
+            }
+        }
+        if (role.getId()!=null){
+            roleService.delete(role.getId(), server);
+            return ResponseEntity.ok().build();
+        } else {
+            return ResponseEntity.notFound().build();
+        }
     }
 
     @DeleteMapping("{idUser}/roles/{idRole}")
