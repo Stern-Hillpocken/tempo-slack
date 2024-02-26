@@ -1,0 +1,9 @@
+#server-information {
+    display: flex;
+    flex-direction: column;
+}
+
+#server-information-box {
+    flex-grow: 1;
+    overflow-y: scroll;
+}

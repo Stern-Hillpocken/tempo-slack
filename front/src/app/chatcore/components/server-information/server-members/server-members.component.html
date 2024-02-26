@@ -1,10 +1,15 @@
-<h1>Membres</h1>
+<div id="server-members">
+  <h3 (click)="membersFoldToggle()" class="server-info-category-title" [ngClass]="membersDisplayed ? '' : 'closed'">Membres {{ membersDisplayed ? '[-]' : '[+]' }}</h3>
 
-<div id="server-list-members">
-  <ul *ngIf="userList.length > 0">
-    <li *ngFor="let user of userList">{{ user.pseudo }}</li>
-  </ul>
+  <div *ngIf="membersDisplayed" id="server-list-members" class="server-info-category-box">
+    <ul *ngIf="userList.length > 0">
+      <li *ngFor="let user of userList">{{ user.pseudo }}</li>
+    </ul>
 
-  <app-add-members (addMemberEmitter)="onAddMemberReceive($event)"></app-add-members>
-  <app-delete-member (deleteMemberEmitter)="onDeleteMemberReceive($event)"></app-delete-member>
+    <div id="server-members-edit-buttons">
+      <app-add-members (addMemberEmitter)="onAddMemberReceive($event)"></app-add-members>
+      <app-delete-member (deleteMemberEmitter)="onDeleteMemberReceive($event)"></app-delete-member>
+    </div>
+  </div>
+
 </div>
