@@ -75,7 +75,25 @@ export class ServerRolesComponent implements OnInit {
     }
   }
 
-  deleteRole() {}
+  onDeleteRoleReceive(roleName: string): void {
+    this.isRoleInServer = false;
+    this.serverSharedService.getServerShared().subscribe((shi) => (this.serverId = shi.currentServerId));
+    for (let role of this.roleList) {
+      if (role.name == roleName) {
+        this.serverService
+          .deleteRole(this.serverId, { name: roleName, user: this.lss.getPseudoPassword() })
+          .subscribe((resp) => {
+            this.pfs.setFeed(new PopupFeedback("Rôle supprimé avec succès !", "valid"));
+            this.updateDisplay();
+          });
+        break;
+      }
+    }
+    if (!this.isRoleInServer) {
+      this.pfs.setFeed(new PopupFeedback("Ce Rôle n'existe pas dans le serveur !", "error"));
+      this.isRoleInServer = true;
+    }
+  }
 
   openPopup() {
     this.popUp = true;

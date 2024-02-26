@@ -13,10 +13,6 @@
       </button>
       <button (click)="closePopup()">Annuler</button>
     </form>
-    <button (click)="openPopupDelete()">Supprimez</button>
-    <div *ngIf="popUpDelete">
-      <button (click)="deleteRole()">Supprimez la Room</button>
-      <button (click)="closePopupDelete()">Annuler</button>
-    </div>
   </div>
+  <app-delete-role (deleteRoleEmitter)="onDeleteRoleReceive($event)"></app-delete-role>
 </div>

@@ -103,6 +103,10 @@ export class ServerService {
     );
   }
 
+  deleteRole(idServer: number, roleDTO: { name: string; user: PseudoPassword }): Observable<any> {
+    return this.http.post<any>(this.utils.getBaseUrl() + "servers/" + idServer + "/roles/delete", roleDTO);
+  }
+
   updateMessage(idMessage: number, message: MessageSended): Observable<Message> {
     return this.http.put<Message>(this.utils.getBaseUrl() + "servers/edit-message/" + idMessage, message);
   }
