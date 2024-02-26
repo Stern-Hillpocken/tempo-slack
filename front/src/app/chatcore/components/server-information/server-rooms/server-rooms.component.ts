@@ -55,6 +55,6 @@ export class ServerRoomsComponent implements OnInit {
   }
 
   onChangeRoomReceive(room: Room): void {
-    this.sss.setRoomId(this.currentServerId);
+    this.sss.setRoomId(room.id);
   }
 }
