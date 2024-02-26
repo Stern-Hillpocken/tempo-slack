@@ -8,6 +8,7 @@ import { ServerSharedInfo } from '../core/models/server-shared-info.model';
 export class ServerSharedService {
 
   private readonly _serverShared$: BehaviorSubject<ServerSharedInfo> = new BehaviorSubject<ServerSharedInfo>(new ServerSharedInfo(0,0));
+  private readonly _serverNameUpdated$: BehaviorSubject<string> = new BehaviorSubject<string>('');
 
   getServerShared(): Observable<ServerSharedInfo> {
     return this._serverShared$.asObservable();
@@ -28,5 +29,18 @@ export class ServerSharedService {
     let bhs: ServerSharedInfo = this._serverShared$.getValue();
     bhs.currentRoomId = roomId;
     this.setServerShared(bhs);
+  }
+
+  updateServerName(newName: string): void {
+    this._serverNameUpdated$.next(newName);
+  }
+  getServerNameUpdated(): Observable<string> {
+    return this._serverNameUpdated$.asObservable();
+  }
+
+
+  refresh(): void {
+    this.setServerShared(this._serverShared$.getValue());
+
   }
 }
