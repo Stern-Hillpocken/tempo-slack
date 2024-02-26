@@ -51,29 +51,25 @@ export class ChatComponent implements OnInit {
   updateDisplay(serverId : number, roomId : number): void { 
     this.serverService.getRoomInServerById(serverId, roomId).subscribe(room => {
       this.room = room;
-      this.messagesList = room.messageList;
+      this.messagesList = room.messageList.sort((a,b)=>{return a.id - b.id});
       this.idRoom = roomId;
       this.idServer = serverId;
     });
   }
 
   onAddMessageReceive(message: string){
-    let dto= {user : this.user, content : message} ;
-    this.serverSharedService.getServerShared().subscribe(serverInfo => {
-      this.serverService.addMessage(dto, serverInfo.currentServerId, serverInfo.currentRoomId).subscribe(v => {
-        console.log(v);
-        this.updateDisplay(this.idServer, this.idRoom);
-      });
+    let dto = {user : this.user, content : message} ;
+    this.serverService.addMessage(dto, this.idServer, this.idRoom).subscribe(v => {
+      console.log(v);
+      this.updateDisplay(this.idServer, this.idRoom);
     });
   }
     
   onDeleteMessageReceive(idMessage: number){
     console.log(this.user)
-    this.serverSharedService.getServerShared().subscribe(serverInfo => {
-      this.serverService.deleteMessageInRoomInServerById(serverInfo.currentServerId, serverInfo.currentRoomId, idMessage, this.user).subscribe(v => {
-          console.log(v);
-          this.updateDisplay(this.idServer, this.idRoom);
-      });
+    this.serverService.deleteMessageInRoomInServerById(this.idServer, this.idRoom, idMessage, this.user).subscribe(v => {
+      console.log(v);
+      this.updateDisplay(this.idServer, this.idRoom);
     });
   }
 

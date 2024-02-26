@@ -12,6 +12,8 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.Collections;
+import java.util.Comparator;
 import java.util.List;
 import java.util.Optional;
 
@@ -216,7 +218,7 @@ public class ServerController {
                 if (r.getId().equals(idRoom)) {
                     Room room = RoomCreatedMapper.convertDTOToEntity(roomCreatedDTO);
                     room.setId(idRoom);
-                    roomService.updateRoom(room);
+                    roomService.save(room);
                 }
             }
             return ResponseEntity.ok().build();
@@ -237,6 +239,11 @@ public class ServerController {
 
         if (!message.getUser().equals(user)) return ResponseEntity.status(HttpStatus.UNAUTHORIZED).build();
         message.setContent(messagePostedDTO.getContent());
+        // TODO sort messages by ID
+        /*Comparator<Message> sortRoomFunction = (Message o1, Message o2) -> o1.getId().compareTo( o2.getId() );
+        List<Message> msgL = room.getMessageList();
+        msgL.sort(sortRoomFunction);
+        room.setMessageList(msgL);*/
         messageService.update(message);
         return ResponseEntity.ok().build();
     }
