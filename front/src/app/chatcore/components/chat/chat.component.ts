@@ -35,9 +35,9 @@ export class ChatComponent implements OnInit {
       this.updateDisplay(serverInfo.currentServerId, serverInfo.currentRoomId)
     });
 
-    setInterval(() => {
+    /*setInterval(() => {
       this.updateDisplay(this.idServer, this.idRoom);
-    }, 4000);
+    }, 4000);*/
   }
 
   ngAfterViewChecked(): void {
