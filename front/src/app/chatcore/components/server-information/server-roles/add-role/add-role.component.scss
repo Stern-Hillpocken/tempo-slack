@@ -1,0 +1,21 @@
+#add-role {
+  margin-top: 2em;
+}
+
+form {
+  margin-top: 1em;
+}
+
+.button-svg {
+  position: absolute;
+  right: -1em;
+  top: -1em;
+}
+
+@media screen and (max-width: 900px) {
+  #add-role {
+    margin-top: 0;
+    margin-left: 4px;
+    margin-bottom: 0.5em;
+  }
+}

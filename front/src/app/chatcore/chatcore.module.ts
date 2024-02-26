@@ -21,6 +21,7 @@ import { RoomDisplayComponent } from "./components/server-information/server-roo
 import { AddRoomComponent } from "./components/server-information/server-rooms/add-room/add-room.component";
 import { AddMembersComponent } from "./components/server-information/server-members/add-members/add-members.component";
 import { DeleteMemberComponent } from "./components/server-information/server-members/delete-member/delete-member.component";
+import { AddRoleComponent } from './components/server-information/server-roles/add-role/add-role.component';
 
 @NgModule({
   declarations: [
@@ -42,6 +43,7 @@ import { DeleteMemberComponent } from "./components/server-information/server-me
     AddRoomComponent,
     AddMembersComponent,
     DeleteMemberComponent,
+    AddRoleComponent,
   ],
   imports: [CommonModule, ChatcoreRoutingModule, ReactiveFormsModule, UtilsModule],
   exports: [
