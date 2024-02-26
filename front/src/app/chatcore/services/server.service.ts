@@ -11,7 +11,6 @@ import { MessageSended } from "src/app/core/models/message-sended";
 import { Role } from "src/app/core/models/role.model";
 import { User } from "src/app/core/models/user.model";
 
-
 @Injectable({
   providedIn: "root",
 })
@@ -60,9 +59,17 @@ export class ServerService {
     );
   }
 
-  addRoleToUser(idServer: number, roleAddUserDTO: { roleName: string; user: PseudoPassword; userToAdd : string }): Observable<any> {
-    return this.http.post<Role>(this.utils.getBaseUrl() + "servers/" + idServer+"/roles/add-user", roleAddUserDTO);
-  } 
+  addRoleToUser(
+    idServer: number,
+    roleAddUserDTO: { roleName: string; user: PseudoPassword; userToAdd: string }
+  ): Observable<any> {
+    return this.http.post<Role>(this.utils.getBaseUrl() + "servers/" + idServer + "/roles/add-user", roleAddUserDTO);
+  }
+
+  addRoleToServer(idServer: number, roleDTO: { name: string; user: PseudoPassword }): Observable<any> {
+    return this.http.post<Role>(this.utils.getBaseUrl() + "servers/" + idServer + "/roles", roleDTO);
+  }
+
   updateRoomName(
     idServer: number,
     idRoom: number,
@@ -96,6 +103,10 @@ export class ServerService {
     );
   }
 
+  deleteRole(idServer: number, roleDTO: { name: string; user: PseudoPassword }): Observable<any> {
+    return this.http.post<any>(this.utils.getBaseUrl() + "servers/" + idServer + "/roles/delete", roleDTO);
+  }
+
   updateMessage(idMessage: number, message: MessageSended): Observable<Message> {
     return this.http.put<Message>(this.utils.getBaseUrl() + "servers/edit-message/" + idMessage, message);
   }
@@ -104,6 +115,7 @@ export class ServerService {
     return this.http.post<any>(this.utils.getBaseUrl() + "servers/delete-room/" + idServer + "/" + idRoom, user);
   }
 
+
   updateRoom(idServer: number, idRoom: number, roomTitle : string): Observable<any> {
     let dto = { user: this.localStorageService.getPseudoPassword(), title: roomTitle}
     return this.http.put<any>(this.utils.getBaseUrl()+"servers/"+idServer+"/"+idRoom, dto);
@@ -111,5 +123,6 @@ export class ServerService {
 
   deleteServer(serverId: number): Observable<any> {
     return this.http.post(this.utils.getBaseUrl()+"servers/delete/"+serverId, this.localStorageService.getPseudoPassword());
+
   }
 }
