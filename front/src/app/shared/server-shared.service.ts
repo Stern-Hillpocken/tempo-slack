@@ -30,10 +30,16 @@ export class ServerSharedService {
     bhs.currentRoomId = roomId;
     this.setServerShared(bhs);
   }
+
   updateServerName(newName: string): void {
     this._serverNameUpdated$.next(newName);
   }
   getServerNameUpdated(): Observable<string> {
     return this._serverNameUpdated$.asObservable();
+
+
+  refresh(): void {
+    this.setServerShared(this._serverShared$.getValue());
+
   }
 }

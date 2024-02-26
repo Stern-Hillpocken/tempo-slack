@@ -1,12 +1,16 @@
 #add-server {
-    margin-top: 2em;
+    margin-top: 3em;
+    button {
+        display: block;
+        width: 100%;
+    }
 }
 
 form {
     margin-top: 1em;
 }
 
-.button-svg {
+#popup-add-server .button-svg {
     position: absolute;
     right: -1em;
     top: -1em;

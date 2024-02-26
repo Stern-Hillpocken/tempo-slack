@@ -50,7 +50,7 @@ export class ServerListComponent {
 
   onAddServerReceive(serverName: string): void {
     this.serverService.addServer({name: serverName, user: this.lss.getPseudoPassword()}).subscribe(resp => {
-      this.pfs.setFeed(new PopupFeedback("Serveur crée avec succès !", "valid"));
+      this.pfs.setFeed(new PopupFeedback("Serveur crée avec succès 🛋️", "valid"));
       this.updateDisplay();
     });
   }

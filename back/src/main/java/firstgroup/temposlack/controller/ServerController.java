@@ -12,10 +12,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
-import java.util.Collections;
-import java.util.Comparator;
-import java.util.List;
-import java.util.Optional;
+import java.util.*;
 
 @RestController
 @RequestMapping("servers")
@@ -102,7 +99,7 @@ public class ServerController {
             return ResponseEntity.status(HttpStatus.UNAUTHORIZED).build();
 
         server.addUser(userToAdd);
-        serverService.update(server);
+        serverService.save(server);
         return ResponseEntity.ok().build();
     }
 
@@ -143,7 +140,7 @@ public class ServerController {
         if (!server.isUserInServer(user) || !roleService.isOwner(user, server))
             return ResponseEntity.notFound().build();
         server.setName(serverUpdateDTO.getName());
-        serverService.update(server);
+        serverService.save(server);
         return ResponseEntity.ok().build();
     }
 
@@ -197,32 +194,28 @@ public class ServerController {
         return ResponseEntity.notFound().build();
     }
 
-    // Update a room
+    // Update a room title
     @PutMapping("{idServer}/{idRoom}")
-    public ResponseEntity<?> updateRoom(@PathVariable("idServer") Long idServer, @PathVariable("idRoom") Long idRoom, @RequestBody RoomCreatedDTO roomCreatedDTO) {
+    public ResponseEntity<?> updateRoomTitle(@PathVariable("idServer") Long idServer, @PathVariable("idRoom") Long idRoom, @RequestBody RoomCreatedDTO roomCreatedDTO) {
         if (roomCreatedDTO == null || roomCreatedDTO.getUser() == null || roomCreatedDTO.getTitle() == null ||
                 roomCreatedDTO.getTitle().isBlank() || !userService.isUserPseudoPasswordDTOValid(roomCreatedDTO.getUser()))
             return ResponseEntity.noContent().build();
         Optional<Server> optionalServer = serverService.getById(idServer);
         Optional<User> optionalUser = userService.getByPseudo(roomCreatedDTO.getUser().getPseudo());
-        if (optionalServer.isEmpty() || optionalUser.isEmpty()) {
-            return ResponseEntity.notFound().build();
-        } else {
-            Server server = optionalServer.get();
-            User user = optionalUser.get();
-            if (!server.isUserInServer(user)) {
-                return ResponseEntity.notFound().build();
+        if (optionalServer.isEmpty() || optionalUser.isEmpty()) return ResponseEntity.notFound().build();
+        Server server = optionalServer.get();
+        User user = optionalUser.get();
+        if (!server.isUserInServer(user)) return ResponseEntity.notFound().build();
+
+        for (Room r : server.getRoomList()) {
+            if (Objects.equals(r.getId(), idRoom)) {
+                r.setTitle(roomCreatedDTO.getTitle());
+                break;
             }
-            List<Room> roomList = server.getRoomList();
-            for (Room r : roomList) {
-                if (r.getId().equals(idRoom)) {
-                    Room room = RoomCreatedMapper.convertDTOToEntity(roomCreatedDTO);
-                    room.setId(idRoom);
-                    roomService.save(room);
-                }
-            }
-            return ResponseEntity.ok().build();
         }
+        serverService.save(server);
+
+        return ResponseEntity.ok().build();
     }
 
     // Update a message
@@ -271,7 +264,7 @@ public class ServerController {
             if (r.getId().equals(idRoom)) {
                 roomService.deleteRoom(idRoom);
                 server.deleteRoom(optionalRoom.get());
-                serverService.update(server);
+                serverService.save(server);
                 return ResponseEntity.ok().build();
             }
         }
@@ -322,7 +315,7 @@ public class ServerController {
         if (!roleService.isOwner(user, server) && !user.equals(userToUpdate)) return ResponseEntity.status(HttpStatus.UNAUTHORIZED).build();
 
         server.removeUser(userToUpdate);
-        serverService.update(server);
+        serverService.save(server);
 
         return ResponseEntity.ok().build();
     }

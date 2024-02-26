@@ -68,12 +68,12 @@ export class ServerService {
     return this.http.put<Message>(this.utils.getBaseUrl() + "servers/edit-message/" + idMessage, message);
   }
 
-  deleteRoomInServerById(idServer: number, idRoom: number, user : PseudoPassword): Observable<any> {
+  deleteRoomInServerById(idServer: number, idRoom: number, user: PseudoPassword): Observable<any> {
     return this.http.post<any>(this.utils.getBaseUrl()+"servers/delete-room/"+idServer+"/"+idRoom, user)
   }
 
-  updateRoom(idServer: number, idRoom: number, room : string): Observable<any>{
-      let dto = { user : this.localStorageService.getPseudoPassword(), title : room}
-     return this.http.put<any>(this.utils.getBaseUrl()+"servers/"+idServer+"/"+idRoom, dto);
+  updateRoom(idServer: number, idRoom: number, roomTitle : string): Observable<any>{
+    let dto = { user: this.localStorageService.getPseudoPassword(), title: roomTitle}
+    return this.http.put<any>(this.utils.getBaseUrl()+"servers/"+idServer+"/"+idRoom, dto);
   } 
 }
