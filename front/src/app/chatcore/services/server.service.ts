@@ -13,41 +13,46 @@ import { MessageSended } from "src/app/core/models/message-sended";
   providedIn: "root",
 })
 export class ServerService {
-
   constructor(
     private http: HttpClient,
     private utils: UtilsService,
     private localStorageService: LocalStorageService
-    ) {}
+  ) {}
 
   getServerById(id: number): Observable<Server> {
-    return this.http.get<Server>(this.utils.getBaseUrl()+"servers/"+id);
+    return this.http.get<Server>(this.utils.getBaseUrl() + "servers/" + id);
   }
 
   getRoomInServerById(idServer: number, idRoom: number): Observable<Room> {
-    return this.http.get<Room>(this.utils.getBaseUrl()+`servers/${idServer}/${idRoom}`);
+    return this.http.get<Room>(this.utils.getBaseUrl() + `servers/${idServer}/${idRoom}`);
   }
 
   getServersOfUser(pp: PseudoPassword): Observable<Server[]> {
-    return this.http.post<Server[]>(this.utils.getBaseUrl()+"servers/mine", pp);
+    return this.http.post<Server[]>(this.utils.getBaseUrl() + "servers/mine", pp);
   }
 
-  addServer(serverCreatedDTO: {name: string, user: PseudoPassword}): Observable<any> {
-    return this.http.post<any>(this.utils.getBaseUrl()+"servers", serverCreatedDTO);
+  addServer(serverCreatedDTO: { name: string; user: PseudoPassword }): Observable<any> {
+    return this.http.post<any>(this.utils.getBaseUrl() + "servers", serverCreatedDTO);
   }
 
-  addRoomInServerById(roomTitle: string, idServer: number): Observable<Room> {
-    let dto = { title: roomTitle, user: this.localStorageService.getPseudoPassword() };
-    console.log(dto);
-    return this.http.post<Room>(this.utils.getBaseUrl()+"/"+idServer, dto);
+  addRoom(id: number, roomTitle: string, roomCreatedDTO: { title: string; user: PseudoPassword }): Observable<any> {
+    return this.http.post<Room>(this.utils.getBaseUrl() + "servers/" + id, roomCreatedDTO);
+  }
 
+  updateRoomName(
+    idServer: number,
+    idRoom: number,
+    roomTitle: string,
+    roomCreatedDTO: { title: string; user: PseudoPassword }
+  ): Observable<any> {
+    return this.http.put<Room>(this.utils.getBaseUrl() + "servers/" + idServer + idRoom, roomCreatedDTO);
   }
 
   updateServerNameById(idServer: number, updateName: string): Observable<any> {
-    let dto = { name: updateName, user: this.localStorageService.getPseudoPassword()};
+    let dto = { name: updateName, user: this.localStorageService.getPseudoPassword() };
     console.log(dto);
-    
-    return this.http.put<any>(this.utils.getBaseUrl()+"servers/"+idServer, dto);
+
+    return this.http.put<any>(this.utils.getBaseUrl() + "servers/" + idServer, dto);
   }
 
   addMessage(message: MessageSended, idServer : number, idRoom: number): Observable<Message>{
@@ -59,8 +64,8 @@ export class ServerService {
    return this.http.post<Message>(this.utils.getBaseUrl()+"servers/"+idServer+"/"+idRoom+"/"+idMessage, user)
   }
 
-  updateMessage(idMessage: number, message: MessageSended): Observable<Message>{
-       return this.http.put<Message>(this.utils.getBaseUrl()+"servers/edit-message/"+idMessage, message);
+  updateMessage(idMessage: number, message: MessageSended): Observable<Message> {
+    return this.http.put<Message>(this.utils.getBaseUrl() + "servers/edit-message/" + idMessage, message);
   }
 
   deleteRoomInServerById(idServer: number, idRoom: number, user : PseudoPassword): Observable<any> {

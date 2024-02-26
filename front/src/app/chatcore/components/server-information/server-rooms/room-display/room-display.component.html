@@ -1,0 +1,3 @@
+<button (click)="changeRoom()" class="room" [ngClass]="currentRoomId === room.id ? '' : 'button-not-selected'">
+  [{{ room.id }}]{{ room.title }}
+</button>

@@ -2,8 +2,11 @@ import { Component, OnInit } from "@angular/core";
 import { FormBuilder, FormGroup, Validators } from "@angular/forms";
 import { ActivatedRoute } from "@angular/router";
 import { ServerService } from "src/app/chatcore/services/server.service";
+import { PopupFeedback } from "src/app/core/models/popup-feedback.model";
 import { Room } from "src/app/core/models/room.model";
 import { LocalStorageService } from "src/app/shared/local-storage.service";
+import { PopupFeedbackService } from "src/app/shared/popup-feedback.service";
+import { ServerSharedService } from "src/app/shared/server-shared.service";
 
 @Component({
   selector: "app-server-rooms",
@@ -11,39 +14,47 @@ import { LocalStorageService } from "src/app/shared/local-storage.service";
   styleUrls: ["./server-rooms.component.scss"],
 })
 export class ServerRoomsComponent implements OnInit {
-  id!: number;
+  currentServerId!: number;
   roomList: Room[] = [];
   selected: any;
   popUp: any;
   addPopUp: any;
   formRoom!: FormGroup;
+  currentRoomId!: number;
 
   constructor(
     private serverService: ServerService,
-    private activatedRoute: ActivatedRoute,
-    private fb: FormBuilder,
-    private localStorage: LocalStorageService
+    private pfs: PopupFeedbackService,
+    private lss: LocalStorageService,
+    private sss: ServerSharedService
   ) {}
 
   ngOnInit(): void {
-    this.id = Number(this.activatedRoute.snapshot.paramMap.get("id"));
-    this.serverService.getServerById(this.id).subscribe((server) => {
+    this.sss.getServerShared().subscribe((shi) => {
+      this.currentServerId = shi.currentServerId;
+      this.serverService.getServerById(this.currentServerId).subscribe((server) => {
+        this.roomList = server.roomList;
+      });
+    });
+  }
+
+  onAddRoomReceive(roomTitle: string): void {
+    this.sss.getServerShared().subscribe((shi) => (this.currentServerId = shi.currentServerId));
+    this.serverService
+      .addRoom(this.currentServerId, roomTitle, { title: roomTitle, user: this.lss.getPseudoPassword() })
+      .subscribe((resp) => {
+        this.pfs.setFeed(new PopupFeedback("Room créée avec succès !", "valid"));
+        this.updateDisplay();
+      });
+  }
+
+  updateDisplay(): void {
+    this.serverService.getServerById(this.currentServerId).subscribe((server) => {
       this.roomList = server.roomList;
     });
-    this.formRoom = this.fb.group({
-      title: ["", [Validators.required, Validators.minLength(1)]],
-    });
   }
 
-  update() {
-    // this.chatService.update(); Communication avec le chat service
-    this.selected = !this.selected;
-  }
-
-  addRoom() {
-    this.id = Number(this.activatedRoute.snapshot.paramMap.get("id"));
-    this.serverService.getServerById(this.id).subscribe((server) => {
-      this.serverService.addRoomInServerById(this.formRoom.value, this.id);
-    });
+  onChangeRoomReceive(room: Room): void {
+    this.sss.setRoomId(this.currentServerId);
   }
 }
