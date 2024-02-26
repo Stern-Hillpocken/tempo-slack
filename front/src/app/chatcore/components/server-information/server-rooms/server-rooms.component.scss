@@ -1,6 +1,7 @@
-.activeRoom {
-  color: red;
-}
-.activeRoom::before {
-  content: "\00BB ";
+@media screen and (max-width: 900px) {
+  #server-list-rooms {
+    display: flex;
+    flex-wrap: nowrap;
+    overflow-x: scroll;
+  }
 }

@@ -17,6 +17,8 @@ import { ReactiveFormsModule } from '@angular/forms';
 import { AddServerComponent } from './components/server-list/add-server/add-server.component';
 import { SelfSettingsComponent } from './components/server-list/self-settings/self-settings.component';
 import { UtilsModule } from '../utils/utils.module';
+import { RoomDisplayComponent } from './components/server-information/server-rooms/room-display/room-display.component';
+import { AddRoomComponent } from './components/server-information/server-rooms/add-room/add-room.component';
 
 @NgModule({
   declarations: [
@@ -33,7 +35,9 @@ import { UtilsModule } from '../utils/utils.module';
     ServerRolesComponent,
     HomeComponent,
     AddServerComponent,
-    SelfSettingsComponent
+    SelfSettingsComponent,
+    RoomDisplayComponent,
+    AddRoomComponent
   ],
   imports: [
     CommonModule,
