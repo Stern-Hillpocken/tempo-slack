@@ -20,6 +20,7 @@ import { UtilsModule } from "../utils/utils.module";
 import { RoomDisplayComponent } from "./components/server-information/server-rooms/room-display/room-display.component";
 import { AddRoomComponent } from "./components/server-information/server-rooms/add-room/add-room.component";
 import { AddMembersComponent } from "./components/server-information/server-members/add-members/add-members.component";
+import { DeleteMemberComponent } from "./components/server-information/server-members/delete-member/delete-member.component";
 
 @NgModule({
   declarations: [
@@ -40,6 +41,7 @@ import { AddMembersComponent } from "./components/server-information/server-memb
     RoomDisplayComponent,
     AddRoomComponent,
     AddMembersComponent,
+    DeleteMemberComponent,
   ],
   imports: [CommonModule, ChatcoreRoutingModule, ReactiveFormsModule, UtilsModule],
   exports: [

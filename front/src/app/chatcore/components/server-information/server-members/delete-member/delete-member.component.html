@@ -1,0 +1,11 @@
+<button (click)="openPopup()" id="delete-member">Retirer&nbsp;un&nbsp;membre</button>
+<div *ngIf="isPopupMemberDisplay" id="popup-delete-member" class="popup-container">
+  <div class="popup-inner">
+    <button (click)="closePopup()" class="button-svg"><app-svg type="cancel"></app-svg></button>
+    <form [formGroup]="formDeleteMember">
+      <label for="name">Nom du membre à retirer du serveur&nbsp;:</label><br />
+      <input formControlName="name" type="text" id="delete-member-name" autofocus />
+      <input type="submit" (click)="deleteMember()" value="Supprimer" [disabled]="!formDeleteMember.valid" />
+    </form>
+  </div>
+</div>

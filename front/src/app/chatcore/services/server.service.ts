@@ -48,6 +48,16 @@ export class ServerService {
     return this.http.post<User>(this.utils.getBaseUrl() + "servers/" + idServer + "/add-user", userAddedToServerDTO);
   }
 
+  deleteUser(
+    idServer: number,
+    userToUpdateInServerDTO: { user: PseudoPassword; userPseudoToUpdate: string }
+  ): Observable<any> {
+    return this.http.post<User>(
+      this.utils.getBaseUrl() + "servers/" + idServer + "/remove-user",
+      userToUpdateInServerDTO
+    );
+  }
+
   updateRoomName(
     idServer: number,
     idRoom: number,

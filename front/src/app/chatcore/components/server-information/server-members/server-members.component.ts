@@ -52,6 +52,31 @@ export class ServerMembersComponent implements OnInit {
     }
   }
 
+  onDeleteMemberReceive(pseudo: string): void {
+    this.isUserInServer = true;
+    this.sss.getServerShared().subscribe((shi) => (this.currentServerId = shi.currentServerId));
+    if (this.lss.getPseudoPassword().pseudo != pseudo) {
+      for (let user of this.userList) {
+        if (user.pseudo == pseudo) {
+          this.serverService
+            .deleteUser(this.currentServerId, { user: this.lss.getPseudoPassword(), userPseudoToUpdate: pseudo })
+            .subscribe((resp) => {
+              this.pfs.setFeed(new PopupFeedback("Membre retiré du serveur avec succès !", "valid"));
+              this.updateDisplay();
+            });
+          this.isUserInServer = false;
+          break;
+        }
+      }
+      if (this.isUserInServer) {
+        this.pfs.setFeed(new PopupFeedback("Cet utilisateur n'existe pas dans le serveur !", "error"));
+        this.isUserInServer = true;
+      }
+    } else {
+      this.pfs.setFeed(new PopupFeedback("Vous ne pouvez pas vous retirer du serveur !", "error"));
+    }
+  }
+
   updateDisplay(): void {
     this.serverService.getServerById(this.currentServerId).subscribe((server) => {
       this.userList = server.userList;
