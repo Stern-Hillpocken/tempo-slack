@@ -8,6 +8,7 @@ import { PseudoPassword } from "src/app/core/models/pseudo-password.model";
 import { LocalStorageService } from "src/app/shared/local-storage.service";
 import { Message } from "src/app/core/models/message";
 import { MessageSended } from "src/app/core/models/message-sended";
+import { Role } from "src/app/core/models/role.model";
 
 @Injectable({
   providedIn: "root",
@@ -39,6 +40,9 @@ export class ServerService {
     return this.http.post<Room>(this.utils.getBaseUrl() + "servers/" + id, roomCreatedDTO);
   }
 
+  addRoleToUser(idServer: number, roleAddUserDTO: { roleName: string; user: PseudoPassword; userToAdd : string }): Observable<any> {
+    return this.http.post<Role>(this.utils.getBaseUrl() + "servers/" + idServer+"/roles/add-user", roleAddUserDTO);
+  } 
   updateRoomName(
     idServer: number,
     idRoom: number,
