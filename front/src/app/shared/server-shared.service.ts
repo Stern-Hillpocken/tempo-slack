@@ -14,6 +14,7 @@ export class ServerSharedService {
   }
 
   setServerShared(ssi: ServerSharedInfo): void {
+    console.log(ssi)
     this._serverShared$.next(ssi);
   }
 
