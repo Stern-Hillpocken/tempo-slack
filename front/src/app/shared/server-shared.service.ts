@@ -29,4 +29,8 @@ export class ServerSharedService {
     bhs.currentRoomId = roomId;
     this.setServerShared(bhs);
   }
+
+  refresh(): void {
+    this.setServerShared(this._serverShared$.getValue());
+  }
 }

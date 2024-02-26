@@ -16,12 +16,10 @@ import { PopupFeedback } from 'src/app/core/models/popup-feedback.model';
 })
 export class ChatComponent implements OnInit {
   messagesList: Message[] = [];
-  message!: Message;
   idServer!: number;
   idRoom!: number;
   user!: PseudoPassword;
   room!: Room;
-  server!: Server;
   
   constructor(
     private serverService: ServerService,
@@ -91,6 +89,7 @@ export class ChatComponent implements OnInit {
   onUpdateNameRoomReceive(room: string){
     this.serverService.updateRoom(this.idServer, this.idRoom, room).subscribe(v =>{
       console.log(v);
+      this.serverSharedService.refresh();
       this.pfs.setFeed(new PopupFeedback("Salon bien renommé ✏️", "valid"));
       this.updateDisplay(this.idServer, this.idRoom);
     });
@@ -99,6 +98,7 @@ export class ChatComponent implements OnInit {
   onDeleteRoomReceive(idRoom: number){
     this.serverService.deleteRoomInServerById(this.idServer, idRoom, this.user).subscribe(v => {
       console.log(v);
+      this.serverSharedService.refresh();
       this.pfs.setFeed(new PopupFeedback("Salon bien supprimé 🗑️", "valid"));
     });
   }
