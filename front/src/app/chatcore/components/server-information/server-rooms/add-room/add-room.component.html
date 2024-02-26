@@ -1,5 +1,5 @@
-<button (click)="openPopup()" id="add-server">Ajouter&nbsp;une&nbsp;room</button>
-<div *ngIf="isPopupRoomDisplay" id="popup-add-server" class="popup-container">
+<button (click)="openPopup()" id="add-room">Ajouter&nbsp;une&nbsp;room</button>
+<div *ngIf="isPopupRoomDisplay" id="popup-add-room" class="popup-container">
   <div class="popup-inner">
     <button (click)="closePopup()" class="button-svg"><app-svg type="cancel"></app-svg></button>
     <form [formGroup]="formAddRoom">
