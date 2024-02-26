@@ -296,7 +296,7 @@ public class ServerController {
         return ResponseEntity.ok().build();
     }
 
-    @DeleteMapping("{idServer}/remove-user")
+    @PostMapping("{idServer}/remove-user")
     public ResponseEntity<?> removeUserFromServer(@PathVariable Long idServer, @RequestBody UserToUpdateInServerDTO userToUpdateInServerDTO) {
         if (userToUpdateInServerDTO.getUser() == null || !userService.isUserPseudoPasswordDTOValid(userToUpdateInServerDTO.getUser())) return ResponseEntity.noContent().build();
         if (userToUpdateInServerDTO.getUserPseudoToUpdate() == null || userToUpdateInServerDTO.getUserPseudoToUpdate().isBlank()) return ResponseEntity.noContent().build();
