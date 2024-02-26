@@ -1,9 +1,9 @@
-import { PseudoPassword } from "./pseudo-password.model";
+import { UserPublic } from "./user-public.model";
 
 export interface Message {
-    id?:number;
-    user : PseudoPassword,
-    content:string,
-    date? : Date,
-    dateEdit? : Date
+    id: number;
+    user: UserPublic,
+    content: string,
+    date: Date,
+    dateEdit: Date
 } 

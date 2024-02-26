@@ -4,7 +4,7 @@
             <td [ngClass]="attributeEditing === 'avatar' ? 'editing' : ''">Avatar</td>
             <ng-container *ngIf="attributeEditing !== 'avatar'">
                 <td><img src="assets/images/avatars/{{user.avatar}}.png" class="avatar"></td>
-                <td><button (click)="edit('avatar')">Modifier</button></td>
+                <td><button (click)="edit('avatar')" class="button-svg"><app-svg type="update-user"></app-svg></button></td>
             </ng-container>
             <ng-container *ngIf="attributeEditing === 'avatar'">
                 <td>
@@ -25,11 +25,11 @@
                             <input type="radio" id="premium" formControlName="avatar" value="premium">
                             <img src="assets/images/avatars/premium.png" class="avatar">
                         </label>
-                        <button type="submit" (click)="update('avatar')" class="button-left" [disabled]="!formAvatar.valid">Mettre à jour</button>
+                        <button type="submit" (click)="update('avatar')" class="button-left button-svg" [disabled]="!formAvatar.valid"><app-svg type="check"></app-svg></button>
                     </form>
                 </td>
                 <td>
-                    <button (click)="cancel()" class="button-right">Annuler</button>
+                    <button (click)="cancel()" class="button-right button-svg"><app-svg type="cancel"></app-svg></button>
                 </td>
             </ng-container>
         </tr>
@@ -38,17 +38,17 @@
             <td [ngClass]="attributeEditing === 'pseudo' ? 'editing' : ''">Pseudo</td>
             <ng-container *ngIf="attributeEditing !== 'pseudo'">
                 <td>{{ user.pseudo }}</td>
-                <td><button (click)="edit('pseudo')">Modifier</button></td>
+                <td><button (click)="edit('pseudo')" class="button-svg"><app-svg type="update-user"></app-svg></button></td>
             </ng-container>
             <ng-container *ngIf="attributeEditing === 'pseudo'">
                 <td>
                     <form [formGroup]="formPseudo">
                         <input formControlName="pseudo" type="text" id="pseudo" autofocus>
-                        <button type="submit" (click)="update('pseudo')" class="button-left" [disabled]="!formPseudo.valid">Mettre à jour</button>
+                        <button type="submit" (click)="update('pseudo')" class="button-left button-svg" [disabled]="!formPseudo.valid"><app-svg type="check"></app-svg></button>
                     </form>
                 </td>
                 <td>
-                    <button (click)="cancel()" class="button-right">Annuler</button>
+                    <button (click)="cancel()" class="button-right button-svg"><app-svg type="cancel"></app-svg></button>
                 </td>
             </ng-container>
         </tr>
@@ -57,17 +57,17 @@
             <td [ngClass]="attributeEditing === 'password' ? 'editing' : ''">Mot de passe</td>
             <ng-container *ngIf="attributeEditing !== 'password'">
                 <td>*******</td>
-                <td><button (click)="edit('password')">Modifier</button></td>
+                <td><button (click)="edit('password')" class="button-svg"><app-svg type="update-user"></app-svg></button></td>
             </ng-container>
             <ng-container *ngIf="attributeEditing === 'password'">
                 <td>
                     <form [formGroup]="formPassword">
                         <input formControlName="password" type="password" id="password" autofocus>
-                        <button type="submit" (click)="update('password')" class="button-left" [disabled]="!formPassword.valid">Mettre à jour</button>
+                        <button type="submit" (click)="update('password')" class="button-left button-svg" [disabled]="!formPassword.valid"><app-svg type="check"></app-svg></button>
                     </form>
                 </td>
                 <td>
-                    <button (click)="cancel()" class="button-right">Annuler</button>
+                    <button (click)="cancel()" class="button-right button-svg"><app-svg type="cancel"></app-svg></button>
                 </td>
             </ng-container>
         </tr>
@@ -76,17 +76,17 @@
             <td [ngClass]="attributeEditing === 'email' ? 'editing' : ''">Email</td>
             <ng-container *ngIf="attributeEditing !== 'email'">
                 <td>{{ user.email }}</td>
-                <td><button (click)="edit('email')">Modifier</button></td>
+                <td><button (click)="edit('email')" class="button-svg"><app-svg type="update-user"></app-svg></button></td>
             </ng-container>
             <ng-container *ngIf="attributeEditing === 'email'">
                 <td>
                     <form [formGroup]="formEmail">
                         <input formControlName="email" type="email" id="email" autofocus>
-                        <button type="submit" (click)="update('email')" class="button-left" [disabled]="!formEmail.valid">Mettre à jour</button>
+                        <button type="submit" (click)="update('email')" class="button-left button-svg" [disabled]="!formEmail.valid"><app-svg type="check"></app-svg></button>
                     </form>
                 </td>
                 <td>
-                    <button (click)="cancel()" class="button-right">Annuler</button>
+                    <button (click)="cancel()" class="button-right button-svg"><app-svg type="cancel"></app-svg></button>
                 </td>
             </ng-container>
         </tr>

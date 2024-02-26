@@ -55,7 +55,6 @@ export class ServerListComponent {
     this.serverService.getServersOfUser(this.lss.getPseudoPassword()).subscribe(servers => {
       this.servers = servers;
       if (this.servers.length > 0) {
-        // Supposons que le dernier serveur de la liste est le nouveau serveur
         const lastServer: Server = this.servers[this.servers.length - 1];
         this.sss.setServerShared(new ServerSharedInfo(lastServer.id, lastServer.roomList[0].id));
       }

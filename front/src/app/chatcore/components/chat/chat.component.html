@@ -1,5 +1,19 @@
 <div id="chat" class="home-section">
     <app-room-name [room]="room" (updateNameRoomEmitter)="onUpdateNameRoomReceive($event)" (deleteRoomEmitter)="onDeleteRoomReceive($event)"></app-room-name>
-    <app-message *ngFor="let message of messagesList" [message]="message"  (updateMessageEmitter)="onUpdateMessageReceive($event)" (deleteMessageEmitter)="onDeleteMessageReceive($event)"></app-message>
-    <app-message-form (addMessageEmitter)="onAddMessageReceive($event)" ></app-message-form>
+       <app-room-name [room]="room"></app-room-name>
+    <div id="messages-container">
+        <app-message
+            *ngFor="let message of messagesList"
+            [message]="message"
+            [userPseudo]="user.pseudo"
+            (updateMessageEmitter)="onUpdateMessageReceive($event)"
+            (deleteMessageEmitter)="onDeleteMessageReceive($event)"
+        ></app-message>
+    </div>
+    <hr>
+    <app-message-form
+        *ngIf="room"
+        [roomTitle]="room.title"
+        (addMessageEmitter)="onAddMessageReceive($event)"
+    ></app-message-form>
 </div>

@@ -5,9 +5,9 @@
     class="popup-container"
 >
     <div class="popup-inner">
-        <button (click)="closePopup()">Fermer [X]</button>
+        <button (click)="closePopup()" class="button-svg"><app-svg type="cancel"></app-svg></button>
         <form [formGroup]="formAddServer">
-            <label for="name">Nom</label>
+            <label for="name">Nom du nouveau serveur&nbsp;:</label><br>
             <input formControlName="name" type="text" id="add-server-name" autofocus>
             <input type="submit" (click)="addServer()" value="Ajouter" [disabled]="!formAddServer.valid">
         </form>

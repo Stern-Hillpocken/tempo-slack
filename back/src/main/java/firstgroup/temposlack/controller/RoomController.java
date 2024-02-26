@@ -47,7 +47,7 @@ public class RoomController {
             Room updatedRoom = RoomMapper.convertToEntity(roomDTO);
             existingRoom.setTitle(updatedRoom.getTitle());
 
-            roomService.updateRoom(existingRoom);
+            roomService.save(existingRoom);
             return ResponseEntity.noContent().build();
         }
     }

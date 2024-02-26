@@ -24,6 +24,10 @@ export class LandingPageComponent {
     private http: HttpClient
   ){}
 
+  ngOnInit(): void {
+    this.lss.removePseudoPassword();
+  }
+
   onFormChoiceReceive(value: "login" | "signin"): void {
     this.formChoiceToDisplay = value;
   }

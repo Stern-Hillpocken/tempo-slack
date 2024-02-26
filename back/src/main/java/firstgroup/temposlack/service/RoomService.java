@@ -38,8 +38,8 @@ public class RoomService {
         roomRepository.save(room);
     }
 
-    public void updateRoom(Room updatedRoom) {
-        roomRepository.save(updatedRoom);
+    public void save(Room room) {
+        roomRepository.save(room);
     }
 
     public void deleteRoom(Long id) {
