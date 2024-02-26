@@ -1,15 +1,20 @@
-<h1>Serveur</h1>
-<div *ngIf="serverName"></div>
-<h2> {{ serverName }}<div>
-<button (click)="openEditPopup()" id="edit-server">Modifier</button>
+<div *ngIf="serverName" id="server-name">
+
+    <div id="edit-server-buttons">
+        <button (click)="openEditPopup()" id="edit-server" class="button-left button-svg"><app-svg type="update-user"></app-svg></button>
+        <button id="remove-server" class="button-right button-svg"><app-svg type="delete"></app-svg></button>
+    </div>
+
+    <h2>{{ serverName }}</h2>
+</div>
+
 <div *ngIf="isPopupDisplay" id="popup-edit-server" class="popup-container">
     <div class="popup-inner">
-        <button (click)="closeEditPopup()">Fermer [X]</button>
+        <button (click)="closeEditPopup()" class="button-svg"><app-svg type="cancel"></app-svg></button>
         <form [formGroup]="formServer">
-            <label for="serverName">Nom du Serveur</label>
+            <label for="serverName">Nom du serveur&nbsp;:</label><br>
             <input formControlName="serverName" type="text" id="edit-server-name" autofocus>
             <input type="submit" (click)="updateServerName()" value="Modifier" [disabled]="!formServer.valid">
         </form>
     </div>
-</div>
 </div>

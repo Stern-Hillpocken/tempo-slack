@@ -1,10 +1,10 @@
-<div id="room-name">
+<div *ngIf="room" id="room-name">
     <div id="edit-room-name">
         <button (click)="openPopupUpdate()" class="button-left button-svg button-not-selected"><app-svg type="update-user"></app-svg></button>
         <button (click)="openPopupDelete()" class="button-right button-svg button-not-selected"><app-svg type="delete"></app-svg></button> 
     </div>
 
-    <h2 *ngIf="room">{{room.title}}</h2>
+    <h2>{{room.title}}</h2>
 </div>
 <div *ngIf="popUpDelete" class="popup-container">               
     <div class="popup-inner">
