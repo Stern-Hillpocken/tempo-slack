@@ -38,15 +38,19 @@ export class ServerListComponent {
 
   ngOnInit(): void {
     this.updateDisplay();
-
-    this.sss.getServerShared().subscribe(shi => this.currentServerId = shi.currentServerId);
-
     this.userService.getPublic(this.lss.getPseudoPassword().pseudo).subscribe(u => this.user = u);
+    this.sss.getServerShared().subscribe(shi => this.currentServerId = shi.currentServerId);
+    this.sss.getServerNameUpdated().subscribe(newName => {
+      if (newName) {
+        this.updateDisplay();
+      }
+    });
   }
+
 
   onAddServerReceive(serverName: string): void {
     this.serverService.addServer({name: serverName, user: this.lss.getPseudoPassword()}).subscribe(resp => {
-      this.pfs.setFeed(new PopupFeedback("Serveur crée avec succès !", "valid"));
+      this.pfs.setFeed(new PopupFeedback("Serveur crée avec succès 🛋️", "valid"));
       this.updateDisplay();
     });
   }

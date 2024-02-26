@@ -5,3 +5,21 @@ h2 {
     border-radius: 0.5em;
     padding: 0.5em 0;
 }
+
+#room-name {
+    position: relative;
+}
+
+#edit-room-name {
+    position: absolute;
+    top: 0.7em;
+    left: 1em;
+}
+
+#room-name:hover #edit-room-name button {
+    background-color: var(--color-accent);
+}
+
+.popup-inner {
+    text-align: center;
+}

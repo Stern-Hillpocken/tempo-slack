@@ -21,6 +21,7 @@ export class ServerRoomsComponent implements OnInit {
   addPopUp: any;
   formRoom!: FormGroup;
   currentRoomId!: number;
+  roomDisplayed: boolean = true;
 
   constructor(
     private serverService: ServerService,
@@ -55,6 +56,10 @@ export class ServerRoomsComponent implements OnInit {
   }
 
   onChangeRoomReceive(room: Room): void {
-    this.sss.setRoomId(this.currentServerId);
+    this.sss.setRoomId(room.id);
+  }
+
+  roomFoldToggle(): void {
+    this.roomDisplayed = !this.roomDisplayed;
   }
 }

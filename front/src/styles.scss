@@ -86,9 +86,15 @@ input:disabled {
 .button-not-selected {
     background-color: transparent;
     color: var(--color-text);
+    svg {
+        fill: var(--color-text);
+    }
     &:hover {
         background-color: var(--color-accent);
         color: black;
+        svg {
+            fill: black;
+        }
     }
 }
 
@@ -122,6 +128,33 @@ input:disabled {
     border-radius: 1em;
     padding: 0.5em;
     border: 2px solid var(--color-text);
+}
+
+.server-info-category-title {
+    cursor: pointer;
+    color: var(--color-accent);
+    background-color: var(--color-text);
+    //display: inline;
+    padding: 0.25em;
+    border-top-left-radius: 0.5em;
+    border-top-right-radius: 0.5em;
+    border: 2px solid var(--color-text);
+    margin-bottom: 0;
+    &.closed {
+        border-top-left-radius: 1em;
+        border-top-right-radius: 1em;
+        border-bottom-left-radius: 1em;
+        border-bottom-right-radius: 1em;
+        border-color: var(--color-accent);
+    }
+}
+
+.server-info-category-box {
+    border: 2px solid var(--color-text);
+    //border-top-right-radius: 0.5em;
+    border-bottom-right-radius: 0.5em;
+    border-bottom-left-radius: 0.5em;
+    padding: 0.5em;
 }
 
 
