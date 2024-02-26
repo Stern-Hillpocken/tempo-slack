@@ -48,13 +48,15 @@ export class ServerNameComponent implements OnInit {
 
   updateServerName(): void {
     if (this.formServer.valid) {
-      this.serverService.updateServerNameById(this.serverId, this.formServer.get('serverName')?.value)
-        .subscribe({
-          next: () => {
-            this.serverName = this.formServer.get('serverName')?.value;
-            this.closeEditPopup();
-          },
-        });
+      const newName = this.formServer.get('serverName')?.value;
+      this.serverService.updateServerNameById(this.serverId, newName).subscribe(() => {
+        this.serverSharedService.updateServerName(newName); 
+        this.closeEditPopup();
+      });
     }
   }
-}
+  }
+  
+    
+  
+
