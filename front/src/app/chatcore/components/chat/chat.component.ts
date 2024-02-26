@@ -3,7 +3,6 @@ import { Message } from 'src/app/core/models/message';
 import { ServerService } from '../../services/server.service';
 import { PseudoPassword } from 'src/app/core/models/pseudo-password.model';
 import { Room } from 'src/app/core/models/room.model';
-import { Server } from 'src/app/core/models/server.model';
 import { LocalStorageService } from 'src/app/shared/local-storage.service';
 import { ServerSharedService } from 'src/app/shared/server-shared.service';
 import { PopupFeedbackService } from 'src/app/shared/popup-feedback.service';
@@ -36,9 +35,9 @@ export class ChatComponent implements OnInit {
       this.updateDisplay(serverInfo.currentServerId, serverInfo.currentRoomId)
     });
 
-    /*setInterval(() => {
+    setInterval(() => {
       this.updateDisplay(this.idServer, this.idRoom);
-    }, 4000);*/
+    }, 4000);
   }
 
   ngAfterViewChecked(): void {
@@ -60,7 +59,6 @@ export class ChatComponent implements OnInit {
   onAddMessageReceive(message: string){
     let dto = {user : this.user, content : message} ;
     this.serverService.addMessage(dto, this.idServer, this.idRoom).subscribe(v => {
-      console.log(v);
       this.updateDisplay(this.idServer, this.idRoom);
     });
   }
@@ -69,7 +67,6 @@ export class ChatComponent implements OnInit {
     this.user = this.localStorageService.getPseudoPassword();
     this.serverSharedService.getServerShared().subscribe(serverInfo => {
       this.serverService.deleteMessageInRoomInServerById(serverInfo.currentServerId, serverInfo.currentRoomId, idMessage, this.user).subscribe(v => {
-        console.log(v);
         this.updateDisplay(this.idServer, this.idRoom);
       });
     });
@@ -80,7 +77,6 @@ export class ChatComponent implements OnInit {
       this.user = this.localStorageService.getPseudoPassword();
       let dto = { user : this.user, content : message.content};
       this.serverService.updateMessage(message.id, dto).subscribe(v => {
-        console.log(v);
         this.updateDisplay(this.idServer, this.idRoom);
       });
     }
@@ -88,7 +84,6 @@ export class ChatComponent implements OnInit {
 
   onUpdateNameRoomReceive(room: string){
     this.serverService.updateRoom(this.idServer, this.idRoom, room).subscribe(v =>{
-      console.log(v);
       this.serverSharedService.refresh();
       this.pfs.setFeed(new PopupFeedback("Salon bien renommé ✏️", "valid"));
       this.updateDisplay(this.idServer, this.idRoom);
@@ -97,7 +92,6 @@ export class ChatComponent implements OnInit {
 
   onDeleteRoomReceive(idRoom: number){
     this.serverService.deleteRoomInServerById(this.idServer, idRoom, this.user).subscribe(v => {
-      console.log(v);
       //this.serverSharedService.refresh();
       this.pfs.setFeed(new PopupFeedback("Salon bien supprimé 🗑️", "valid"));
       location.reload();

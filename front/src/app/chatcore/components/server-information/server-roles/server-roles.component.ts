@@ -20,9 +20,10 @@ export class ServerRolesComponent implements OnInit {
   popUp: boolean = false;
   popUpDelete: boolean = false;
   isRoleInServer: boolean = false;
+  rolesDisplayed: boolean = false;
 
   @Output()
-  addRoleEmitter: EventEmitter<any> = new EventEmitter();
+  addRoleToUserEmitter: EventEmitter<any> = new EventEmitter();
 
   constructor(
     private serverService: ServerService,
@@ -37,7 +38,6 @@ export class ServerRolesComponent implements OnInit {
       this.serverId = serverInfo.currentServerId;
       this.serverService.getServerById(this.serverId).subscribe((server) => {
         this.roleList = server.roleList;
-        console.log(serverInfo);
       });
     });
     this.formAddRole = this.fb.group({
@@ -46,13 +46,13 @@ export class ServerRolesComponent implements OnInit {
     });
   }
 
-  addRole(): void {
-    console.log(this.formAddRole.value);
-    this.addRoleEmitter.emit(this.formAddRole.value);
+  addRoleToUser(): void {
+    this.addRoleToUserEmitter.emit(this.formAddRole.value);
     this.formAddRole = this.fb.group({
       userName: [""],
       roleName: [""],
     });
+    this.closePopup();
   }
 
   onAddRoleReceive(roleName: string): void {
@@ -101,7 +101,6 @@ export class ServerRolesComponent implements OnInit {
     //this.formAddRole = this.fb.group({
     // name: [this.role.name],
     // });
-    // console.log(this.role.name);
   }
   closePopup() {
     this.popUp = false;
@@ -117,5 +116,9 @@ export class ServerRolesComponent implements OnInit {
     this.serverService.getServerById(this.serverId).subscribe((server) => {
       this.roleList = server.roleList;
     });
+  }
+
+  rolesFoldToggle(): void {
+    this.rolesDisplayed = !this.rolesDisplayed;
   }
 }

@@ -24,7 +24,6 @@ export class RoomNameComponent {
   constructor(private fb: FormBuilder){}
 
     updateNameRoom(): void{
-      console.log(this.formUpdateRoom.value)
       this.updateNameRoomEmitter.emit(this.formUpdateRoom.value.title)
       this.closePopupUpdate();
     }
