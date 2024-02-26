@@ -51,31 +51,58 @@ export class ChatComponent implements OnInit {
   updateDisplay(serverId : number, roomId : number): void { 
     this.serverService.getRoomInServerById(serverId, roomId).subscribe(room => {
       this.room = room;
-      this.messagesList = room.messageList;
+      this.messagesList = room.messageList.sort((a,b)=>{return a.id - b.id});
       this.idRoom = roomId;
       this.idServer = serverId;
     });
   }
 
   onAddMessageReceive(message: string){
-    let dto= {user : this.user, content : message} ;
-    this.serverSharedService.getServerShared().subscribe(serverInfo => {
-      this.serverService.addMessage(dto, serverInfo.currentServerId, serverInfo.currentRoomId).subscribe(v => {
-        console.log(v);
-        this.updateDisplay(this.idServer, this.idRoom);
-      });
+    let dto = {user : this.user, content : message} ;
+    this.serverService.addMessage(dto, this.idServer, this.idRoom).subscribe(v => {
+      console.log(v);
+      this.updateDisplay(this.idServer, this.idRoom);
     });
   }
     
   onDeleteMessageReceive(idMessage: number){
-    console.log(this.user)
-    this.serverSharedService.getServerShared().subscribe(serverInfo => {
-      this.serverService.deleteMessageInRoomInServerById(serverInfo.currentServerId, serverInfo.currentRoomId, idMessage, this.user).subscribe(v => {
-          console.log(v);
-          this.updateDisplay(this.idServer, this.idRoom);
-      });
-    });
+
+  this.user = this.localStorageService.getPseudoPassword();
+  this.serverSharedService.getServerShared().subscribe(serverInfo => {
+  this.serverService.deleteMessageInRoomInServerById(serverInfo.currentServerId, serverInfo.currentRoomId, idMessage, this.user).subscribe(v => {
+    console.log(v);
+  this.updateDisplay(this.idServer, this.idRoom);
   }
+ ) })
+  }
+
+   onUpdateMessageReceive(message: Message){
+    if (message && message.id !== undefined) {
+    this.idMessage = message.id   
+    this.user = this.localStorageService.getPseudoPassword();
+    let dto = { user : this.user, content : message.content}
+   this.serverService.updateMessage(this.idMessage, dto).subscribe(v =>{
+       console.log(v);
+     this.updateDisplay(this.idServer, this.idRoom)});
+   }
+   }
+
+   onUpdateNameRoomReceive(room : string){
+    this.serverSharedService.getServerShared().subscribe(serverInfo => {
+    this.serverService.updateRoom(serverInfo.currentServerId, serverInfo.currentRoomId, room).subscribe(v =>{
+       console.log(v);
+     this.updateDisplay(this.idServer, this.idRoom)});
+   })
+  }
+
+   onDeleteRoomReceive(idRoom: number){
+    this.user = this.localStorageService.getPseudoPassword();
+    this.serverSharedService.getServerShared().subscribe(serverInfo => {
+    this.serverService.deleteRoomInServerById(serverInfo.currentServerId, idRoom, this.user).subscribe(v => {
+      console.log(v);
+    }) 
+  })
+
 
   onUpdateMessageReceive(message: Message){
     if (message && message.id !== undefined) { 
@@ -86,6 +113,7 @@ export class ChatComponent implements OnInit {
         this.updateDisplay(this.idServer, this.idRoom);
       });
     }
+
   }
 }
 

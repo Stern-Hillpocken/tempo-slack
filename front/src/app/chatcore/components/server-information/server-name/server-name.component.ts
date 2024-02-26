@@ -1,6 +1,5 @@
 import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
-import { of, switchMap } from 'rxjs';
 import { ServerService } from 'src/app/chatcore/services/server.service';
 import { ServerSharedService } from 'src/app/shared/server-shared.service';
 
@@ -12,7 +11,7 @@ import { ServerSharedService } from 'src/app/shared/server-shared.service';
 export class ServerNameComponent implements OnInit {
   serverId!: number;
   serverName!: string;
-  editPopup: boolean = false; 
+  isPopupDisplay: boolean = false;
   formServer!: FormGroup; 
 
   constructor(
@@ -22,48 +21,40 @@ export class ServerNameComponent implements OnInit {
   ) { }
 
   ngOnInit(): void {
-    /*this.serverSharedService.currentServerId.pipe(
-      switchMap((serverId: number | null) => {
-        // Vérifie si l'ID est défini avant de continuer
-        if (!serverId) return of(null); // Return un observable null si server id est null ou undefined
-        this.serverId = serverId;
-        console.log('serverId', serverId);
-        // Ici, nous chaînons la requête GET après avoir reçu l'ID
-        return this.serverService.getServerById(serverId);
-      })
-    ).subscribe(server => {
-      // Cette partie s'exécute une fois que la requête GET est complétée
-      if (server) {
-        this.serverName = server.name;
-        this.formServer.patchValue({
-          serverName: this.serverName
+    this.formServer = this.fb.group({
+      serverName: ['', [Validators.required, Validators.minLength(1)]],
+    });
+
+    this.serverSharedService.getServerShared().subscribe(serverInfo => {
+      this.serverId = serverInfo.currentServerId;
+      if (this.serverId) {
+        this.serverService.getServerById(this.serverId).subscribe({
+          next: (server) => {
+            this.serverName = server.name;
+            this.formServer.patchValue({ serverName: this.serverName });
+          },
         });
       }
-    });*/
-    this.serverSharedService.getServerShared().subscribe(serverInfo => {
-      this.serverService.getServerById(serverInfo.currentServerId).subscribe(server => {
-        this.serverName = server.name;
-        this.formServer.patchValue({
-          serverName: this.serverName
-        });
-      })
-    });
-
-    this.formServer = this.fb.group({
-      serverName: [this.serverName, [Validators.required, Validators.minLength(1)]],
     });
   }
 
-  edit() {
-    this.editPopup = true;
+  openEditPopup(): void {
+    this.isPopupDisplay = true;
   }
 
-  update() {
+  closeEditPopup(): void {
+    this.isPopupDisplay = false;
+  }
+
+  updateServerName(): void {
     if (this.formServer.valid) {
-      this.serverService.updateServerNameById(this.serverId, this.formServer.get('serverName')?.value).subscribe(() => {
-        this.serverName = this.formServer.get('serverName')?.value;
-        this.editPopup = false; 
-      });
+      this.serverService.updateServerNameById(this.serverId, this.formServer.get('serverName')?.value)
+        .subscribe({
+          next: () => {
+            this.serverName = this.formServer.get('serverName')?.value;
+            this.closeEditPopup();
+          },
+        });
     }
   }
 }
