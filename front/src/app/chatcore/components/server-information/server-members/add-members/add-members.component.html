@@ -1,1 +1,11 @@
-<p>add-members works!</p>
+<button (click)="openPopup()" id="add-member">Ajouter&nbsp;un&nbsp;membre</button>
+<div *ngIf="isPopupMemberDisplay" id="popup-add-member" class="popup-container">
+  <div class="popup-inner">
+    <button (click)="closePopup()" class="button-svg"><app-svg type="cancel"></app-svg></button>
+    <form [formGroup]="formAddMember">
+      <label for="name">Nom du nouveau Membre&nbsp;:</label><br />
+      <input formControlName="name" type="text" id="add-member-name" autofocus />
+      <input type="submit" (click)="addMember()" value="Ajouter" [disabled]="!formAddMember.valid" />
+    </form>
+  </div>
+</div>

@@ -2,21 +2,21 @@ import { Component, EventEmitter, OnInit, Output } from "@angular/core";
 import { FormBuilder, FormGroup, Validators } from "@angular/forms";
 
 @Component({
-  selector: "app-add-members",
-  templateUrl: "./add-members.component.html",
-  styleUrls: ["./add-members.component.scss"],
+  selector: "app-delete-member",
+  templateUrl: "./delete-member.component.html",
+  styleUrls: ["./delete-member.component.scss"],
 })
-export class AddMembersComponent implements OnInit {
+export class DeleteMemberComponent implements OnInit {
   @Output()
-  addMemberEmitter: EventEmitter<string> = new EventEmitter();
+  deleteMemberEmitter: EventEmitter<string> = new EventEmitter();
 
   isPopupMemberDisplay: boolean = false;
-  formAddMember!: FormGroup;
+  formDeleteMember!: FormGroup;
 
   constructor(private fb: FormBuilder) {}
 
   ngOnInit(): void {
-    this.formAddMember = this.fb.group({
+    this.formDeleteMember = this.fb.group({
       name: ["", [Validators.required, Validators.minLength(1)]],
     });
   }
@@ -29,8 +29,8 @@ export class AddMembersComponent implements OnInit {
     this.isPopupMemberDisplay = false;
   }
 
-  addMember(): void {
-    this.addMemberEmitter.emit(this.formAddMember.value.name);
+  deleteMember(): void {
+    this.deleteMemberEmitter.emit(this.formDeleteMember.value.name);
     this.closePopup();
   }
 }
