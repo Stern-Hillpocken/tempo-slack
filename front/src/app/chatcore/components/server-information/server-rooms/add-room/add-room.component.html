@@ -1,4 +1,6 @@
-<button (click)="openPopup()" id="add-server">Ajouter&nbsp;une&nbsp;room</button>
+<div id="add-room">
+  <button (click)="openPopup()" class="button-svg"><app-svg type="add-room"></app-svg></button>
+</div>
 <div *ngIf="isPopupRoomDisplay" id="popup-add-server" class="popup-container">
   <div class="popup-inner">
     <button (click)="closePopup()" class="button-svg"><app-svg type="cancel"></app-svg></button>
