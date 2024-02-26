@@ -2,7 +2,7 @@
 
     <div id="edit-server-buttons">
         <button (click)="openEditPopup()" id="edit-server" class="button-left button-svg"><app-svg type="update-user"></app-svg></button>
-        <button id="remove-server" class="button-right button-svg"><app-svg type="delete"></app-svg></button>
+        <button (click)="openDeletePopup()" id="remove-server" class="button-right button-svg"><app-svg type="delete"></app-svg></button>
     </div>
 
     <h2>{{ serverName }}</h2>
@@ -16,5 +16,15 @@
             <input formControlName="serverName" type="text" id="edit-server-name" autofocus>
             <input type="submit" (click)="updateServerName()" value="Modifier" [disabled]="!formServer.valid">
         </form>
+    </div>
+</div>
+
+<div *ngIf="isDeletePopupDisplay" id="popup-edit-server" class="popup-container">
+    <div class="popup-inner">
+        <button (click)="closeDeletePopup()" class="button-svg"><app-svg type="cancel"></app-svg></button>
+        <br>
+        <label>Souhaitez-vous supprimer le serveur {{serverName}}&nbsp;?</label>
+        <br>
+        <button (click)="deleteServer()">Supprimer</button>
     </div>
 </div>

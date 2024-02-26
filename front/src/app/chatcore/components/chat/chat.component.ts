@@ -98,8 +98,9 @@ export class ChatComponent implements OnInit {
   onDeleteRoomReceive(idRoom: number){
     this.serverService.deleteRoomInServerById(this.idServer, idRoom, this.user).subscribe(v => {
       console.log(v);
-      this.serverSharedService.refresh();
+      //this.serverSharedService.refresh();
       this.pfs.setFeed(new PopupFeedback("Salon bien supprimé 🗑️", "valid"));
+      location.reload();
     });
   }
 

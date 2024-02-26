@@ -145,7 +145,7 @@ public class ServerController {
     }
 
     //Delete a server
-    @DeleteMapping("{idServer}")
+    @PostMapping("delete/{idServer}")
     public ResponseEntity<?> delete(@PathVariable("idServer") Long id, @RequestBody UserPseudoPasswordDTO userPseudoPasswordDTO) {
         if (userPseudoPasswordDTO == null || !userService.isUserPseudoPasswordDTOValid(userPseudoPasswordDTO))
             return ResponseEntity.noContent().build();

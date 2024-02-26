@@ -20,7 +20,7 @@ public class InitController {
     public void init(){
         userController.add(new UserSignInDTO("Riri", "riri!!", "riri@email.fr", "base"));
         userController.add(new UserSignInDTO("Fifi", "fifi!!", "fifi@email.fr", "first"));
-        userController.add(new UserSignInDTO("Loulou", "loulou!!", "loulou@email.fr", "premium_shining"));
+        userController.add(new UserSignInDTO("Loulou", "loulou!!", "loulou@email.fr", "premium"));
         userController.add(new UserSignInDTO("John", "john!!", "john@email.fr", "base"));
 
         UserPseudoPasswordDTO riri = new UserPseudoPasswordDTO("Riri", "riri!!");

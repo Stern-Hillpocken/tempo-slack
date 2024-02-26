@@ -1,9 +1,12 @@
-<button (click)="openPopup()" id="add-room">Ajouter&nbsp;une&nbsp;room</button>
+<div id="add-room">
+  <button (click)="openPopup()" class="button-svg"><app-svg type="add-room"></app-svg></button>
+</div>
+
 <div *ngIf="isPopupRoomDisplay" id="popup-add-room" class="popup-container">
   <div class="popup-inner">
     <button (click)="closePopup()" class="button-svg"><app-svg type="cancel"></app-svg></button>
     <form [formGroup]="formAddRoom">
-      <label for="name">Nom de la nouvelle Room&nbsp;:</label><br />
+      <label for="name">Nom du nouveau salon&nbsp;:</label><br>
       <input formControlName="name" type="text" id="add-room-name" autofocus />
       <input type="submit" (click)="addRoom()" value="Ajouter" [disabled]="!formAddRoom.valid" />
     </form>

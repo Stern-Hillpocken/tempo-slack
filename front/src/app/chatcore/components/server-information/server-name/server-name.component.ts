@@ -1,6 +1,9 @@
 import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
+import { Router } from '@angular/router';
 import { ServerService } from 'src/app/chatcore/services/server.service';
+import { PopupFeedback } from 'src/app/core/models/popup-feedback.model';
+import { PopupFeedbackService } from 'src/app/shared/popup-feedback.service';
 import { ServerSharedService } from 'src/app/shared/server-shared.service';
 
 @Component({
@@ -12,12 +15,15 @@ export class ServerNameComponent implements OnInit {
   serverId!: number;
   serverName!: string;
   isPopupDisplay: boolean = false;
-  formServer!: FormGroup; 
+  formServer!: FormGroup;
+  isDeletePopupDisplay: boolean = false;
 
   constructor(
     private serverService: ServerService,
     private fb: FormBuilder,
-    private serverSharedService: ServerSharedService
+    private serverSharedService: ServerSharedService,
+    private pfs: PopupFeedbackService,
+    private router: Router
   ) { }
 
   ngOnInit(): void {
@@ -55,7 +61,22 @@ export class ServerNameComponent implements OnInit {
       });
     }
   }
+
+  openDeletePopup(): void {
+    this.isDeletePopupDisplay = true;
   }
+
+  closeDeletePopup(): void {
+    this.isDeletePopupDisplay = false;
+  }
+
+  deleteServer(): void {
+    this.serverService.deleteServer(this.serverId).subscribe(resp => {
+      this.pfs.setFeed(new PopupFeedback("Serveur bien supprimé ", "valid"));
+      location.reload();
+    });
+  }
+}
   
     
   
