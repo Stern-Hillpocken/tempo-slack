@@ -36,6 +36,7 @@ export class ServerSharedService {
   }
   getServerNameUpdated(): Observable<string> {
     return this._serverNameUpdated$.asObservable();
+  }
 
 
   refresh(): void {
