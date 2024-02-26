@@ -7,6 +7,7 @@ import { UtilsService } from "src/app/shared/utils.service";
 import { PseudoPassword } from "src/app/core/models/pseudo-password.model";
 import { LocalStorageService } from "src/app/shared/local-storage.service";
 import { Message } from "src/app/core/models/message";
+import { MessageSended } from "src/app/core/models/message-sended";
 
 @Injectable({
   providedIn: "root",
@@ -49,15 +50,15 @@ export class ServerService {
     return this.http.put<any>(this.utils.getBaseUrl()+"servers/"+idServer, dto);
   }
 
-  addMessage(message: Message, idServer : number, idRoom: number): Observable<Message>{
+  addMessage(message: MessageSended, idServer : number, idRoom: number): Observable<Message>{
     console.log(message)
     return this.http.post<Message>(this.utils.getBaseUrl()+"servers/"+idServer+"/"+idRoom, message)
 }
-  deleteMessageInRoomInServerById(idServer: number, idRoom: number, idMessage : number, user : PseudoPassword): Observable<Message> {
+  deleteMessageInRoomInServerById(idServer: number, idRoom: number, idMessage: number, user: PseudoPassword): Observable<Message> {
    return this.http.post<Message>(this.utils.getBaseUrl()+"servers/"+idServer+"/"+idRoom+"/"+idMessage, user)
   }
 
-  updateMessage(idMessage : number, message: Message): Observable<Message>{
+  updateMessage(idMessage: number, message: MessageSended): Observable<Message>{
        return this.http.put<Message>(this.utils.getBaseUrl()+"servers/edit-message/"+idMessage, message);
   }
   

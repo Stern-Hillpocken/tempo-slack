@@ -1,21 +1,28 @@
-<div>
-    <div>{{message.user.pseudo}}</div>
-    <span>{{message.date}}</span>
-    <div>{{message.content}}</div>
-    <span>
-        <button (click)="openPopup()" >Modifiez</button>
-        <div *ngIf="popUp">
-            <form [formGroup]="formUpdateMessage">
-            <label for="content" class="form-label">Votre message</label>
-            <textarea formControlName="content" type="text" class="form-control" id="content"  name="content" [value]="message.content"></textarea>
-            <button (click)="updateMessage()">Enregistrer </button>
-            <button (click)="closePopup()">Annuler</button>
-            </form>
+<div class="message" [ngClass]="userPseudo === message.user.pseudo ? 'message-owner' : ''">
+    <div *ngIf="userPseudo === message.user.pseudo" class="edit-buttons">
+        <button (click)="openPopupEdit()" class="button-left button-svg"><app-svg type="update-message"></app-svg></button>
+        <button (click)="openPopupDelete()" class="button-right button-svg"><app-svg type="delete"></app-svg></button>
+    </div>
+
+
+    <div class="core">
+        <img src="assets/images/avatars/{{message.user.avatar}}.png" class="avatar">
+        <div>
+            <div><span class="message-pseudo">{{message.user.pseudo}}</span> - <span class="message-date">{{ convertDate(message.date) }}</span><span *ngIf="message.dateEdit" class="message-date"> - modifié le {{ convertDate(message.dateEdit) }}</span></div>
+            <div *ngIf="!popUpEdit">{{message.content}}</div>
+            <div *ngIf="popUpEdit">
+                <form [formGroup]="formUpdateMessage">
+                <textarea formControlName="content" type="text" id="content"  name="content" [value]="message.content"></textarea>
+                <button (click)="updateMessage()" class="button-left button-svg"><app-svg type="update-message"></app-svg></button>
+                <button (click)="closePopupEdit()" class="button-right button-svg"><app-svg type="cancel"></app-svg></button>
+                </form>
+            </div>
         </div>
-        <button (click)="openPopupDelete()" >Supprimez</button> 
-            <div *ngIf="popUpDelete">               
-            <button (click)="deleteMessage()">Supprimez le message</button>
-            <button (click)="closePopupDelete()">Annuler</button>
-            </div>    
-    </span>
+    </div>
+
+
+    <div *ngIf="popUpDelete">               
+        <button (click)="deleteMessage()" class="button-left button-svg"><app-svg type="delete"></app-svg></button>
+        <button (click)="closePopupDelete()" class="button-right button-svg"><app-svg type="cancel"></app-svg></button>
+    </div>
 </div>
