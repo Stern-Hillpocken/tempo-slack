@@ -1,5 +1,4 @@
 import { Component, OnInit } from "@angular/core";
-import { ActivatedRoute } from "@angular/router";
 import { ServerService } from "src/app/chatcore/services/server.service";
 import { PopupFeedback } from "src/app/core/models/popup-feedback.model";
 import { User } from "src/app/core/models/user.model";
@@ -15,6 +14,7 @@ import { ServerSharedService } from "src/app/shared/server-shared.service";
 export class ServerMembersComponent implements OnInit {
   currentServerId!: number;
   userList: User[] = [];
+  isUserInServer: boolean = false;
 
   constructor(
     private serverService: ServerService,
@@ -33,14 +33,23 @@ export class ServerMembersComponent implements OnInit {
   }
 
   onAddMemberReceive(pseudo: string): void {
-    console.log(pseudo);
+    this.isUserInServer = false;
     this.sss.getServerShared().subscribe((shi) => (this.currentServerId = shi.currentServerId));
-    this.serverService
-      .addUser(this.currentServerId, { userPseudoToAdd: pseudo, user: this.lss.getPseudoPassword() })
-      .subscribe((resp) => {
-        this.pfs.setFeed(new PopupFeedback("Membre ajouté avec succès !", "valid"));
-        this.updateDisplay();
-      });
+    for (let user of this.userList) {
+      if (user.pseudo == pseudo) {
+        this.pfs.setFeed(new PopupFeedback("Membre déjà présent dans le serveur !", "error"));
+        this.isUserInServer = true;
+        break;
+      }
+    }
+    if (!this.isUserInServer) {
+      this.serverService
+        .addUser(this.currentServerId, { userPseudoToAdd: pseudo, user: this.lss.getPseudoPassword() })
+        .subscribe((resp) => {
+          this.pfs.setFeed(new PopupFeedback("Membre ajouté avec succès !", "valid"));
+          this.updateDisplay();
+        });
+    }
   }
 
   updateDisplay(): void {

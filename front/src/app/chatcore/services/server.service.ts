@@ -45,7 +45,7 @@ export class ServerService {
   }
 
   addUser(idServer: number, userAddedToServerDTO: { userPseudoToAdd: string; user: PseudoPassword }): Observable<any> {
-    return this.http.post<User>(this.utils.getBaseUrl() + "servers/" + idServer, userAddedToServerDTO);
+    return this.http.post<User>(this.utils.getBaseUrl() + "servers/" + idServer + "/add-user", userAddedToServerDTO);
   }
 
   updateRoomName(
