@@ -1,5 +1,6 @@
 <div id="chat" class="home-section">
-    <app-room-name [room]="room"></app-room-name>
+    <app-room-name [room]="room" (updateNameRoomEmitter)="onUpdateNameRoomReceive($event)" (deleteRoomEmitter)="onDeleteRoomReceive($event)"></app-room-name>
+       <app-room-name [room]="room"></app-room-name>
     <div id="messages-container">
         <app-message
             *ngFor="let message of messagesList"

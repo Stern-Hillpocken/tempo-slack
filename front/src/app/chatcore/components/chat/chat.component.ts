@@ -66,12 +66,43 @@ export class ChatComponent implements OnInit {
   }
     
   onDeleteMessageReceive(idMessage: number){
-    console.log(this.user)
-    this.serverService.deleteMessageInRoomInServerById(this.idServer, this.idRoom, idMessage, this.user).subscribe(v => {
-      console.log(v);
-      this.updateDisplay(this.idServer, this.idRoom);
-    });
+
+  this.user = this.localStorageService.getPseudoPassword();
+  this.serverSharedService.getServerShared().subscribe(serverInfo => {
+  this.serverService.deleteMessageInRoomInServerById(serverInfo.currentServerId, serverInfo.currentRoomId, idMessage, this.user).subscribe(v => {
+    console.log(v);
+  this.updateDisplay(this.idServer, this.idRoom);
   }
+ ) })
+  }
+
+   onUpdateMessageReceive(message: Message){
+    if (message && message.id !== undefined) {
+    this.idMessage = message.id   
+    this.user = this.localStorageService.getPseudoPassword();
+    let dto = { user : this.user, content : message.content}
+   this.serverService.updateMessage(this.idMessage, dto).subscribe(v =>{
+       console.log(v);
+     this.updateDisplay(this.idServer, this.idRoom)});
+   }
+   }
+
+   onUpdateNameRoomReceive(room : string){
+    this.serverSharedService.getServerShared().subscribe(serverInfo => {
+    this.serverService.updateRoom(serverInfo.currentServerId, serverInfo.currentRoomId, room).subscribe(v =>{
+       console.log(v);
+     this.updateDisplay(this.idServer, this.idRoom)});
+   })
+  }
+
+   onDeleteRoomReceive(idRoom: number){
+    this.user = this.localStorageService.getPseudoPassword();
+    this.serverSharedService.getServerShared().subscribe(serverInfo => {
+    this.serverService.deleteRoomInServerById(serverInfo.currentServerId, idRoom, this.user).subscribe(v => {
+      console.log(v);
+    }) 
+  })
+
 
   onUpdateMessageReceive(message: Message){
     if (message && message.id !== undefined) { 
@@ -82,6 +113,7 @@ export class ChatComponent implements OnInit {
         this.updateDisplay(this.idServer, this.idRoom);
       });
     }
+
   }
 }
 
