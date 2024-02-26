@@ -8,9 +8,6 @@ import { Room } from 'src/app/core/models/room.model';
   styleUrls: ['./room-name.component.scss']
 })
 export class RoomNameComponent {
-  formUpdateRoom!: FormGroup;
-  popUp: boolean =false;
-  popUpDelete: boolean = false;
 
   @Input()
   room!: Room;
@@ -20,30 +17,31 @@ export class RoomNameComponent {
   @Output()
   deleteRoomEmitter: EventEmitter<number> = new EventEmitter();
 
-  constructor(private fb: FormBuilder){}
+  formUpdateRoom!: FormGroup;
+  popUpUpdate: boolean = false;
+  popUpDelete: boolean = false;
 
-  ngOnInit() {
-  }
+  constructor(private fb: FormBuilder){}
 
     updateNameRoom(): void{
       console.log(this.formUpdateRoom.value)
       this.updateNameRoomEmitter.emit(this.formUpdateRoom.value.title)
-      this.closePopup();
+      this.closePopupUpdate();
     }
     deleteRoom(): void {
       this.deleteRoomEmitter.emit(this.room.id);
       this.closePopupDelete();
     }
 
-    openPopup(){
-      this.popUp = true;
+    openPopupUpdate(){
+      this.popUpUpdate = true;
      // Initialiser le formulaire avec le contenu du message
     this.formUpdateRoom = this.fb.group({
         title: [this.room.title]
       });     
     }
-    closePopup(){
-      this.popUp = false;
+    closePopupUpdate(){
+      this.popUpUpdate = false;
     }        
     openPopupDelete(){
       this.popUpDelete = true;

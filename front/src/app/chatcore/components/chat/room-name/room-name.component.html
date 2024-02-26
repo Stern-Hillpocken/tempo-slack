@@ -1,17 +1,26 @@
+<div id="room-name">
+    <div id="edit-room-name">
+        <button (click)="openPopupUpdate()" class="button-left button-svg button-not-selected"><app-svg type="update-user"></app-svg></button>
+        <button (click)="openPopupDelete()" class="button-right button-svg button-not-selected"><app-svg type="delete"></app-svg></button> 
+    </div>
 
-    <button (click)="openPopup()" >Modifiez</button>
-    <div *ngIf="popUp">
+    <h2 *ngIf="room">{{room.title}}</h2>
+</div>
+<div *ngIf="popUpDelete" class="popup-container">               
+    <div class="popup-inner">
+        <label>Souhaitez-vous réellement supprimer le salon #{{ room.title }}</label><br>
+        <button (click)="deleteRoom()" class="button-left">Supprimez le salon</button>
+        <button (click)="closePopupDelete()" class="button-right">Annuler</button>
+    </div>
+</div>
+
+<div *ngIf="popUpUpdate" class="popup-container">
+    <div class="popup-inner">
         <form [formGroup]="formUpdateRoom">
-        <label for="content" class="form-label">Nouveau nom de la room</label>
-        <input formControlName="title" type="text" class="form-control" id="title"  name="title" [value]="room.title"/>
-        <button (click)="updateNameRoom()">Enregistrer </button>
-        <button (click)="closePopup()">Annuler</button>
+            <label for="content" class="form-label">Nouveau nom du salon&nbsp;:</label><br>
+            <input formControlName="title" type="text" id="title"  name="title" [value]="room.title"/><br>
+            <button (click)="updateNameRoom()" class="button-left">Enregistrer</button>
+            <button (click)="closePopupUpdate()" class="button-right">Annuler</button>
         </form>
     </div>
-    <span *ngIf="room">{{room.title}}</span>
-    <button (click)="openPopupDelete()" >Supprimez</button> 
-        <div *ngIf="popUpDelete">               
-        <button (click)="deleteRoom()">Supprimez la Room</button>
-        <button (click)="closePopupDelete()">Annuler</button>
-        </div>    
-
+</div>
