@@ -1,13 +1,15 @@
-<h1>Rooms</h1>
+<div id="server-rooms">
+  <h3 (click)="roomFoldToggle()" class="server-info-category-title" [ngClass]="roomDisplayed ? '' : 'closed'">Salons {{ roomDisplayed ? '[-]' : '[+]' }}</h3>
 
-<div id="server-list-rooms">
-  <ng-container *ngFor="let room of roomList">
-    <app-room-display
-      [currentRoomId]="currentRoomId"
-      [room]="room"
-      (changeRoomEmitter)="onChangeRoomReceive($event)"
-    ></app-room-display>
-  </ng-container>
+  <div *ngIf="roomDisplayed" id="server-list-rooms" class="server-info-category-box">
+    <ng-container *ngFor="let room of roomList">
+      <app-room-display
+        [currentRoomId]="currentRoomId"
+        [room]="room"
+        (changeRoomEmitter)="onChangeRoomReceive($event)"
+      ></app-room-display>
+    </ng-container>
 
-  <app-add-room (addRoomEmitter)="onAddRoomReceive($event)"></app-add-room>
+    <app-add-room (addRoomEmitter)="onAddRoomReceive($event)"></app-add-room>
+  </div>
 </div>
